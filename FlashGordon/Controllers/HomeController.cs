@@ -23,6 +23,11 @@ namespace FlashGordon.Controllers
             return View();
         }
 
+        public IActionResult EditFlashCards()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
