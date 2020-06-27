@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FlashGordon.Models
 {
-    public partial class AngularFc
+    public partial class AngularFC : IFlashCard
     {
         public int Id { get; set; }
         public string FrontSide { get; set; }

@@ -4,34 +4,34 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FlashGordon.Models
 {
-    public partial class flash_cardsContext : DbContext
+    public partial class FlashCardsContext : DbContext
     {
-        public flash_cardsContext()
+        public FlashCardsContext()
         {
         }
 
-        public flash_cardsContext(DbContextOptions<flash_cardsContext> options)
+        public FlashCardsContext(DbContextOptions<FlashCardsContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<AngularFc> AngularFc { get; set; }
-        public virtual DbSet<CsharpFc> CsharpFc { get; set; }
-        public virtual DbSet<JavascriptFc> JavascriptFc { get; set; }
-        public virtual DbSet<SqlFc> SqlFc { get; set; }
+        public virtual DbSet<AngularFC> AngularFc { get; set; }
+        public virtual DbSet<CsharpFC> CsharpFc { get; set; }
+        public virtual DbSet<JavascriptFC> JavascriptFc { get; set; }
+        public virtual DbSet<SqlFC> SqlFc { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDb;Database=flash_cards;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AngularFc>(entity =>
+            modelBuilder.Entity<AngularFC>(entity =>
             {
                 entity.ToTable("angular_fc");
 
@@ -50,7 +50,7 @@ namespace FlashGordon.Models
                 entity.Property(e => e.IsUsed).HasColumnName("is_used");
             });
 
-            modelBuilder.Entity<CsharpFc>(entity =>
+            modelBuilder.Entity<CsharpFC>(entity =>
             {
                 entity.ToTable("csharp_fc");
 
@@ -69,7 +69,7 @@ namespace FlashGordon.Models
                 entity.Property(e => e.IsUsed).HasColumnName("is_used");
             });
 
-            modelBuilder.Entity<JavascriptFc>(entity =>
+            modelBuilder.Entity<JavascriptFC>(entity =>
             {
                 entity.ToTable("javascript_fc");
 
@@ -88,7 +88,7 @@ namespace FlashGordon.Models
                 entity.Property(e => e.IsUsed).HasColumnName("is_used");
             });
 
-            modelBuilder.Entity<SqlFc>(entity =>
+            modelBuilder.Entity<SqlFC>(entity =>
             {
                 entity.ToTable("sql_fc");
 

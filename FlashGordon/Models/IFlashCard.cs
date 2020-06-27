@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FlashGordon.Models
 {
-    public partial class JavascriptFC : IFlashCard
+    interface IFlashCard
     {
         public int Id { get; set; }
         public string FrontSide { get; set; }

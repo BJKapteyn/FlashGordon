@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FlashGordon.Models
 {
-    public partial class CsharpFc
+    public partial class CsharpFC : IFlashCard
     {
         public int Id { get; set; }
         public string FrontSide { get; set; }

@@ -26,7 +26,7 @@ namespace FlashGordon
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<flash_cardsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FlashCardConnectionString")));
+            services.AddDbContext<FlashCardsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FlashCardConnectionString")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
