@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlashGordon.Models
 {
-    interface IFlashCard
+    public interface IFlashCard
     {
         public int Id { get; set; }
         public string FrontSide { get; set; }

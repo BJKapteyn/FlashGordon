@@ -8,10 +8,37 @@ namespace FlashGordon.DALs
 {
     public class FlashCardDB
     {
-        private FlashCardsContext FlashCardContext;
+        private FlashCardsContext FCContext;
         public FlashCardDB(FlashCardsContext fcc)
         {
-            FlashCardContext = fcc;
+            FCContext = fcc;
+        }
+
+        public bool AddFlashCard(IFlashCard flashCard)
+        {
+            string fcType = flashCard.GetType().ToString().Split('.')[1];
+
+            using(FCContext)
+            {
+                switch(fcType)
+                {
+                    case "AngularFC":
+                        FCContext.AngularFc.Add((AngularFC)flashCard);
+                        break;
+                    case "CsharpFC":
+                        FCContext.CsharpFc.Add((CsharpFC)flashCard);
+                        break;
+                    case "JavascriptFC":
+                        FCContext.JavascriptFc.Add((JavascriptFC)flashCard);
+                        break;
+                    case "SqlFC":
+                        FCContext.SqlFc.Add((SqlFC)flashCard);
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            return true;
         }
     }
 }
