@@ -26,6 +26,7 @@ namespace FlashGordon.DALs
                 switch(fcType)
                 {
                     case "AngularFC":
+
                         FCContext.AngularFc.Add((AngularFC)flashCard);
                         break;
                     case "CsharpFC":
