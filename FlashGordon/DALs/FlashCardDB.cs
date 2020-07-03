@@ -16,7 +16,10 @@ namespace FlashGordon.DALs
 
         public bool AddFlashCard(IFlashCard flashCard)
         {
-            string fcType = flashCard.GetType().ToString().Split('.')[1];
+            //split the get type to retrieve the table name
+            string[] flashCardTypeArr = flashCard.GetType().ToString().Split('.');
+
+            string fcType = flashCardTypeArr[flashCardTypeArr.Length - 1];
 
             using(FCContext)
             {

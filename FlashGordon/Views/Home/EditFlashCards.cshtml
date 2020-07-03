@@ -3,5 +3,15 @@
     ViewData["Title"] = "EditFlashCards";
 }
 
-<h1>EditFlashCards</h1>
+    <form method="post" asp-controller="Home" asp-action="AddFC">
+        <p class="FCFormLabel">Front of Card:</p>
+        <input type="text" class="FCFormInput" name="front" />
+
+        <p class="FCFormLabel">Back of Card:</p>
+        <input type="text" class="FCFormInput" name="back" />
+
+        <input type="submit" />
+
+
+    </form>
 
