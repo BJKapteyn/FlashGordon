@@ -40,6 +40,12 @@ namespace FlashGordon.Models
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Category)
+                    .IsRequired()
+                    .HasColumnName("category")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Front)
                     .IsRequired()
                     .HasColumnName("front")

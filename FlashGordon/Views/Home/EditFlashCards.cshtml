@@ -5,10 +5,13 @@
 
     <form method="post" asp-controller="Home" asp-action="AddFC">
         <p class="FCFormLabel">Front of Card:</p>
-        <input type="text" class="FCFormInput" name="front" />
+        <input id="front" type="text" class="FCFormInput" name="front" />
 
         <p class="FCFormLabel">Back of Card:</p>
-        <input type="text" class="FCFormInput" name="back" />
+        <input id="back" type="text" class="FCFormInput" name="back" />
+
+        <input type="radio" id="angular" value="Angular" />
+        <label for="angular">Angular</label>
 
         <input type="submit" />
 
