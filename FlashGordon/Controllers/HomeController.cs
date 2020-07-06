@@ -13,12 +13,11 @@ namespace FlashGordon.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private FlashCardsContext FCC;
+        //private FlashCardsContext FCC;
 
-        public HomeController(ILogger<HomeController> logger, FlashCardsContext fcc)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            FCC = fcc;
         }
 
         public IActionResult Index()
@@ -29,11 +28,6 @@ namespace FlashGordon.Controllers
         [HttpPost]
         public IActionResult AddFC(string front, string back, string category)
         {
-            IFlashCard flashCard = new AngularFC(front, back);
-
-            FlashCardDB flashcarddbcontext = new FlashCardDB(FCC);
-
-            flashcarddbcontext.AddFlashCard(flashCard);
 
             return View();
         }

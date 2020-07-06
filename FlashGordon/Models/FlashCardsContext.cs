@@ -15,96 +15,36 @@ namespace FlashGordon.Models
         {
         }
 
-        public virtual DbSet<AngularFC> AngularFc { get; set; }
-        public virtual DbSet<CsharpFC> CsharpFc { get; set; }
-        public virtual DbSet<JavascriptFC> JavascriptFc { get; set; }
-        public virtual DbSet<SqlFC> SqlFc { get; set; }
+        public virtual DbSet<Fcards> Fcards { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDb;Database=flash_cards;Trusted_Connection=True;MultipleActiveResultSets=true");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDb;Database=flash_cards;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AngularFC>(entity =>
+            modelBuilder.Entity<Fcards>(entity =>
             {
-                entity.ToTable("angular_fc");
+                entity.ToTable("FCards");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.BackSide)
-                    .HasColumnName("back_side")
+                entity.Property(e => e.Back)
+                    .IsRequired()
+                    .HasColumnName("back")
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FrontSide)
-                    .HasColumnName("front_side")
-                    .HasMaxLength(200)
+                entity.Property(e => e.Front)
+                    .IsRequired()
+                    .HasColumnName("front")
+                    .HasMaxLength(250)
                     .IsUnicode(false);
-
-                entity.Property(e => e.IsUsed).HasColumnName("is_used");
-            });
-
-            modelBuilder.Entity<CsharpFC>(entity =>
-            {
-                entity.ToTable("csharp_fc");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.BackSide)
-                    .HasColumnName("back_side")
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FrontSide)
-                    .HasColumnName("front_side")
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IsUsed).HasColumnName("is_used");
-            });
-
-            modelBuilder.Entity<JavascriptFC>(entity =>
-            {
-                entity.ToTable("javascript_fc");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.BackSide)
-                    .HasColumnName("back_side")
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FrontSide)
-                    .HasColumnName("front_side")
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IsUsed).HasColumnName("is_used");
-            });
-
-            modelBuilder.Entity<SqlFC>(entity =>
-            {
-                entity.ToTable("sql_fc");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.BackSide)
-                    .HasColumnName("back_side")
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FrontSide)
-                    .HasColumnName("front_side")
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IsUsed).HasColumnName("is_used");
             });
 
             OnModelCreatingPartial(modelBuilder);
