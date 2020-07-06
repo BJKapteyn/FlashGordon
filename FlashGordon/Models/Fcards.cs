@@ -3,8 +3,15 @@ using System.Collections.Generic;
 
 namespace FlashGordon.Models
 {
-    public partial class Fcards
+    public partial class FCards
     {
+        public FCards(string front, string back, string category)
+        {
+            Front = front;
+            Back = back;
+            Category = category;
+            IsUsed = false;
+        }
         public int Id { get; set; }
         public string Front { get; set; }
         public string Back { get; set; }

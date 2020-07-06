@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FlashGordon.Models;
+using FlashGordon.Utility;
 using FlashGordon.DALs;
 
 namespace FlashGordon.Controllers
@@ -13,11 +14,12 @@ namespace FlashGordon.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        //private FlashCardsContext FCC;
+        private FlashCardsContext FCContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, FlashCardsContext fcc)
         {
             _logger = logger;
+            FCContext = fcc;
         }
 
         public IActionResult Index()
@@ -28,12 +30,20 @@ namespace FlashGordon.Controllers
         [HttpPost]
         public IActionResult AddFC(string front, string back, string category)
         {
+            FCards flashCard = new FCards(front, back, category);
 
-            return View();
+            using (FCContext)
+            {
+                FCContext.Add(flashCard);
+                FCContext.SaveChanges();
+            }
+
+            return Redirect("EditFlashCards");
         }
 
         public IActionResult EditFlashCards()
         {
+            
             return View();
         }
 

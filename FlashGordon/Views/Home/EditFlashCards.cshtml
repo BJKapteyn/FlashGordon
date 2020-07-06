@@ -1,17 +1,23 @@
 ﻿
 @{
     ViewData["Title"] = "EditFlashCards";
+    string[] categories = FlashGordon.Utility.FlashCardCats.Categories;
 }
 
     <form method="post" asp-controller="Home" asp-action="AddFC">
         <p class="FCFormLabel">Front of Card:</p>
-        <input id="front" type="text" class="FCFormInput" name="front" />
+        <input type="text" class="FCFormInput" name="front" />
 
         <p class="FCFormLabel">Back of Card:</p>
-        <input id="back" type="text" class="FCFormInput" name="back" />
-
-        <input type="radio" id="angular" value="Angular" />
-        <label for="angular">Angular</label>
+        <input type="text" class="FCFormInput" name="back" />
+        <br />
+        <p class="FCFormLabel">Category</p>
+        @foreach(string category in categories)
+        {
+            <input type="radio" id="@category" value="@category" name="category" class="radioButtons" />
+            <label for="@category" >@category</label>
+            <br />
+        }
 
         <input type="submit" />
 

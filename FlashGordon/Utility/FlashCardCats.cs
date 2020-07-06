@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlashGordon.Utility
 {
-    public class FlashCardCategories
+    public class FlashCardCats
     {
         //used for keeping read only Categories 
         public static string AngularCat { get; } = "Angular";
