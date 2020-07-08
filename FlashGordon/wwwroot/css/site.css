@@ -59,6 +59,8 @@ html {
 
 body {
   /* Margin bottom by footer height */
+  margin: 0px;
+  padding: 0px;
   margin-bottom: 60px;
 }
 .footer {
@@ -78,16 +80,24 @@ body {
 }
 
 .fCardFlex {
+    border-radius: 5px;
     width: 20%;
     min-width: 300px;
-    border: 1px solid rgb(138, 48, 51);
+    border: 2px solid rgb(138, 48, 51);
+}
+
+.flexBody {
+    margin: 5px;
 }
 
 .fCardCategory {
+    margin: 0px;
     color: white;
     background-color: rgb(138, 48, 51);
     font-size: 20px;
     width: 100%;
+    height: auto;
+    padding: 5px;
 }
 
 .fCardHead {
