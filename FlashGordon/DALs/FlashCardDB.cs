@@ -19,7 +19,7 @@ namespace FlashGordon.DALs
             List<FCards> result = new List<FCards>();
             using (FCContext)
             {
-                result = FCContext.FCards.ToList(); ;
+                result = FCContext.FCards.ToList();
             }
 
             return result;

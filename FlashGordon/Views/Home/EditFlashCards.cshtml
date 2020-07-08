@@ -10,8 +10,8 @@
 <div id="flexContainer">
     @foreach (FCards c in Model)
     {
-        <div class="flexItem" id="@c.Id">
-            <h1 class="category"></h1>
+        <div class="fCardFlex" id="@c.Id">
+            <h1 class="fCardCategory">@c.Category</h1>
             <h2 class="fCardHead">Front:</h2>
             <div>@c.Front</div>
             <h2 class="fCardHead">Back:</h2>
