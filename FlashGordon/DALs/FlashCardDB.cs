@@ -8,12 +8,22 @@ namespace FlashGordon.DALs
 {
     public class FlashCardDB
     {
-        //private FlashCardsContext FCContext;
-        //public FlashCardDB(FlashCardsContext fcc)
-        //{
-        //    FCContext = fcc;
-        //}
+        private static FlashCardsContext FCContext;
+        public FlashCardDB(FlashCardsContext fcc)
+        {
+            FCContext = fcc;
+        }
 
-        
+        public static List<FCards> GetAllCards()
+        {
+            List<FCards> result = new List<FCards>();
+            using (FCContext)
+            {
+                result = FCContext.FCards.OrderBy(x => x.Category).ToList();
+            }
+
+            return result;
+        }
+
     }
 }

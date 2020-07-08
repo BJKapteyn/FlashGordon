@@ -17,5 +17,6 @@ namespace FlashGordon.Models
         public string Back { get; set; }
         public bool IsUsed { get; set; } = false;
         public string Category { get; set; }
+
     }
 }

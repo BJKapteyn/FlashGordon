@@ -26,7 +26,7 @@ namespace FlashGordon.Controllers
         {
             return View();
         }
-
+        //add flashcard to DB
         [HttpPost]
         public IActionResult AddFC(string front, string back, string category)
         {
@@ -43,8 +43,8 @@ namespace FlashGordon.Controllers
 
         public IActionResult EditFlashCards()
         {
-            
-            return View();
+            List<FCards> allFlashCards = FlashCardDB.GetAllCards();
+            return View(allFlashCards);
         }
 
         public IActionResult Privacy()
