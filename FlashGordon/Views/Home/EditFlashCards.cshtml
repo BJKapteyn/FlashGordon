@@ -8,26 +8,35 @@
 <h1>View FlashCards</h1>
 
 <div id="flexContainer">
-    
+    @foreach (FCards c in Model)
+    {
+        <div class="flexItem" id="@c.Id">
+            <h1 class="category"></h1>
+            <h2 class="fCardHead">Front:</h2>
+            <div>@c.Front</div>
+            <h2 class="fCardHead">Back:</h2>
+            <div>@c.Back</div>
+        </div>
+    }
 </div>
+<!--Form to add card -->
+<form method="post" asp-controller="Home" asp-action="AddFC">
+    <p class="FCFormLabel">Front of Card:</p>
+    <input type="text" class="FCFormInput" name="front" />
 
-    <form method="post" asp-controller="Home" asp-action="AddFC">
-        <p class="FCFormLabel">Front of Card:</p>
-        <input type="text" class="FCFormInput" name="front" />
-
-        <p class="FCFormLabel">Back of Card:</p>
-        <input type="text" class="FCFormInput" name="back" />
+    <p class="FCFormLabel">Back of Card:</p>
+    <input type="text" class="FCFormInput" name="back" />
+    <br />
+    <p class="FCFormLabel">Category</p>
+    @foreach(string category in categories)
+    {
+        <input type="radio" id="@category" value="@category" name="category" class="radioButtons" />
+        <label for="@category" >@category</label>
         <br />
-        <p class="FCFormLabel">Category</p>
-        @foreach(string category in categories)
-        {
-            <input type="radio" id="@category" value="@category" name="category" class="radioButtons" />
-            <label for="@category" >@category</label>
-            <br />
-        }
+    }
 
-        <input type="submit" />
+    <input type="submit" />
 
 
-    </form>
+</form>
 

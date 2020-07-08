@@ -43,7 +43,8 @@ namespace FlashGordon.Controllers
 
         public IActionResult EditFlashCards()
         {
-            List<FCards> allFlashCards = FlashCardDB.GetAllCards();
+            FlashCardDB flashCardDB = new FlashCardDB(FCContext);
+            List<FCards> allFlashCards =  flashCardDB.GetAllCards();
             return View(allFlashCards);
         }
 
