@@ -14,14 +14,15 @@
             <h1 class="fCardCategory">@c.Category</h1>
             <div class="flexBody">
                 <h2 class="fCardHead">Front:</h2>
-                <div>@c.Front</div>
+                <div class="cardText">@c.Front</div>
                 <h2 class="fCardHead">Back:</h2>
-                <div>@c.Back</div>
-                <button type="button" onclick="createForm(@c.Id)" value="Edit"></button>
+                <div class="cardText">@c.Back</div>
+                <button type="button" onclick="createForm(@c.Id)" value="Edit">Edit</button>
             </div>
         </div>
     }
 </div>
+<div id="formStandin"></div>
 <!--Form to add card -->
 <form method="post" asp-controller="Home" asp-action="AddFC">
     <p class="FCFormLabel">Front of Card:</p>
@@ -39,4 +40,4 @@
     }
     <input type="submit" />
 </form>
-
+<script src="~/js/createForm.js"></script>
