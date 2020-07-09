@@ -9,12 +9,14 @@ namespace FlashGordon.DALs
     public class FlashCardDB
     {
         private FlashCardsContext FCContext;
+        public List<FCards> AllFlashCards;
         public FlashCardDB(FlashCardsContext fcc)
         {
             FCContext = fcc;
+            AllFlashCards = GetAllCards();
         }
 
-        public List<FCards> GetAllCards()
+        private List<FCards> GetAllCards()
         {
             List<FCards> result = new List<FCards>();
             using (FCContext)

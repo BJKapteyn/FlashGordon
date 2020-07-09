@@ -44,8 +44,8 @@ namespace FlashGordon.Controllers
         public IActionResult EditFlashCards()
         {
             FlashCardDB flashCardDB = new FlashCardDB(FCContext);
-            List<FCards> allFlashCards =  flashCardDB.GetAllCards();
-            return View(allFlashCards);
+            
+            return View(flashCardDB.AllFlashCards);
         }
 
         public IActionResult Privacy()
