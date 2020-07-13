@@ -7,6 +7,8 @@
 
 <h1>View FlashCards</h1>
 
+<div id="formStandin"></div>
+<div id="modalBackground"></div>
 <div id="flexContainer">
     @foreach (FCards c in Model)
     {
@@ -22,7 +24,6 @@
         </div>
     }
 </div>
-<div id="formStandin"></div>
 <!--Form to add card -->
 <form method="post" asp-controller="Home" asp-action="AddFC">
     <p class="FCFormLabel">Front of Card:</p>
