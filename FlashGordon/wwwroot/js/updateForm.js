@@ -1,6 +1,8 @@
 ﻿//use to store previous form information 
 let formInfo = {
-    lastId: ""
+    lastId: "",
+    modalBackroundQ: document.getElementById("modalBackground"),
+    formPositionQ: document.getElementById("formStandin")
 }
 
 function flashCardData(front, back, category) {
@@ -11,7 +13,7 @@ function flashCardData(front, back, category) {
 
 //refactor me please--------------------------------------------------TODO
 function createForm(cardID) {
-    let nodeStart = document.getElementById("formStandin");
+    let nodeStart = formInfo.formPositionQ;
     //clear previous form if clicking on new card to update or skip function if clicking on the same card
     if (cardID != formInfo.lastId) {
         while (nodeStart.firstChild) {
@@ -58,9 +60,10 @@ function createForm(cardID) {
     //clear all previous nodes when selecting a new card
     //build the form
     for (i = 0; i < elementArray.length; i++) {
-        form.appendChild(itemArray[i]);
+        form.appendChild(elementArray[i]);
     }
     nodeStart.appendChild(form);
+    toggleModal(true);
 }
 
 //takes text from the card element and returns it
@@ -77,4 +80,21 @@ function grabText(formID) {
     let data = new flashCardData(frontCard, backCard, category);
 
     return data;
+}
+
+function toggleModal(onOrOff) {
+    if (onOrOff) {
+        formInfo.formPositionQ.style.display = "block";
+        formInfo.modalBackroundQ.style.display = "block";
+        formInfo.modalBackroundQ.style.background = "rgba(0,0,0,0.6)";
+
+        formInfo.modalBackroundQ.addEventListener("click", function () {
+            toggleModal(false);
+        });
+    }
+    else {
+        formInfo.formPositionQ.style.display = "none";
+        formInfo.modalBackroundQ.style.display = "none";
+        formInfo.modalBackroundQ.style.background = "rgba(0,0,0,0.0)";
+    }
 }

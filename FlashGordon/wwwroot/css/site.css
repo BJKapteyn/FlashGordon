@@ -73,17 +73,32 @@ body {
 
 /*-------------------------------------------------------My stuff---------------------------------------------------------*/
 
+/*-----------------flash card form-------------------------- */
 #modalBackground {
     position:fixed;
     width: 100%;
     height: 100%;
     z-index: 10;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.0);
     cursor: pointer;
     display: none;
     transition: background 2s;
 }
 
+#formStandin {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -250px;
+    margin-left: -200px;
+    width: 400px;
+    height: 500px;
+    display: none;
+    background: rgb(234, 222, 218);
+    z-index: 11;
+}
+
+/*--------------------------------------------------Flash Card Flex View----------------------------------*/
 #flexContainer {
     display: flex;
     flex-wrap: wrap;
