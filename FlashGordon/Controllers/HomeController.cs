@@ -30,7 +30,7 @@ namespace FlashGordon.Controllers
         [HttpPost]
         public IActionResult AddFC(string front, string back, string category)
         {
-            //Validate!
+            //Validate!--------------------------------------------------------------------------------------------TODO
             FCards flashCard = new FCards(front, back, category);
 
             using (FCContext)

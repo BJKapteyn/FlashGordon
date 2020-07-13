@@ -2,11 +2,18 @@
 let formInfo = {
     lastId: ""
 }
+
+function flashCardData(front, back, category) {
+    this.Front = front;
+    this.Back = back;
+    this.Category = category;
+}
+
 //refactor me please--------------------------------------------------TODO
-function createForm(formID) {
-    //clear previous form if clicking on new card to update or skip function if clicking on the same card
+function createForm(cardID) {
     let nodeStart = document.getElementById("formStandin");
-    if (formID != formInfo.lastId) {
+    //clear previous form if clicking on new card to update or skip function if clicking on the same card
+    if (cardID != formInfo.lastId) {
         while (nodeStart.firstChild) {
             nodeStart.removeChild(nodeStart.lastChild);
         }
@@ -15,9 +22,9 @@ function createForm(formID) {
         return;
     }
 
-    let cardData = grabText(formID);
-    //turn it into a number to submit to backend
-    let idInt = parseInt(formID);
+    let cardData = grabText(cardID);
+    //turn it into a number to submit to backend----------------------------TODO
+    let idInt = parseInt(cardID);
     //create form from scratch
     let form = document.createElement("form");
     let frontCardLabel = document.createElement("p");
@@ -27,9 +34,9 @@ function createForm(formID) {
     let categoryLabel = document.createElement("p");
     let categoryInput = document.createElement("input");
     let submitButton = document.createElement("button");
-    let elementArray = [frontCardLabel, frontCardInput, backCardLabel, backCardInput, categoryLabel,categoryInput, submitButton];
+    let elementArray = [frontCardLabel, frontCardInput, backCardLabel, backCardInput, categoryLabel, categoryInput, submitButton];
 
-    formInfo.LastId = formID;
+    formInfo.LastId = cardID;
     form.id = "updateForm";
     frontCardLabel.innerText = "Front";
     frontCardLabel.id = "formFront";
@@ -67,11 +74,7 @@ function grabText(formID) {
     let backCard = otherKids[3].innerText;
 
     //Assign the data names
-    let data = {
-        Category: category,
-        Front: frontCard,
-        Back: backCard
-    }
+    let data = new flashCardData(frontCard, backCard, category);
 
     return data;
 }
