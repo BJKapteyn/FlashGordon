@@ -38,7 +38,7 @@ namespace FlashGordon.Controllers
                 FCContext.Add(flashCard);
                 FCContext.SaveChanges();
             }
-
+            //Take me back, back where I belong
             return Redirect("EditFlashCards");
         }
 

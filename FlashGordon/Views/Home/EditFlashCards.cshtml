@@ -27,15 +27,15 @@
 <!--Form to add card -->
 <form method="post" asp-controller="Home" asp-action="AddFC">
     <p class="FCFormLabel">Front of Card:</p>
-    <input type="text" class="FCFormInput" name="front" />
+    <input required type="text" class="FCFormInput" name="front" oninvalid="this.setCustomValidity('Please enter the front of the card.')" oninput="this.setCustomValidity('')" />
 
     <p class="FCFormLabel">Back of Card:</p>
-    <input type="text" class="FCFormInput" name="back" />
+    <input required type="text" class="FCFormInput" name="back" oninvalid="this.setCustomValidity('Please enter the back of the card.')" oninput="this.setCustomValidity('')" />
     <br />
     <p class="FCFormLabel">Category</p>
     @foreach(string category in categories)
     {
-        <input type="radio" id="@category" value="@category" name="category" class="radioButtons" />
+        <input required type="radio" id="@category" value="@category" name="category" class="radioButtons" />
         <label for="@category" >@category</label>
         <br />
     }

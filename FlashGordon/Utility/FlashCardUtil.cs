@@ -15,9 +15,9 @@ namespace FlashGordon.Utility
         public static string CSharp { get; } = "CSharp";
         public static string HTML { get; } = "HTML";
         public static string CSS { get; } = "CSS";
+        public static string UIUX { get; } = "UX/UI";
 
         //don't foreget to add the category here as well when adding a new one.
-        public static string[] Categories = { Angular, JavaScript, Sql, CSharp, HTML, CSS };
-
+        public static string[] Categories = { Angular, JavaScript, Sql, CSharp, HTML, CSS, UIUX };
     }
 }
