@@ -74,15 +74,25 @@ body {
 /*-------------------------------------------------------My stuff---------------------------------------------------------*/
 
 /*-----------------flash card form-------------------------- */
-#modalBackground {
-    position:fixed;
+.modalBackground {
+    position: fixed;
     width: 100%;
     height: 100%;
     z-index: 10;
-    background: rgba(0,0,0,0.0);
+    background-color: rgba(0,0,0,0);
     cursor: pointer;
     display: none;
-    transition: background 2s;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        background-color: rgba(0,0,0,0.0);
+    }
+    to {
+        background-color: rgba(0,0,0,0.6);
+    }
 }
 
 #formStandin {

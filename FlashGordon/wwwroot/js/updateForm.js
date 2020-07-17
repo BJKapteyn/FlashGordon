@@ -1,7 +1,7 @@
 ﻿//use to store previous form information 
 let formInfo = {
     lastId: "",
-    modalBackroundQ: document.getElementById("modalBackground"),
+    modalBackgroundQ: document.getElementsByClassName("modalBackground")[0],
     formPositionQ: document.getElementById("formStandin")
 }
 
@@ -30,11 +30,11 @@ function createForm(cardID) {
     //create form from scratch
     let form = document.createElement("form");
     let frontCardLabel = document.createElement("p");
-    let frontCardInput = document.createElement("input");
+    let frontCardInput = document.createElement("textarea");
     let backCardLabel = document.createElement("p");
-    let backCardInput = document.createElement("input");
+    let backCardInput = document.createElement("textarea");
     let categoryLabel = document.createElement("p");
-    let categoryInput = document.createElement("input");
+    let categoryInput = document.createElement("textarea");
     let submitButton = document.createElement("button");
     let elementArray = [frontCardLabel, frontCardInput, backCardLabel, backCardInput, categoryLabel, categoryInput, submitButton];
 
@@ -56,8 +56,7 @@ function createForm(cardID) {
     categoryInput.type = "text";
     categoryInput.value = cardData.Category;
 
-    submitButton.innerText = "Submit";
-    //clear all previous nodes when selecting a new card
+    submitButton.innerText = "Save Changes";
     //build the form
     for (i = 0; i < elementArray.length; i++) {
         form.appendChild(elementArray[i]);
@@ -84,17 +83,19 @@ function grabText(formID) {
 
 function toggleModal(onOrOff) {
     if (onOrOff) {
+        debugger;
         formInfo.formPositionQ.style.display = "block";
-        formInfo.modalBackroundQ.style.display = "block";
-        formInfo.modalBackroundQ.style.background = "rgba(0,0,0,0.6)";
+        formInfo.modalBackgroundQ.style.display = "block";
+        formInfo.modalBackgroundQ.style.animationName = "fadeIn";
 
-        formInfo.modalBackroundQ.addEventListener("click", function () {
+        formInfo.modalBackgroundQ.addEventListener("click", function () {
             toggleModal(false);
         });
     }
     else {
         formInfo.formPositionQ.style.display = "none";
-        formInfo.modalBackroundQ.style.display = "none";
-        formInfo.modalBackroundQ.style.background = "rgba(0,0,0,0.0)";
+        formInfo.modalBackgroundQ.style.display = "none";
+        formInfo.modalBackgroundQ.classList.remove("modalBackgroundSwitch");
+        formInfo.modalBackgroundQ.style.animationName = "";
     }
 }
