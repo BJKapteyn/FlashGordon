@@ -42,6 +42,22 @@ namespace FlashGordon.Controllers
             return Redirect("EditFlashCards");
         }
 
+        [HttpPost]
+        public IActionResult UpdateFC(string front, string back, string category, string id)
+        {
+            int cardId = -1;
+            bool didParse = int.TryParse(id, out cardId);
+            using (FCContext)
+            {
+                if (didParse)
+                {
+                    FCards updateCard = FCContext.FCards.First(card => card.Id == cardId);
+                }
+
+            }
+            return Ok();
+        }
+
         public IActionResult EditFlashCards()
         {
             FlashCardDB flashCardDB = new FlashCardDB(FCContext);

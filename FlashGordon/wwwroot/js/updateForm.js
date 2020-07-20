@@ -5,10 +5,11 @@ let formInfo = {
     formPositionQ: document.getElementById("formStandin")
 }
 
-function flashCardData(front, back, category) {
+function flashCardData(front, back, category, id) {
     this.Front = front;
     this.Back = back;
     this.Category = category;
+    this.Id = id;
 }
 
 //refactor me please--------------------------------------------------TODO
@@ -39,7 +40,8 @@ function createForm(cardID) {
     let elementArray = [frontCardLabel, frontCardInput, backCardLabel, backCardInput, categoryLabel, categoryInput, submitButton];
 
     formInfo.LastId = cardID;
-    form.id = "updateForm";
+    //will use this to look up the card's id in the database
+    form.id = cardID;
     frontCardLabel.innerText = "Front";
     frontCardLabel.id = "formFront";
     frontCardInput.type = "text";
@@ -65,6 +67,18 @@ function createForm(cardID) {
     toggleModal(true);
 }
 
+
+function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {
+    let request = new XMLHttpRequest();
+    let domain = window.location.hostname;
+    let requestAddress = domain + "/Home/UpdateFC";
+    //Make sure parameters match the IActionResult!
+    let body = `front=${flashCardDataIn.Front}&back=${flashCardDataIn.Back}&category=${flashCardDataIn.Category}&id=${flashCardDataIn.Id}`;
+    
+    request.open("POST", requestAddress, true);
+    request.send(body);
+}
+
 //takes text from the card element and returns it
 function grabText(formID) {
     let startPoint = document.getElementById(formID);
@@ -76,14 +90,13 @@ function grabText(formID) {
     let backCard = otherKids[3].innerText;
 
     //Assign the data names
-    let data = new flashCardData(frontCard, backCard, category);
+    let data = new flashCardData(frontCard, backCard, category, formID);
 
     return data;
 }
 
 function toggleModal(onOrOff) {
     if (onOrOff) {
-        debugger;
         formInfo.formPositionQ.style.display = "block";
         formInfo.modalBackgroundQ.style.display = "block";
         formInfo.modalBackgroundQ.style.animationName = "fadeIn";
