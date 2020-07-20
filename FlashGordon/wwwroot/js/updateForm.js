@@ -46,19 +46,26 @@ function createForm(cardID) {
     frontCardLabel.id = "formFront";
     frontCardInput.type = "text";
     frontCardInput.value = cardData.Front;
+    frontCardInput.id = "frontCardInput"
 
     backCardLabel.innerText = "Back";
     backCardLabel.id = "formBack";
     backCardInput.type = "text";
     backCardInput.value = cardData.Back;
+    backCardInput.id = "backCardInput";
 
     categoryLabel.innerText = "Category";
     categoryLabel.id = "formCategory";
     //turn this into radio later---------------------------------------------------TODO
     categoryInput.type = "text";
     categoryInput.value = cardData.Category;
+    categoryInput.id = "categoryCardInput"
 
     submitButton.innerText = "Save Changes";
+    submitButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        submitAJAX(cardID);
+    })
     //build the form
     for (i = 0; i < elementArray.length; i++) {
         form.appendChild(elementArray[i]);
@@ -67,16 +74,51 @@ function createForm(cardID) {
     toggleModal(true);
 }
 
+//Get updated input fields and send it off to backend.
+function submitAJAX(cardId) {
+    updatedCard = new flashCardData;
+    updatedCard.Front = document.getElementById('frontCardInput').value;
+    updatedCard.Back = document.getElementById('backCardInput').value;
+    updatedCard.Category = document.getElementById('categoryCardInput').value;
+    updatedCard.Id = cardId;
+
+    AJAXUpdate(updatedCard);
+}
 
 function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {
+    let OK = "200";
+    let NotFound = "404";
+    let BadRequest = "400";
     let request = new XMLHttpRequest();
-    let domain = window.location.hostname;
-    let requestAddress = domain + "/Home/UpdateFC";
+    let domainArr = window.location.href.split('/');
+    let domain = domainArr[0] + "//" + domainArr[2];
+    let requestAddress = domain + `/Home/UpdateFC?front=${flashCardDataIn.Front}&back=${flashCardDataIn.Back}&category=${flashCardDataIn.Category}&id=${flashCardDataIn.Id}`;
+    requestAddress += ``
     //Make sure parameters match the IActionResult!
-    let body = `front=${flashCardDataIn.Front}&back=${flashCardDataIn.Back}&category=${flashCardDataIn.Category}&id=${flashCardDataIn.Id}`;
-    
+    let body = JSON.stringify({
+        front: flashCardDataIn.Front,
+        back: flashCardDataIn.Back,
+        category: flashCardDataIn.Category,
+        id: flashCardDataIn.Id       
+    });
+    debugger;
+
     request.open("POST", requestAddress, true);
+    request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     request.send(body);
+
+    request.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === OK) {
+            console.log("We did it!")
+        }
+        else if (this.readyState === XMLHttpRequest.DONE && this.status === BadRequest) {
+            console.log("Made it to the action result but didn't process correctly");
+        }
+        else {
+            console.log("Not Even Close");
+        }
+    }
+
 }
 
 //takes text from the card element and returns it

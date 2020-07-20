@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using FlashGordon.Models;
 using FlashGordon.Utility;
 using FlashGordon.DALs;
+using Newtonsoft.Json;
 
 namespace FlashGordon.Controllers
 {
@@ -43,17 +44,19 @@ namespace FlashGordon.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateFC(string front, string back, string category, string id)
+        public IActionResult UpdateFC(string front, string back, string category, int id)
         {
-            int cardId = -1;
-            bool didParse = int.TryParse(id, out cardId);
+
+     
             using (FCContext)
             {
-                if (didParse)
-                {
-                    FCards updateCard = FCContext.FCards.First(card => card.Id == cardId);
-                }
-
+               
+                FCards updateCard = FCContext.FCards.Single(x => x.Id == id);
+                updateCard.Front = front;
+                updateCard.Back = back;
+                updateCard.Category = category;
+                FCContext.SaveChanges();
+           
             }
             return Ok();
         }
