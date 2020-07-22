@@ -109,10 +109,10 @@ function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {
     let request = new XMLHttpRequest();
     let domainArr = window.location.href.split('/');
     let domain = domainArr[0] + "//" + domainArr[2];
-    //Make sure parameters match the IActionResult parameters!
+    //Make sure parameters match the IActionResult parameters! Also see a couple lines below.
     let requestAddress = domain + `/Home/UpdateFC?front=${flashCardDataIn.Front}&back=${flashCardDataIn.Back}&category=${flashCardDataIn.Category}&id=${flashCardDataIn.Id}`;
 
-    //
+    //Figure out POST AJAX please
     //let body = JSON.stringify({
     //    front: flashCardDataIn.Front,
     //    back: flashCardDataIn.Back,
@@ -122,11 +122,13 @@ function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {
 
     request.open("POST", requestAddress, true);
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    request.send(body);
+    //uncomment when POST method is fixed
+    request.send(/*body*/);
 
     request.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE && this.status === OK) {
-            console.log("We did it!")
+            console.log("We did it!");
+            toggleModal(false);
         }
         else if (this.readyState === XMLHttpRequest.DONE && this.status === BadRequest) {
             console.log("Made it to the action result but didn't process correctly");
