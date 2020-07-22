@@ -12,6 +12,22 @@ function flashCardData(front, back, category, id) {
     this.Id = id;
 }
 
+//takes text from the card element and returns it
+function grabText(formID) {
+    let startPoint = document.getElementById(formID);
+    let startPointKids = startPoint.children;
+    let otherKids = startPointKids[1].children;
+
+    let category = startPointKids[0].innerText;
+    let frontCard = otherKids[1].innerText;
+    let backCard = otherKids[3].innerText;
+
+    //Assign the data names
+    let data = new flashCardData(frontCard, backCard, category, formID);
+
+    return data;
+}
+
 //refactor me please--------------------------------------------------TODO
 function createForm(cardID) {
     let nodeStart = formInfo.formPositionQ;
@@ -22,12 +38,12 @@ function createForm(cardID) {
         }
     }
     else {
-        return;
+        return false;
     }
 
     let cardData = grabText(cardID);
-    //turn it into a number to submit to backend----------------------------TODO
     let idInt = parseInt(cardID);
+
     //create form from scratch
     let form = document.createElement("form");
     let frontCardLabel = document.createElement("p");
@@ -39,6 +55,7 @@ function createForm(cardID) {
     let submitButton = document.createElement("button");
     let elementArray = [frontCardLabel, frontCardInput, backCardLabel, backCardInput, categoryLabel, categoryInput, submitButton];
 
+    //add attributes
     formInfo.LastId = cardID;
     //will use this to look up the card's id in the database
     form.id = cardID;
@@ -74,7 +91,7 @@ function createForm(cardID) {
     toggleModal(true);
 }
 
-//Get updated input fields and send it off to backend.
+//Get updated input fields and send it off to backend to update flash card 
 function submitAJAX(cardId) {
     updatedCard = new flashCardData;
     updatedCard.Front = document.getElementById('frontCardInput').value;
@@ -92,16 +109,16 @@ function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {
     let request = new XMLHttpRequest();
     let domainArr = window.location.href.split('/');
     let domain = domainArr[0] + "//" + domainArr[2];
+    //Make sure parameters match the IActionResult parameters!
     let requestAddress = domain + `/Home/UpdateFC?front=${flashCardDataIn.Front}&back=${flashCardDataIn.Back}&category=${flashCardDataIn.Category}&id=${flashCardDataIn.Id}`;
-    requestAddress += ``
-    //Make sure parameters match the IActionResult!
-    let body = JSON.stringify({
-        front: flashCardDataIn.Front,
-        back: flashCardDataIn.Back,
-        category: flashCardDataIn.Category,
-        id: flashCardDataIn.Id       
-    });
-    debugger;
+
+    //
+    //let body = JSON.stringify({
+    //    front: flashCardDataIn.Front,
+    //    back: flashCardDataIn.Back,
+    //    category: flashCardDataIn.Category,
+    //    id: flashCardDataIn.Id       
+    //});
 
     request.open("POST", requestAddress, true);
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -121,21 +138,6 @@ function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {
 
 }
 
-//takes text from the card element and returns it
-function grabText(formID) {
-    let startPoint = document.getElementById(formID);
-    let startPointKids = startPoint.children;
-    let otherKids = startPointKids[1].children;
-
-    let category = startPointKids[0].innerText;
-    let frontCard = otherKids[1].innerText;
-    let backCard = otherKids[3].innerText;
-
-    //Assign the data names
-    let data = new flashCardData(frontCard, backCard, category, formID);
-
-    return data;
-}
 
 function toggleModal(onOrOff) {
     if (onOrOff) {

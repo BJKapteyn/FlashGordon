@@ -44,17 +44,16 @@ namespace FlashGordon.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateFC(string front, string back, string category, int id)
+        public IActionResult UpdateFC([FromBody] FCards jsonBody)
         {
-
      
             using (FCContext)
             {
                
-                FCards updateCard = FCContext.FCards.Single(x => x.Id == id);
-                updateCard.Front = front;
-                updateCard.Back = back;
-                updateCard.Category = category;
+                //FCards updateCard = FCContext.FCards.Single(x => x.Id == id);
+                //updateCard.Front = front;
+                //updateCard.Back = back;
+                //updateCard.Category = category;
                 FCContext.SaveChanges();
            
             }
