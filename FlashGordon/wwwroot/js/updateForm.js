@@ -31,18 +31,17 @@ function grabText(formID) {
 //refactor me please--------------------------------------------------TODO
 function createForm(cardID) {
     let nodeStart = formInfo.formPositionQ;
-    //clear previous form if clicking on new card to update or skip function if clicking on the same card
-    if (cardID != formInfo.lastId) {
+    //clear previous form if clicking on new card to update, or skip function if clicking on the same card
+    if (cardID != formInfo.lastId && formInfo.lastId !== "") {
         while (nodeStart.firstChild) {
             nodeStart.removeChild(nodeStart.lastChild);
         }
     }
-    else {
+    else if (cardID == formInfo.lastId) {
         return false;
     }
 
     let cardData = grabText(cardID);
-    let idInt = parseInt(cardID);
 
     //create form from scratch
     let form = document.createElement("form");
