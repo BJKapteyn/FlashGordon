@@ -3,7 +3,6 @@
 }
 
 function fadeInElement(elementQuery) {
-    console.log("hey");
     elementQuery.style.animationName = "fadeIn";
 }
 
@@ -11,14 +10,13 @@ function fadeInElement(elementQuery) {
 function fadeInAllElements() {
     flashCards.allCardsArr = document.getElementsByClassName("fCardFlex");
     var i = 0;
-    debugger;
-    setInterval(function () {
+    let interval = setInterval(function () {
         fadeInElement(flashCards.allCardsArr.item(i));
-        if (i === flashCards.allCardsArr.length) {
-            this.clearInterval();
+        if (i == flashCards.allCardsArr.length - 1) {
+            clearInterval(interval);
         }
         i++;
-    }, 100);
+    }, 50);
     //Array.prototype.forEach.call(flashCards.allCardsArr, function (x) {
     //    fadeInElement(x);
     //});
