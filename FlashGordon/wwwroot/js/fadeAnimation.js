@@ -23,4 +23,6 @@ function fadeInAllElements() {
     
 }
 
-window.onload = fadeInAllElements();
+window.onload = setTimeout(function () {
+    fadeInAllElements();
+}, 1000);

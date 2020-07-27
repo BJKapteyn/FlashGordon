@@ -95,6 +95,7 @@ body {
 }
 
 .fCardFlex {
+    will-change: box-shadow, opacity;
     box-shadow: 5px 5px 10px grey;
     margin: 10px;
     border-radius: 5px;
@@ -111,6 +112,19 @@ body {
     margin: 5px;
 }
 
+.fontOfCard,
+.backOfCard{
+    padding:5px;
+}
+
+.frontOfCard {
+    background-color: rgb(200, 199, 209);
+}
+
+.cardText {
+    margin: 0px 10px 0px 10px;
+}
+
 .fCardCategory {
     margin: 0px;
     color: white;
@@ -122,8 +136,22 @@ body {
 }
 
 .fCardHead {
-    font-size: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0px;
 }
+
+.flashCardButtons {
+    position: absolute;
+    bottom: 0px;
+}
+
+.flashCardButton {
+    width: 45%;
+    margin: auto;
+    display: inline-block;
+}
+
 
 @keyframes fadeIn {
     0% {
@@ -133,6 +161,16 @@ body {
     100% {
         opacity: 1;
         box-shadow: 5px 5px 10px grey;
+    }
+}
+
+@keyframes fadeInModal {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
 /*#endregion*/

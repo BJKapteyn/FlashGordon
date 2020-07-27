@@ -144,7 +144,7 @@ function toggleModal(onOrOff) {
     if (onOrOff) {
         formInfo.formPositionQ.style.display = "block";
         formInfo.modalBackgroundQ.style.display = "block";
-        formInfo.modalBackgroundQ.style.animationName = "fadeIn";
+        formInfo.modalBackgroundQ.style.animationName = "fadeInModal";
 
         formInfo.modalBackgroundQ.addEventListener("click", function () {
             toggleModal(false);

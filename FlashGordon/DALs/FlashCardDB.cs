@@ -8,11 +8,11 @@ namespace FlashGordon.DALs
 {
     public class FlashCardDB
     {
-        private FlashCardsContext FCContext;
+        private readonly FlashCardsContext FCContext;
         public List<FCards> AllFlashCards;
-        public FlashCardDB(FlashCardsContext fcc)
+        public FlashCardDB()
         {
-            FCContext = fcc;
+            FCContext = new FlashCardsContext();
             AllFlashCards = GetAllCards();
         }
 

@@ -16,11 +16,16 @@ namespace FlashGordon.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private FlashCardsContext FCContext;
+        FlashCardDB FlashCardDB;
+        List<FCards> FlashCards;
 
         public HomeController(ILogger<HomeController> logger, FlashCardsContext fcc)
         {
             _logger = logger;
             FCContext = fcc;
+            //initialize list of flash cards
+            FlashCardDB = new FlashCardDB();
+            FlashCards = FlashCardDB.AllFlashCards;
         }
 
         public IActionResult Index()
@@ -62,9 +67,7 @@ namespace FlashGordon.Controllers
 
         public IActionResult EditFlashCards()
         {
-            FlashCardDB flashCardDB = new FlashCardDB(FCContext);
-            
-            return View(flashCardDB.AllFlashCards);
+            return View(FlashCards);
         }
 
         public IActionResult Privacy()
