@@ -106,7 +106,7 @@ body {
     will-change: box-shadow, opacity;
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: 35px auto 40px;
+    grid-template-rows: 35px auto 47px;
     grid-template-areas: 
                         "category"
                         "frontBack"
@@ -124,16 +124,22 @@ body {
 
 .flexBody {
     grid-area: frontBack;
-    margin: 5px;
 }
 
-.fontOfCard,
-.backOfCard{
-    padding:5px;
+.frontOfCard,
+.backOfCard {
+    height: 120px;
+    width: 100%;
 }
 
 .frontOfCard {
-    background-color: rgb(200, 199, 209);
+    height: 100px;
+}
+
+.backOfCard {
+    z-index: 0;
+    height: 120px;
+    background-color: rgba(200, 199, 209, 0.5);
 }
 
 .cardText {
@@ -163,6 +169,7 @@ body {
 }
 
 .flashCardButton {
+    margin-top: 5px;
     will-change: background-color, color;
     margin-left: 2%;
     margin-right: 2%;
@@ -174,6 +181,7 @@ body {
     border: 2px solid rgb(6, 123, 194);
     transition: background-color 500ms ease-out, color 500ms ease-out;
 }
+
 .flashCardButton:hover {
     background-color: rgb(6, 123, 194);
     color: white;
