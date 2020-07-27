@@ -14,13 +14,13 @@ function flashCardData(front, back, category, id) {
 
 //takes text from the card element and returns it
 function grabText(formID) {
-    let startPoint = document.getElementById(formID);
-    let startPointKids = startPoint.children;
-    let otherKids = startPointKids[1].children;
+    let categoryQ = document.getElementById(`cardCatText${formID}`)
+    let frontQ = document.getElementById(`cardFrontText${formID}`)
+    let backQ = document.getElementById(`cardBackText${formID}`)
 
-    let category = startPointKids[0].innerText;
-    let frontCard = otherKids[1].innerText;
-    let backCard = otherKids[3].innerText;
+    let category = categoryQ.innerText;
+    let frontCard = frontQ.innerText;
+    let backCard = backQ.innerText;
 
     //Assign the data names
     let data = new flashCardData(frontCard, backCard, category, formID);
@@ -31,62 +31,63 @@ function grabText(formID) {
 //refactor me please--------------------------------------------------TODO
 function createForm(cardID) {
     let nodeStart = formInfo.formPositionQ;
+    debugger;
     //clear previous form if clicking on new card to update, or skip function if clicking on the same card
-    if (cardID != formInfo.lastId && formInfo.lastId !== "") {
+    if (cardID != formInfo.lastId) {
         while (nodeStart.firstChild) {
             nodeStart.removeChild(nodeStart.lastChild);
         }
-    }
+
+        let cardData = grabText(cardID);
+
+        //create form from scratch
+        let form = document.createElement("form");
+        let frontCardLabel = document.createElement("p");
+        let frontCardInput = document.createElement("textarea");
+        let backCardLabel = document.createElement("p");
+        let backCardInput = document.createElement("textarea");
+        let categoryLabel = document.createElement("p");
+        let categoryInput = document.createElement("textarea");
+        let submitButton = document.createElement("button");
+        let elementArray = [frontCardLabel, frontCardInput, backCardLabel, backCardInput, categoryLabel, categoryInput, submitButton];
+
+        //add attributes
+        formInfo.LastId = cardID;
+        //will use this to look up the card's id in the database
+        form.id = cardID;
+        frontCardLabel.innerText = "Front";
+        frontCardLabel.id = "formFront";
+        frontCardInput.type = "text";
+        frontCardInput.value = cardData.Front;
+        frontCardInput.id = "frontCardInput"
+
+        backCardLabel.innerText = "Back";
+        backCardLabel.id = "formBack";
+        backCardInput.type = "text";
+        backCardInput.value = cardData.Back;
+        backCardInput.id = "backCardInput";
+
+        categoryLabel.innerText = "Category";
+        categoryLabel.id = "formCategory";
+        //turn this into radio later---------------------------------------------------TODO
+        categoryInput.type = "text";
+        categoryInput.value = cardData.Category;
+        categoryInput.id = "categoryCardInput"
+
+        submitButton.innerText = "Save Changes";
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            submitAJAX(cardID);
+        })
+        //build the form
+        for (i = 0; i < elementArray.length; i++) {
+            form.appendChild(elementArray[i]);
+        }
+            nodeStart.appendChild(form);
+        }
     else if (cardID == formInfo.lastId) {
         return false;
     }
-
-    let cardData = grabText(cardID);
-
-    //create form from scratch
-    let form = document.createElement("form");
-    let frontCardLabel = document.createElement("p");
-    let frontCardInput = document.createElement("textarea");
-    let backCardLabel = document.createElement("p");
-    let backCardInput = document.createElement("textarea");
-    let categoryLabel = document.createElement("p");
-    let categoryInput = document.createElement("textarea");
-    let submitButton = document.createElement("button");
-    let elementArray = [frontCardLabel, frontCardInput, backCardLabel, backCardInput, categoryLabel, categoryInput, submitButton];
-
-    //add attributes
-    formInfo.LastId = cardID;
-    //will use this to look up the card's id in the database
-    form.id = cardID;
-    frontCardLabel.innerText = "Front";
-    frontCardLabel.id = "formFront";
-    frontCardInput.type = "text";
-    frontCardInput.value = cardData.Front;
-    frontCardInput.id = "frontCardInput"
-
-    backCardLabel.innerText = "Back";
-    backCardLabel.id = "formBack";
-    backCardInput.type = "text";
-    backCardInput.value = cardData.Back;
-    backCardInput.id = "backCardInput";
-
-    categoryLabel.innerText = "Category";
-    categoryLabel.id = "formCategory";
-    //turn this into radio later---------------------------------------------------TODO
-    categoryInput.type = "text";
-    categoryInput.value = cardData.Category;
-    categoryInput.id = "categoryCardInput"
-
-    submitButton.innerText = "Save Changes";
-    submitButton.addEventListener('click', function(event) {
-        event.preventDefault();
-        submitAJAX(cardID);
-    })
-    //build the form
-    for (i = 0; i < elementArray.length; i++) {
-        form.appendChild(elementArray[i]);
-    }
-    nodeStart.appendChild(form);
     toggleModal(true);
 }
 
