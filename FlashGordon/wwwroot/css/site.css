@@ -142,23 +142,35 @@ body {
     background-color: rgba(200, 199, 209, 0.5);
 }
 
-.cardText {
+.frontText,
+.backText {
     margin: 0px 10px 0px 10px;
 }
 
-.fCardCategory {
+.flashCardHead {
+    background-color: rgb(6, 123, 194);
     grid-area: category;
+}
+
+.fCardCategory {
+
+}
+
+.fCardCategory,
+.status{
+    display: inline-block;
     margin: 0px;
     color: white;
-    background-color: rgb(6, 123, 194);
     font-size: 20px;
-    width: 100%;
+    width: auto;
     height: auto;
     padding: 5px;
 }
 
 .status {
-
+    float: right;
+    padding-right: 5px;
+    font-style: italic;
 }
 
 .fCardHead {

@@ -87,7 +87,6 @@ function createForm(cardID) {
 
         submitButton.innerText = "Save Changes";
         submitButton.addEventListener('click', function (event) {
-            debugger;
             event.preventDefault();
             //send data off to back end
             //
@@ -129,6 +128,7 @@ async function fetchUpdate(url = '', updatedFlashCardData = {}) {
     return response;
 }
 
+//update the flashcard in database
 async function updateFlashCardDB(cardID) {
     let OK = "200";
     let NotFound = "404";
@@ -144,7 +144,8 @@ async function updateFlashCardDB(cardID) {
     await fetchUpdate(requestAddress, updatedFlashCardData).then(function (response) {
         if (response.status == OK) {
             //add flashcard to the page manually here.
-            console.log('It worked, NICE!')
+            console.log('It worked, NICE!');
+            updatePageFlashCard(cardID, updatedFlashCardData);
         }
         else {
             console.log('yeah that didn\'t work');
@@ -155,9 +156,19 @@ async function updateFlashCardDB(cardID) {
     toggleModal(false);
 }
 
-function updatePageFlashCard(cardID) {
-    const flashCardQ = document.getElementById(cardID);
+//update card on the actual page
+function updatePageFlashCard(cardID, flashCardData) {
+    debugger;
+    let flashCardQ = document.getElementById(cardID);
+    let frontCardQ = flashCardQ.querySelector('.frontText');
+    let backCardQ = flashCardQ.querySelector('.backText');
+    let categoryQ = flashCardQ.querySelector('.fCardCategory');
+    let statusQ = flashCardQ.querySelector('.status');
 
+    frontCardQ.innerText = flashCardData.Front;
+    backCardQ.innerText = flashCardData.Back;
+    categoryQ.innerText = flashCardData.Category;
+    statusQ.innerText = "Updated!";
 }
 
 //function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {

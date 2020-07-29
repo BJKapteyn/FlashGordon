@@ -57,7 +57,10 @@ namespace FlashGordon.Controllers
                 {
                     FCards updateCard = FCContext.FCards.Single(x => x.Id == frontEndCard.Id);
 
-                    updateCard = frontEndCard;
+                    updateCard.Category = frontEndCard.Category;
+                    updateCard.Front = frontEndCard.Front;
+                    updateCard.Back = frontEndCard.Back;
+
                     FCContext.SaveChanges();
            
                 }

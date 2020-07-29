@@ -12,25 +12,28 @@
 <div id="flexContainer">
     @foreach (FCards c in Model)
     {
-        <div class="fCardFlex" id="@c.Id">
-            <!--Use the id string builds to grab the text-->
-            <h1 id="@String.Concat("cardCatText", c.Id.ToString())" class="fCardCategory">@c.Category<span class="status"></span></h1>
-            
-            <div class="flexBody">
-                <div class="frontOfCard">
-                    <h2 class="fCardHead">Front:</h2>
-                    <div id="@String.Concat("cardFrontText", c.Id.ToString())" class="cardText">@c.Front</div>
-                </div>
-                <div class="backOfCard">
-                    <h2 class="fCardHead">Back:</h2>
-                    <div id="@String.Concat("cardBackText", c.Id.ToString())" class="cardText">@c.Back</div>
-                </div>
+    <div class="fCardFlex" id="@c.Id">
+        <!--Use the id string builds to grab the text-->
+        <div class="flashCardHead">
+            <h1 id="@String.Concat("cardCatText", c.Id.ToString())" class="fCardCategory">@c.Category</h1>
+            <h1 class="status"> </h1>
+        </div>
+
+        <div class="flexBody">
+            <div class="frontOfCard">
+                <h2 class="fCardHead">Front:</h2>
+                <div id="@String.Concat("cardFrontText", c.Id.ToString())" class="frontText">@c.Front</div>
             </div>
-            <div class="flashCardButtons">
-                <button class="flashCardButton" type="button" onclick="createForm(@c.Id)" value="Edit">Edit <span class="buttonAction">&#9998</span></button>
-                <button class="delete flashCardButton" type="button" onclick="" value="Delete">Delete <span class="buttonAction">&#10006</span></button>
+            <div class="backOfCard">
+                <h2 class="fCardHead">Back:</h2>
+                <div id="@String.Concat("cardBackText", c.Id.ToString())" class="backText">@c.Back</div>
             </div>
         </div>
+        <div class="flashCardButtons">
+            <button class="flashCardButton" type="button" onclick="createForm(@c.Id)" value="Edit">Edit <span class="buttonAction">&#9998</span></button>
+            <button class="delete flashCardButton" type="button" onclick="" value="Delete">Delete <span class="buttonAction">&#10006</span></button>
+        </div>
+    </div>
     }
 </div>
 <!--Form to add card -->
