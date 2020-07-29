@@ -49,18 +49,22 @@ namespace FlashGordon.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateFC(string front, string back, string category, int id)
+        public IActionResult UpdateFC([FromBody] FCards frontEndCard)
         {
-     
-            using (FCContext)
+            try
             {
+                using (FCContext)
+                {
+                    FCards updateCard = FCContext.FCards.Single(x => x.Id == frontEndCard.Id);
 
-                FCards updateCard = FCContext.FCards.Single(x => x.Id == id);
-                updateCard.Front = front;
-                updateCard.Back = back;
-                updateCard.Category = category;
-                FCContext.SaveChanges();
+                    updateCard = frontEndCard;
+                    FCContext.SaveChanges();
            
+                }
+            }
+            catch(InvalidOperationException)
+            {
+                return BadRequest();
             }
             return Ok();
         }

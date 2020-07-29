@@ -10,10 +10,11 @@ function flashCardData(front, back, category, id) {
     this.Back = back;
     this.Category = category;
     this.Id = id;
+    this.IsUsed = false;
 }
 
-//takes text from the card element and returns it
-function grabText(formID) {
+//takes text from the flash card after hitting edit.
+function grabFlashCardText(formID) {
     let categoryQ = document.getElementById(`cardCatText${formID}`)
     let frontQ = document.getElementById(`cardFrontText${formID}`)
     let backQ = document.getElementById(`cardBackText${formID}`)
@@ -28,17 +29,26 @@ function grabText(formID) {
     return data;
 }
 
+//get updated flash card info to submit for update
+function createUpdatedFC(updateFormID) {
+    let category = document.querySelector("#categoryCardInput").value;
+    let front = document.querySelector('#frontCardInput').value;
+    let back = document.querySelector('#backCardInput').value;
+
+    return new flashCardData(front, back, category, updateFormID);
+}
+
 //refactor me please--------------------------------------------------TODO
+//Create Update form modal and display it
 function createForm(cardID) {
     let nodeStart = formInfo.formPositionQ;
-    debugger;
-    //clear previous form if clicking on new card to update, or skip function if clicking on the same card
     if (cardID != formInfo.lastId) {
+        //clear previous form if clicking on new card to update, or skip function if clicking on the same card
         while (nodeStart.firstChild) {
             nodeStart.removeChild(nodeStart.lastChild);
         }
 
-        let cardData = grabText(cardID);
+        let cardData = grabFlashCardText(cardID);
 
         //create form from scratch
         let form = document.createElement("form");
@@ -51,10 +61,10 @@ function createForm(cardID) {
         let submitButton = document.createElement("button");
         let elementArray = [frontCardLabel, frontCardInput, backCardLabel, backCardInput, categoryLabel, categoryInput, submitButton];
 
-        //add attributes
-        formInfo.LastId = cardID;
         //will use this to look up the card's id in the database
-        form.id = cardID;
+        formInfo.LastId = cardID;
+        //add attributes and text
+        form.id = "updateForm" + cardID;
         frontCardLabel.innerText = "Front";
         frontCardLabel.id = "formFront";
         frontCardInput.type = "text";
@@ -75,9 +85,12 @@ function createForm(cardID) {
         categoryInput.id = "categoryCardInput"
 
         submitButton.innerText = "Save Changes";
-        submitButton.addEventListener('click', function(event) {
+        submitButton.addEventListener('click', function (event) {
+            debugger;
             event.preventDefault();
-            submitAJAX(cardID);
+            //send data off to back end
+            //
+            updateFlashCard(cardID);
         })
         //build the form
         for (i = 0; i < elementArray.length; i++) {
@@ -100,6 +113,45 @@ function submitAJAX(cardId) {
     updatedCard.Id = cardId;
 
     AJAXUpdate(updatedCard);
+}
+
+async function fetchUpdate(url = '', updatedFlashCardData = {}) {
+    let response = fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedFlashCardData)
+    })
+    return response;
+}
+
+async function updateFlashCard(cardID) {
+    debugger;
+    let OK = "200";
+    let NotFound = "404";
+    let BadRequest = "400";
+
+    let domainArr = window.location.href.split('/');
+    let domain = domainArr[0] + "//" + domainArr[2];
+    let requestAddress = domain + '/Home/UpdateFC';
+
+    let updatedFlashCardData = createUpdatedFC(cardID);
+
+
+    await fetchUpdate(requestAddress, updatedFlashCardData).then(function (response) {
+        if (response.status == OK) {
+            //add flashcard to the page manually here.
+            console.log('It worked, NICE!')
+        }
+        else {
+            console.log('yeah that didn\'t work');
+        }
+        console.log(response);
+    });
+
+    toggleModal(false);
 }
 
 function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {

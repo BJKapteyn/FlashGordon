@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace FlashGordon
 {
@@ -26,6 +27,7 @@ namespace FlashGordon
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMvcCore().AddNewtonsoftJson();
             //Scaffold-DbContext "Server=(localdb)\MSSQLLocalDb;Database=flash_cards;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
             services.AddDbContext<FlashCardsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FlashCardConnectionString")));
         }
