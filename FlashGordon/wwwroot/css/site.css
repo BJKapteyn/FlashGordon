@@ -157,6 +157,10 @@ body {
     padding: 5px;
 }
 
+.status {
+
+}
+
 .fCardHead {
     font-size: 20px;
     font-weight: bold;
@@ -180,6 +184,10 @@ body {
     background-color: rgba(132, 188, 218, 0.1);
     border: 2px solid rgb(6, 123, 194);
     transition: background-color 500ms ease-out, color 500ms ease-out;
+}
+
+.delete {
+    color: rgb(200, 199, 209);
 }
 
 .flashCardButton:hover {

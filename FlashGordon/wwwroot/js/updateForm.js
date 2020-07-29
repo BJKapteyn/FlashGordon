@@ -15,6 +15,7 @@ function flashCardData(front, back, category, id) {
 
 //takes text from the flash card after hitting edit.
 function grabFlashCardText(formID) {
+    //these were built by the razor page flashcard Id
     let categoryQ = document.getElementById(`cardCatText${formID}`)
     let frontQ = document.getElementById(`cardFrontText${formID}`)
     let backQ = document.getElementById(`cardBackText${formID}`)
@@ -90,30 +91,31 @@ function createForm(cardID) {
             event.preventDefault();
             //send data off to back end
             //
-            updateFlashCard(cardID);
+            updateFlashCardDB(cardID);
         })
         //build the form
         for (i = 0; i < elementArray.length; i++) {
             form.appendChild(elementArray[i]);
         }
             nodeStart.appendChild(form);
-        }
+    }
     else if (cardID == formInfo.lastId) {
+        //May use later
         return false;
     }
     toggleModal(true);
 }
 
 //Get updated input fields and send it off to backend to update flash card 
-function submitAJAX(cardId) {
-    updatedCard = new flashCardData;
-    updatedCard.Front = document.getElementById('frontCardInput').value;
-    updatedCard.Back = document.getElementById('backCardInput').value;
-    updatedCard.Category = document.getElementById('categoryCardInput').value;
-    updatedCard.Id = cardId;
+//function submitAJAX(cardId) {
+//    updatedCard = new flashCardData;
+//    updatedCard.Front = document.getElementById('frontCardInput').value;
+//    updatedCard.Back = document.getElementById('backCardInput').value;
+//    updatedCard.Category = document.getElementById('categoryCardInput').value;
+//    updatedCard.Id = cardId;
 
-    AJAXUpdate(updatedCard);
-}
+//    AJAXUpdate(updatedCard);
+//}
 
 async function fetchUpdate(url = '', updatedFlashCardData = {}) {
     let response = fetch(url, {
@@ -127,8 +129,7 @@ async function fetchUpdate(url = '', updatedFlashCardData = {}) {
     return response;
 }
 
-async function updateFlashCard(cardID) {
-    debugger;
+async function updateFlashCardDB(cardID) {
     let OK = "200";
     let NotFound = "404";
     let BadRequest = "400";
@@ -154,43 +155,48 @@ async function updateFlashCard(cardID) {
     toggleModal(false);
 }
 
-function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {
-    let OK = "200";
-    let NotFound = "404";
-    let BadRequest = "400";
-    let request = new XMLHttpRequest();
-    let domainArr = window.location.href.split('/');
-    let domain = domainArr[0] + "//" + domainArr[2];
-    //Make sure parameters match the IActionResult parameters! Also see a couple lines below.
-    let requestAddress = domain + `/Home/UpdateFC?front=${flashCardDataIn.Front}&back=${flashCardDataIn.Back}&category=${flashCardDataIn.Category}&id=${flashCardDataIn.Id}`;
-
-    //Figure out POST AJAX please
-    //let body = JSON.stringify({
-    //    front: flashCardDataIn.Front,
-    //    back: flashCardDataIn.Back,
-    //    category: flashCardDataIn.Category,
-    //    id: flashCardDataIn.Id       
-    //});
-
-    request.open("POST", requestAddress, true);
-    request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    //uncomment when POST method is fixed
-    request.send(/*body*/);
-
-    request.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && this.status === OK) {
-            console.log("We did it!");
-            toggleModal(false);
-        }
-        else if (this.readyState === XMLHttpRequest.DONE && this.status === BadRequest) {
-            console.log("Made it to the action result but didn't process correctly");
-        }
-        else {
-            console.log("Not Even Close");
-        }
-    }
+function updatePageFlashCard(cardID) {
+    const flashCardQ = document.getElementById(cardID);
 
 }
+
+//function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {
+//    let OK = "200";
+//    let NotFound = "404";
+//    let BadRequest = "400";
+//    let request = new XMLHttpRequest();
+//    let domainArr = window.location.href.split('/');
+//    let domain = domainArr[0] + "//" + domainArr[2];
+//    //Make sure parameters match the IActionResult parameters! Also see a couple lines below.
+//    let requestAddress = domain + `/Home/UpdateFC?front=${flashCardDataIn.Front}&back=${flashCardDataIn.Back}&category=${flashCardDataIn.Category}&id=${flashCardDataIn.Id}`;
+
+//    //Figure out POST AJAX please
+//    //let body = JSON.stringify({
+//    //    front: flashCardDataIn.Front,
+//    //    back: flashCardDataIn.Back,
+//    //    category: flashCardDataIn.Category,
+//    //    id: flashCardDataIn.Id       
+//    //});
+
+//    request.open("POST", requestAddress, true);
+//    request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+//    //uncomment when POST method is fixed
+//    request.send(/*body*/);
+
+//    request.onreadystatechange = function () {
+//        if (this.readyState === XMLHttpRequest.DONE && this.status === OK) {
+//            console.log("We did it!");
+//            toggleModal(false);
+//        }
+//        else if (this.readyState === XMLHttpRequest.DONE && this.status === BadRequest) {
+//            console.log("Made it to the action result but didn't process correctly");
+//        }
+//        else {
+//            console.log("Not Even Close");
+//        }
+//    }
+
+//}
 
 
 function toggleModal(onOrOff) {

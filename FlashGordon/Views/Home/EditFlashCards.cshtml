@@ -14,7 +14,8 @@
     {
         <div class="fCardFlex" id="@c.Id">
             <!--Use the id string builds to grab the text-->
-            <h1 id="@String.Concat("cardCatText", c.Id.ToString())" class="fCardCategory">@c.Category</h1>
+            <h1 id="@String.Concat("cardCatText", c.Id.ToString())" class="fCardCategory">@c.Category<span class="status"></span></h1>
+            
             <div class="flexBody">
                 <div class="frontOfCard">
                     <h2 class="fCardHead">Front:</h2>
@@ -27,7 +28,7 @@
             </div>
             <div class="flashCardButtons">
                 <button class="flashCardButton" type="button" onclick="createForm(@c.Id)" value="Edit">Edit <span class="buttonAction">&#9998</span></button>
-                <button class="flashCardButton" type="button" onclick="" value="Delete">Delete <span class="buttonAction">&#10006</span></button>
+                <button class="delete flashCardButton" type="button" onclick="" value="Delete">Delete <span class="buttonAction">&#10006</span></button>
             </div>
         </div>
     }
