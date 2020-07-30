@@ -9,7 +9,7 @@
 
 */
 
-/*--------------------------------------------------Layout/body----------------------------------------------------*/
+/*-----------------------------------------------------Layout/body----------------------------------------------------*/
 /*#region*/
 body {
     background-color: rgb(240, 247, 250);
@@ -55,7 +55,7 @@ body {
     text-align: center;
 }
 /*#endregion*/
-/*-------------------------------------------------flash card form-------------------------------------------------*/
+/*----------------------------------------------------flash card form-------------------------------------------------*/
 /*#region*/
 .modalBackground {
     will-change: opacity;
@@ -89,13 +89,13 @@ body {
     margin-top: -250px;
     margin-left: -200px;
     width: 400px;
-    height: 500px;
+    height: auto;
     display: none;
     background: rgb(240, 247, 250);
     z-index: 11;
 }
 /*#endregion*/
-/*--------------------------------------------------Flash Card Flex View-------------------------------------------*/
+/*--------------------------------------------------Flash Card Flex View----------------------------------------------*/
 /*#region*/
 #flexContainer {
     display: flex;
@@ -232,4 +232,37 @@ body {
         opacity: 1;
     }
 }
+/*#endregion*/
+/*-----------------------------------------------------Update Form----------------------------------------------------*/
+/*#region*/
+#updateForm {
+    box-shadow: 5px 5px 20px grey, -5px -5px 20px grey;
+    border: 2px solid rgb(6, 123, 194);
+}
+
+#formCategory {
+
+}
+
+#categoryCardInput {
+
+}
+
+#formFront {
+}
+
+#frontCardInput {
+
+}
+
+#formBack {
+
+}
+
+#backCardInput {
+
+}
+
+
+
 /*#endregion*/

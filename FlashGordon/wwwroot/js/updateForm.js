@@ -24,7 +24,6 @@ function grabFlashCardText(formID) {
     let frontCard = frontQ.innerText;
     let backCard = backQ.innerText;
 
-    //Assign the data names
     let data = new flashCardData(frontCard, backCard, category, formID);
 
     return data;
@@ -39,7 +38,7 @@ function createUpdatedFC(updateFormID) {
     return new flashCardData(front, back, category, updateFormID);
 }
 
-//refactor me please--------------------------------------------------TODO
+//refactor me please---------------------------------------------------------------------------TODO
 //Create Update form modal and display it
 function createForm(cardID) {
     let nodeStart = formInfo.formPositionQ;
@@ -60,12 +59,13 @@ function createForm(cardID) {
         let categoryLabel = document.createElement("p");
         let categoryInput = document.createElement("textarea");
         let submitButton = document.createElement("button");
-        let elementArray = [frontCardLabel, frontCardInput, backCardLabel, backCardInput, categoryLabel, categoryInput, submitButton];
+        let elementArray = [categoryLabel, categoryInput, frontCardLabel, frontCardInput, backCardLabel, backCardInput, submitButton];
 
-        //will use this to look up the card's id in the database
+        //store the last id to skip this if selecting the same card twice
         formInfo.LastId = cardID;
         //add attributes and text
-        form.id = "updateForm" + cardID;
+        form.id = "updateForm";
+        form.className = "updateFCForm";
         frontCardLabel.innerText = "Front";
         frontCardLabel.id = "formFront";
         frontCardInput.type = "text";
@@ -80,7 +80,7 @@ function createForm(cardID) {
 
         categoryLabel.innerText = "Category";
         categoryLabel.id = "formCategory";
-        //turn this into radio later---------------------------------------------------TODO
+        //turn this into select later---------------------------------------------------TODO
         categoryInput.type = "text";
         categoryInput.value = cardData.Category;
         categoryInput.id = "categoryCardInput"
@@ -171,43 +171,7 @@ function updatePageFlashCard(cardID, flashCardData) {
     statusQ.innerText = "Updated!";
 }
 
-//function AJAXUpdate(flashCardDataIn/*flashCardData Object*/) {
-//    let OK = "200";
-//    let NotFound = "404";
-//    let BadRequest = "400";
-//    let request = new XMLHttpRequest();
-//    let domainArr = window.location.href.split('/');
-//    let domain = domainArr[0] + "//" + domainArr[2];
-//    //Make sure parameters match the IActionResult parameters! Also see a couple lines below.
-//    let requestAddress = domain + `/Home/UpdateFC?front=${flashCardDataIn.Front}&back=${flashCardDataIn.Back}&category=${flashCardDataIn.Category}&id=${flashCardDataIn.Id}`;
 
-//    //Figure out POST AJAX please
-//    //let body = JSON.stringify({
-//    //    front: flashCardDataIn.Front,
-//    //    back: flashCardDataIn.Back,
-//    //    category: flashCardDataIn.Category,
-//    //    id: flashCardDataIn.Id       
-//    //});
-
-//    request.open("POST", requestAddress, true);
-//    request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-//    //uncomment when POST method is fixed
-//    request.send(/*body*/);
-
-//    request.onreadystatechange = function () {
-//        if (this.readyState === XMLHttpRequest.DONE && this.status === OK) {
-//            console.log("We did it!");
-//            toggleModal(false);
-//        }
-//        else if (this.readyState === XMLHttpRequest.DONE && this.status === BadRequest) {
-//            console.log("Made it to the action result but didn't process correctly");
-//        }
-//        else {
-//            console.log("Not Even Close");
-//        }
-//    }
-
-//}
 
 
 function toggleModal(onOrOff) {
@@ -223,6 +187,7 @@ function toggleModal(onOrOff) {
     else {
         formInfo.formPositionQ.style.display = "none";
         formInfo.modalBackgroundQ.style.display = "none";
+        //take this out after animation switch-----------------------------------------------------TODO
         formInfo.modalBackgroundQ.classList.remove("modalBackgroundSwitch");
         formInfo.modalBackgroundQ.style.animationName = "";
     }
