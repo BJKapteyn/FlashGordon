@@ -61,22 +61,23 @@ function createForm(cardID) {
         while (nodeStart.firstChild) {
             nodeStart.removeChild(nodeStart.lastChild);
         }
+        //store the last id to skip this if selecting the same card twice
+        formInfo.lastId = cardID;
 
         let cardData = grabFlashCardText(cardID);
 
         //create form from scratch
         let form = document.createElement("form");
+        let categoryDiv = document.createElement("div");
+        let backDiv = document.createElement('div');
         let frontCardLabel = document.createElement("h3");
         let frontCardInput = document.createElement("textarea");
         let backCardLabel = document.createElement("h3");
         let backCardInput = document.createElement("textarea");
-        let categoryLabel = document.createElement("h3");
         let categoryInput = document.createElement("select");
         let submitButton = document.createElement("button");
-        let elementArray = [categoryLabel, categoryInput, frontCardLabel, frontCardInput, backCardLabel, backCardInput, submitButton];
+        let elementArray = [categoryDiv, frontCardLabel, frontCardInput, backDiv, submitButton];
 
-        //store the last id to skip this if selecting the same card twice
-        formInfo.LastId = cardID;
         //add attributes and text
         form.id = "updateForm";
         form.className = "updateFCForm";
@@ -91,39 +92,44 @@ function createForm(cardID) {
         backCardInput.type = "text";
         backCardInput.value = cardData.Back;
         backCardInput.id = "backCardInput";
+        backDiv.id = "backCardForm";
+        backDiv.appendChild(backCardLabel);
+        backDiv.appendChild(backCardInput);
 
-        categoryLabel.innerText = "Category";
-        categoryLabel.id = "formCategory";
+        categoryDiv.id = "categoryBanner";
+        categoryDiv.appendChild(categoryInput);
         addCategoryOptions(categoryInput);
-        categoryInput.id = "categoryCardInput"
+        categoryInput.value = cardData.Category;
+        categoryInput.id = "categoryCardInput";
 
         submitButton.innerText = "Save Changes";
-        submitButton.addEventListener('click', function (event) {
+        submitButton.className = "flashCardButton";
+        submitButton.id = "formSubmitButton";
+        submitButton.addEventListener("click", function (event) {
             event.preventDefault();
             //send data off to back end
             //
             updateFlashCardDB(cardID);
         })
-        //build the form
+
+        //build the rest of the form
         for (i = 0; i < elementArray.length; i++) {
             form.appendChild(elementArray[i]);
         }
-            nodeStart.appendChild(form);
+
+        nodeStart.appendChild(form);
     }
-    else if (cardID == formInfo.lastId) {
-        //May use later
-        return false;
-    }
+  
     toggleModal(true);
 }
 
 
-async function fetchUpdate(url = '', updatedFlashCardData = {}) {
+async function fetchUpdate(url = "", updatedFlashCardData = {}) {
     let response = fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            "Accept": "application/json",
+            "Content-Type": 'application/json"
         },
         body: JSON.stringify(updatedFlashCardData)
     })
