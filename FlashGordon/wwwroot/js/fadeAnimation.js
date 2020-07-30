@@ -17,12 +17,10 @@ function fadeInAllElements() {
         }
         i++;
     }, 50);
-    //Array.prototype.forEach.call(flashCards.allCardsArr, function (x) {
-    //    fadeInElement(x);
-    //});
-    
+    //Possibly use this to interrupt the animation
+    return interval;
 }
 
-window.onload = setTimeout(function () {
+window.onload = function () {
     fadeInAllElements();
-}, 1000);
+};

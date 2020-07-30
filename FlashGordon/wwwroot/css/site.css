@@ -236,7 +236,6 @@ body {
 /*-----------------------------------------------------Update Form----------------------------------------------------*/
 /*#region*/
 #updateForm {
-    box-shadow: 5px 5px 20px grey, -5px -5px 20px grey;
     border: 2px solid rgb(6, 123, 194);
 }
 

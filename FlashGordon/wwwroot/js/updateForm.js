@@ -1,10 +1,13 @@
-﻿//use to store previous form information 
+﻿//Use to store general form information 
 let formInfo = {
     lastId: "",
     modalBackgroundQ: document.getElementsByClassName("modalBackground")[0],
-    formPositionQ: document.getElementById("formStandin")
+    //Use to append form of choice
+    formPositionQ: document.getElementById("formStandin"),
+    category: ['Angular', 'JavaScript', 'SQL', 'CSharp', 'HTML', 'CSS', 'UX/UI']
 }
 
+//constructor matching entity on back end
 function flashCardData(front, back, category, id) {
     this.Front = front;
     this.Back = back;
@@ -13,12 +16,23 @@ function flashCardData(front, back, category, id) {
     this.IsUsed = true;
 }
 
+function addCategoryOptions(htmlSelectElement) {
+    for (i = 0; i < formInfo.category.length; i++) {
+        let category = document.createElement('option');
+        category.value = formInfo.category[i];
+        category.innerText = formInfo.category[i];
+        htmlSelectElement.appendChild(category);
+    }
+    //In case I need to append the whole thing elsewhere 
+    return htmlSelectElement;
+}
+
 //takes text from the flash card after hitting edit.
 function grabFlashCardText(formID) {
     //these were built by the razor page flashcard Id
-    let categoryQ = document.getElementById(`cardCatText${formID}`)
-    let frontQ = document.getElementById(`cardFrontText${formID}`)
-    let backQ = document.getElementById(`cardBackText${formID}`)
+    let categoryQ = document.getElementById(`cardCatText${formID}`);
+    let frontQ = document.getElementById(`cardFrontText${formID}`);
+    let backQ = document.getElementById(`cardBackText${formID}`);
 
     let category = categoryQ.innerText;
     let frontCard = frontQ.innerText;
@@ -52,12 +66,12 @@ function createForm(cardID) {
 
         //create form from scratch
         let form = document.createElement("form");
-        let frontCardLabel = document.createElement("p");
+        let frontCardLabel = document.createElement("h3");
         let frontCardInput = document.createElement("textarea");
-        let backCardLabel = document.createElement("p");
+        let backCardLabel = document.createElement("h3");
         let backCardInput = document.createElement("textarea");
-        let categoryLabel = document.createElement("p");
-        let categoryInput = document.createElement("textarea");
+        let categoryLabel = document.createElement("h3");
+        let categoryInput = document.createElement("select");
         let submitButton = document.createElement("button");
         let elementArray = [categoryLabel, categoryInput, frontCardLabel, frontCardInput, backCardLabel, backCardInput, submitButton];
 
@@ -80,12 +94,8 @@ function createForm(cardID) {
 
         categoryLabel.innerText = "Category";
         categoryLabel.id = "formCategory";
-        //turn this into select later---------------------------------------------------TODO
-        categoryInput.type = "text";
-        categoryInput.value = cardData.Category;
+        addCategoryOptions(categoryInput);
         categoryInput.id = "categoryCardInput"
-        //change when drop down menu is added ------------------------------------------TODO
-        categoryInput.disabled = true;
 
         submitButton.innerText = "Save Changes";
         submitButton.addEventListener('click', function (event) {
