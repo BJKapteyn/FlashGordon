@@ -27,6 +27,7 @@ namespace FlashGordon
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //For JSON formatter
             services.AddMvcCore().AddNewtonsoftJson();
             //Scaffold-DbContext "Server=(localdb)\MSSQLLocalDb;Database=flash_cards;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
             services.AddDbContext<FlashCardsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FlashCardConnectionString")));

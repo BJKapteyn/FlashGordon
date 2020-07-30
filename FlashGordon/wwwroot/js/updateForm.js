@@ -10,7 +10,7 @@ function flashCardData(front, back, category, id) {
     this.Back = back;
     this.Category = category;
     this.Id = id;
-    this.IsUsed = false;
+    this.IsUsed = true;
 }
 
 //takes text from the flash card after hitting edit.
@@ -84,6 +84,8 @@ function createForm(cardID) {
         categoryInput.type = "text";
         categoryInput.value = cardData.Category;
         categoryInput.id = "categoryCardInput"
+        //change when drop down menu is added ------------------------------------------TODO
+        categoryInput.disabled = true;
 
         submitButton.innerText = "Save Changes";
         submitButton.addEventListener('click', function (event) {
@@ -105,16 +107,6 @@ function createForm(cardID) {
     toggleModal(true);
 }
 
-//Get updated input fields and send it off to backend to update flash card 
-//function submitAJAX(cardId) {
-//    updatedCard = new flashCardData;
-//    updatedCard.Front = document.getElementById('frontCardInput').value;
-//    updatedCard.Back = document.getElementById('backCardInput').value;
-//    updatedCard.Category = document.getElementById('categoryCardInput').value;
-//    updatedCard.Id = cardId;
-
-//    AJAXUpdate(updatedCard);
-//}
 
 async function fetchUpdate(url = '', updatedFlashCardData = {}) {
     let response = fetch(url, {
