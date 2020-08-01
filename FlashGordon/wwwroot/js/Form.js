@@ -136,12 +136,29 @@ async function fetchUpdate(url = "", updatedFlashCardData = {}) {
     return response;
 }
 
+async function fetchCategories() {
+    //extract function----------------------------------------------------------------TODO
+    let domainArr = window.location.href.split('/');
+    let domain = domainArr[0] + "//" + domainArr[2];
+    let requestAddress = domain + '/Home/GetCategories';
+
+    let response = fetch(requestAddress, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    })
+
+    console.log(request);
+}
+
 //update the flashcard in database
 async function updateFlashCardDB(cardID) {
     let OK = "200";
     let NotFound = "404";
     let BadRequest = "400";
 
+    //extract function----------------------------------------------------------------TODO
     let domainArr = window.location.href.split('/');
     let domain = domainArr[0] + "//" + domainArr[2];
     let requestAddress = domain + '/Home/UpdateFC';
