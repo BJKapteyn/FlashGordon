@@ -77,7 +77,7 @@ namespace FlashGordon.Controllers
             FlashCardDatabase.UpdateCategories();
             List<string> categories = FlashCardDatabase.AllCategories;
 
-            return Json(JsonConvert.SerializeObject(categories));
+            return Ok(JsonConvert.SerializeObject(categories));
             
         }
 

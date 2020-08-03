@@ -50,7 +50,7 @@ namespace FlashGordon.DALs
             List<string> categories = new List<string>();
             using (thisFCContext)
             {
-                categories = thisFCContext.Categories.Select(x => x.Name).OrderBy(x => x).ToList();
+                categories = thisFCContext.Categories.Select(x => x.Name).ToList();
             }
             return categories;
         }

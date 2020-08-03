@@ -4,7 +4,7 @@ let formInfo = {
     modalBackgroundQ: document.getElementsByClassName("modalBackground")[0],
     //Use to append form of choice
     formPositionQ: document.getElementById("formStandin"),
-    category: ['Angular', 'JavaScript', 'SQL', 'CSharp', 'HTML', 'CSS', 'UX/UI']
+    category:[]
 }
 
 //constructor matching entity on back end
@@ -123,7 +123,6 @@ function createForm(cardID) {
     toggleModal(true);
 }
 
-
 async function fetchUpdate(url = "", updatedFlashCardData = {}) {
     let response = fetch(url, {
         method: "POST",
@@ -141,15 +140,14 @@ async function fetchCategories() {
     let domainArr = window.location.href.split('/');
     let domain = domainArr[0] + "//" + domainArr[2];
     let requestAddress = domain + '/Home/GetCategories';
-
-    let response = fetch(requestAddress, {
+    return fetch(requestAddress, {
         method: "GET",
         headers: {
             "Accept": "application/json"
         }
     })
-
-    console.log(request);
+        .then(response => response.json())
+        .then(data => formInfo.category = data);
 }
 
 //update the flashcard in database
@@ -196,9 +194,6 @@ function updatePageFlashCard(cardID, flashCardData) {
     statusQ.innerText = "Updated!";
 }
 
-
-
-
 function toggleModal(onOrOff) {
     if (onOrOff) {
         formInfo.formPositionQ.style.display = "block";
@@ -217,3 +212,5 @@ function toggleModal(onOrOff) {
         formInfo.modalBackgroundQ.style.animationName = "";
     }
 }
+
+fetchCategories();
