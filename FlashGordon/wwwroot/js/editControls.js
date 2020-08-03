@@ -79,13 +79,13 @@ function addCategoryOptions(htmlSelectElement) {
         category.innerText = formInfo.categories[i];
         htmlSelectElement.appendChild(category);
     }
-    //In case I need to append the whole thing elsewhere 
-    return htmlSelectElement;
+    
+    return htmlSelectElement;//In case I need to append the whole thing elsewhere 
 }
 
 //takes text from the flash card after hitting edit.
 function grabFlashCardText(formID) {
-    //these were built by the razor page flashcard Id
+    //these queries were built by the razor page flashcard Id
     let categoryQ = document.getElementById(`cardCatText${formID}`);
     let frontQ = document.getElementById(`cardFrontText${formID}`);
     let backQ = document.getElementById(`cardBackText${formID}`);
@@ -108,15 +108,19 @@ function createUpdatedFC(updateFormID) {
     return new flashCardData(front, back, category, updateFormID);
 }
 
+function clearForm(element) {
+    while (element.firstChild) {
+        element.remove(element.lastChild);
+    }
+}
+
 //refactor me please---------------------------------------------------------------------------TODO
 //Create Update form modal and display it
 function createForm(cardID) {
     let nodeStart = formInfo.formPositionQ;
     if (cardID != formInfo.lastId) {
         //clear previous form if clicking on new card to update, or skip function if clicking on the same card
-        while (nodeStart.firstChild) {
-            nodeStart.removeChild(nodeStart.lastChild);
-        }
+        clearForm(nodeStart);
         //store the last id to skip this if selecting the same card twice
         formInfo.lastId = cardID;
 
