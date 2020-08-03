@@ -12,7 +12,7 @@ let formInfo = {
     }
 }
 
-//constructor for button with functionality
+//constructor for object representing filter button with functionality
 function categoryButton(categoryString) {
     this.name = categoryString;
     this.isHidden = false;
@@ -52,7 +52,7 @@ function toggleAllCategories() {
     })
 }
 
-//find nodes via innerContent
+//find nodes via innerText
 function queryInnerString(selector, innerTextRegEx) {
     //if (innerTextRegEx.includes("/")) {
     //    innerTextRegEx = innerTextRegEx.replace("\/", "\\/");
@@ -121,8 +121,8 @@ function createForm(cardID) {
     if (cardID != formInfo.lastId) {
         //clear previous form if clicking on new card to update, or skip function if clicking on the same card
         clearForm(nodeStart);
-        //store the last id to skip this if selecting the same card twice
-        formInfo.lastId = cardID;
+        
+        formInfo.lastId = cardID;//store the last id to skip this if selecting the same card twice
 
         let cardData = grabFlashCardText(cardID);
 
