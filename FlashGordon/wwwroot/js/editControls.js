@@ -114,71 +114,79 @@ function clearForm(element) {
     }
 }
 
+function updateFCForm(cardID) {
+    if (cardID != formInfo.lastId) {
+        formInfo.lastId = cardID;
+        let nodeStart = formInfo.formPositionQ;
+        if (!nodeStart.firstChild) {
+            createForm();
+        }
+        let frontCardInputQ = document.getElementById('frontCardInput');
+        let backCardInputQ = document.getElementById('backCardInput');
+        let categoryCardInputQ = document.getElementById('categoryCardInput');
+        let cardData = grabFlashCardText(cardID);
+
+        frontCardInputQ.innerText = cardData.Front;
+        backCardInputQ.innerText = cardData.Back;
+        categoryCardInputQ.value = cardData.Category;
+    }
+
+}
+
 //refactor me please---------------------------------------------------------------------------TODO
 //Create Update form modal and display it
 function createForm(cardID) {
-    let nodeStart = formInfo.formPositionQ;
-    if (cardID != formInfo.lastId) {
-        //clear previous form if clicking on new card to update, or skip function if clicking on the same card
-        clearForm(nodeStart);
-        
-        formInfo.lastId = cardID;//store the last id to skip this if selecting the same card twice
 
-        let cardData = grabFlashCardText(cardID);
+    //create form from scratch
+    let form = document.createElement("form");
+    let categoryDiv = document.createElement("div");
+    let backDiv = document.createElement('div');
+    let frontCardLabel = document.createElement("h3");
+    let frontCardInput = document.createElement("textarea");
+    let backCardLabel = document.createElement("h3");
+    let backCardInput = document.createElement("textarea");
+    let categoryInput = document.createElement("select");
+    let submitButton = document.createElement("button");
+    let elementArray = [categoryDiv, frontCardLabel, frontCardInput, backDiv, submitButton];
 
-        //create form from scratch
-        let form = document.createElement("form");
-        let categoryDiv = document.createElement("div");
-        let backDiv = document.createElement('div');
-        let frontCardLabel = document.createElement("h3");
-        let frontCardInput = document.createElement("textarea");
-        let backCardLabel = document.createElement("h3");
-        let backCardInput = document.createElement("textarea");
-        let categoryInput = document.createElement("select");
-        let submitButton = document.createElement("button");
-        let elementArray = [categoryDiv, frontCardLabel, frontCardInput, backDiv, submitButton];
+    //add attributes and text
+    form.id = "updateForm";
+    form.className = "updateFCForm";
+    frontCardLabel.innerText = "Front";
+    frontCardLabel.id = "formFront";
+    frontCardInput.type = "text";
+    frontCardInput.id = "frontCardInput"
 
-        //add attributes and text
-        form.id = "updateForm";
-        form.className = "updateFCForm";
-        frontCardLabel.innerText = "Front";
-        frontCardLabel.id = "formFront";
-        frontCardInput.type = "text";
-        frontCardInput.value = cardData.Front;
-        frontCardInput.id = "frontCardInput"
+    backCardLabel.innerText = "Back";
+    backCardLabel.id = "formBack";
+    backCardInput.type = "text";
+    backCardInput.id = "backCardInput";
+    backDiv.id = "backCardForm";
+    backDiv.appendChild(backCardLabel);
+    backDiv.appendChild(backCardInput);
 
-        backCardLabel.innerText = "Back";
-        backCardLabel.id = "formBack";
-        backCardInput.type = "text";
-        backCardInput.value = cardData.Back;
-        backCardInput.id = "backCardInput";
-        backDiv.id = "backCardForm";
-        backDiv.appendChild(backCardLabel);
-        backDiv.appendChild(backCardInput);
+    categoryDiv.id = "categoryBanner";
+    categoryDiv.appendChild(categoryInput);
+    addCategoryOptions(categoryInput);
+    categoryInput.value = cardData.Category;
+    categoryInput.id = "categoryCardInput";
 
-        categoryDiv.id = "categoryBanner";
-        categoryDiv.appendChild(categoryInput);
-        addCategoryOptions(categoryInput);
-        categoryInput.value = cardData.Category;
-        categoryInput.id = "categoryCardInput";
+    submitButton.innerText = "Save Changes";
+    submitButton.className = "flashCardButton";
+    submitButton.id = "formSubmitButton";
+    submitButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        //send data off to back end
+        //
+        updateFlashCardDB(cardID);
+    })
 
-        submitButton.innerText = "Save Changes";
-        submitButton.className = "flashCardButton";
-        submitButton.id = "formSubmitButton";
-        submitButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            //send data off to back end
-            //
-            updateFlashCardDB(cardID);
-        })
-
-        //build the rest of the form
-        for (i = 0; i < elementArray.length; i++) {
-            form.appendChild(elementArray[i]);
-        }
-
-        nodeStart.appendChild(form);
+    //build the rest of the form
+    for (i = 0; i < elementArray.length; i++) {
+        form.appendChild(elementArray[i]);
     }
+
+    nodeStart.appendChild(form);
   
     toggleModal(true);
 }
@@ -201,7 +209,7 @@ async function fetchCategories() {
     let domain = domainArr[0] + "//" + domainArr[2];
     let requestAddress = domain + "/Home/GetCategories";
 
-    fetch(requestAddress, {
+    let response = fetch(requestAddress, {
         method: "GET",
         headers: {
             "Accept": "application/json"
@@ -214,6 +222,7 @@ async function fetchCategories() {
         }).then(function () {
             formInfo.initializeCategoryButtons();
         })
+    return response;
 }
 
 //update the flashcard in database
@@ -230,23 +239,22 @@ async function updateFlashCardDB(cardID) {
     let updatedFlashCardData = createUpdatedFC(cardID);
 
 
-    await fetchUpdate(requestAddress, updatedFlashCardData).then(function (response) {
+    fetchUpdate(requestAddress, updatedFlashCardData).then(function (response) {
         if (response.status == OK) {
             //add flashcard to the page manually here.
             console.log('It worked, NICE!');
-            updatePageFlashCard(cardID, updatedFlashCardData);
+            updateFrontEndFlashCard(cardID, updatedFlashCardData);
         }
         else {
             console.log('yeah that didn\'t work');
         }
-        console.log(response);
     });
 
     toggleModal(false);
 }
 
-//update card on the actual page
-function updatePageFlashCard(cardID, flashCardData) {
+//update card on DOM
+function updateFrontEndFlashCard(cardID, flashCardData) {
     let flashCardQ = document.getElementById(cardID);
     let frontCardQ = flashCardQ.querySelector('.frontText');
     let backCardQ = flashCardQ.querySelector('.backText');
