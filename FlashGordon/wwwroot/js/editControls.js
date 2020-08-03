@@ -7,7 +7,7 @@ let formInfo = {
     categories: [],
     initializeCategoryButtons: function () {
         this.categories.forEach((x) => {
-            return categoryButton(x);
+            this.categoryButtons.push(new categoryButton(x));
         })
     }
 }
@@ -16,31 +16,35 @@ let formInfo = {
 function categoryButton(categoryString) {
     this.name = categoryString;
     this.isHidden = false;
-    this.nodeQuery = queryInnerString("h1", `${categoryString}`)
+    this.nodeQuery = queryInnerString("h1", categoryString);
     this.buttonQ = document.getElementById(categoryString + "xyz");
-    this.toggleHiddenBool = function () {
+    this.toggleHidden = function () {
         this.isHidden ? this.isHidden = false : this.isHidden = true;
         if (this.isHidden) {
-            for (i = 0; i < this.nodeQuery.length; i++) {
-                console.log(this.nodeQuery[i].innerText);
+            for (let i = 0; i < this.nodeQuery.length; i++) {
+                this.nodeQuery[i].parentNode.parentNode.style.display = "none";
             }
         }
         else {
-            
+            for (let i = 0; i < this.nodeQuery.length; i++) {
+                this.nodeQuery[i].parentNode.parentNode.style.display = "inline-block";
+            }
         }
     }
     
 }
 
+//onclick function of buttons
 function toggleCategory(category) {
-    formInfo.categoryButtons.find(x => x.name = category).toggleHiddenBool;
+    debugger;
+    formInfo.categoryButtons.find(x => x.name == category.id).toggleHiddenBool();
 } 
 
 //find nodes via innerContent
 function queryInnerString(selector, innerTextRegEx) {
     var elements = document.querySelectorAll(selector);
     return Array.prototype.filter.call(elements, function (element) {
-        return RegExp(innerTextRegEx).test(element.InnerText);
+        return RegExp(innerTextRegEx).test(element.innerText);
     });
 }
 
@@ -177,14 +181,20 @@ async function fetchCategories() {
     let domainArr = window.location.href.split("/");
     let domain = domainArr[0] + "//" + domainArr[2];
     let requestAddress = domain + "/Home/GetCategories";
-    return fetch(requestAddress, {
+
+    fetch(requestAddress, {
         method: "GET",
         headers: {
             "Accept": "application/json"
         }
     })
         .then(response => response.json())
-        .then(data => formInfo.categories = data);
+        .then((data) => {
+            let jsonData = JSON.parse(data);
+            for (let i in jsonData) formInfo.categories.push(jsonData[i]);//store categories from backend
+        }).then(function () {
+            formInfo.initializeCategoryButtons();
+        })
 }
 
 //update the flashcard in database
@@ -218,7 +228,6 @@ async function updateFlashCardDB(cardID) {
 
 //update card on the actual page
 function updatePageFlashCard(cardID, flashCardData) {
-    debugger;
     let flashCardQ = document.getElementById(cardID);
     let frontCardQ = flashCardQ.querySelector('.frontText');
     let backCardQ = flashCardQ.querySelector('.backText');
@@ -251,7 +260,6 @@ function toggleModal(onOrOff) {
 }
 
 //initialize page data and buttons
-(function () {
+window.onload = function () {
     fetchCategories();
-    formInfo.initializeCategoryButtons();
-})();
+}();

@@ -13,6 +13,7 @@
     <div id="categoryContainer">
         @foreach(string c in Model.AllCategories)
         {
+            <button id="seeAll" class="flashCardButton" onclick="toggleCategory("All")">See All</button>
             <button id="@String.Concat(c, "xyz")" class="flashCardButton" onclick="toggleCategory(@c)">@c</button>
         }
     </div>
