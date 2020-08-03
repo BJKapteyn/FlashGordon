@@ -16,16 +16,14 @@ namespace FlashGordon.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private FlashCardsContext FCContext;
-        FlashCardDB FlashCardDatabase;
-        List<FCards> FlashCards;
+        FlashCardDB FlashCardData;
 
         public HomeController(ILogger<HomeController> logger, FlashCardsContext fcc)
         {
             _logger = logger;
             FCContext = fcc;
             //initialize list of flash cards
-            FlashCardDatabase = new FlashCardDB();
-            FlashCards = FlashCardDatabase.AllFlashCards;
+            FlashCardData = new FlashCardDB();
         }
 
         public IActionResult Index()
@@ -74,8 +72,8 @@ namespace FlashGordon.Controllers
 
         public IActionResult GetCategories()
         {
-            FlashCardDatabase.UpdateCategories();
-            List<string> categories = FlashCardDatabase.AllCategories;
+            FlashCardData.UpdateCategories();
+            List<string> categories = FlashCardData.AllCategories;
 
             return Ok(JsonConvert.SerializeObject(categories));
             
@@ -83,7 +81,7 @@ namespace FlashGordon.Controllers
 
         public IActionResult EditFlashCards()
         {
-            return View(FlashCards);
+            return View(FlashCardData);
         }
 
         public IActionResult Privacy()

@@ -7,6 +7,16 @@ let formInfo = {
     category:[]
 }
 
+//constructor for button with functionality
+function categoryButton(categoryString) {
+    this.name = categoryString;
+    this.isHidden = false;
+    this.buttonQ = document.getElementById(categoryString + "xyz");
+    this.toggleHidden = function () {
+        this.isHidden ? this.isHidden = false : this.isHidden = true;
+    }
+}
+
 //constructor matching entity on back end
 function flashCardData(front, back, category, id) {
     this.Front = front;
@@ -46,8 +56,8 @@ function grabFlashCardText(formID) {
 //get updated flash card info to submit for update
 function createUpdatedFC(updateFormID) {
     let category = document.querySelector("#categoryCardInput").value;
-    let front = document.querySelector('#frontCardInput').value;
-    let back = document.querySelector('#backCardInput').value;
+    let front = document.querySelector("#frontCardInput").value;
+    let back = document.querySelector("#backCardInput").value;
 
     return new flashCardData(front, back, category, updateFormID);
 }
@@ -137,9 +147,9 @@ async function fetchUpdate(url = "", updatedFlashCardData = {}) {
 
 async function fetchCategories() {
     //extract function----------------------------------------------------------------TODO
-    let domainArr = window.location.href.split('/');
+    let domainArr = window.location.href.split("/");
     let domain = domainArr[0] + "//" + domainArr[2];
-    let requestAddress = domain + '/Home/GetCategories';
+    let requestAddress = domain + "/Home/GetCategories";
     return fetch(requestAddress, {
         method: "GET",
         headers: {

@@ -1,16 +1,25 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Flash Cards Overview";
     string[] categories = FlashGordon.Utility.FlashCardCats.Categories;
-    @model List<FCards>
+    @model FlashGordon.DALs.FlashCardDB
 }
 
 <h1>Flash Cards Overview</h1>
 
 <button onclick="fetchCategories()">Cats</button>
 
+<div id="editControls">
+    <h1 id="categoriesTitle">View Categories</h1>
+    <div id="categoryContainer">
+        @foreach(string c in Model.AllCategories)
+        {
+            <button id="@String.Concat(c, "xyz")" class="flashCardButton" onclick="toggleCategory(@c)">@c</button>
+        }
+    </div>
+</div>
+
 <div id="flexContainer">
-    @foreach (FCards c in Model)
+    @foreach (FCards c in Model.AllFlashCards)
     {
     <div class="fCardFlex" id="@c.Id">
         <!--Use the id string builds to grab the text-->
@@ -45,7 +54,7 @@
     <input required type="text" class="FCFormInput" name="back" oninvalid="this.setCustomValidity('Please enter the back of the card.')" oninput="this.setCustomValidity('')" />
     <br />
     <p class="FCFormLabel">Category</p>
-    @foreach(string category in categories)
+    @foreach(string category in Model.AllCategories)
     {
         <input required type="radio" id="@category" value="@category" name="category" class="radioButtons" />
         <label for="@category" >@category</label>
@@ -53,5 +62,5 @@
     }
     <input type="submit" />
 </form>
-<script src="~/js/Form.js"></script>
+<script src="~/js/editControls.js"></script>
 <script src="~/js/fadeAnimation.js"></script>
