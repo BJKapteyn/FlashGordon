@@ -5,6 +5,7 @@ let formInfo = {
     formPositionQ: document.getElementById("formStandin"),//Use to append form of choice
     categoryButtons: [],//buttons with functionality
     categories: [],
+    updateOrNewFormQ: document.getElementById(''),
     initializeCategoryButtons: function () {
         this.categories.forEach((x) => {
             this.categoryButtons.push(new categoryButton(x));
@@ -40,7 +41,6 @@ function categoryButton(categoryString) {
 
 //onclick function of buttons
 function toggleCategory(category) {
-    debugger;
     formInfo.categoryButtons.find(x => x.name == category).toggleHidden();
 } 
 
@@ -118,24 +118,34 @@ function updateFCForm(cardID) {
     if (cardID != formInfo.lastId) {
         formInfo.lastId = cardID;
         let nodeStart = formInfo.formPositionQ;
+        debugger;
         if (!nodeStart.firstChild) {
             createForm();
         }
-        let frontCardInputQ = document.getElementById('frontCardInput');
-        let backCardInputQ = document.getElementById('backCardInput');
-        let categoryCardInputQ = document.getElementById('categoryCardInput');
+        let frontCardInputQ = document.getElementById("frontCardInput");
+        let backCardInputQ = document.getElementById("backCardInput");
+        let categoryCardInputQ = document.getElementById("categoryCardInput");
+        let submitButtonQ = document.getElementById("formSubmitButton");
         let cardData = grabFlashCardText(cardID);
 
         frontCardInputQ.innerText = cardData.Front;
         backCardInputQ.innerText = cardData.Back;
         categoryCardInputQ.value = cardData.Category;
+
+        submitButtonQ.addEventListener("click", function (event) {
+            event.preventDefault();
+            updateFlashCardDB(cardData.Id);//send data off to back end
+            toggleModal(false);
+        })
     }
+
+    toggleModal(true);
 
 }
 
 //refactor me please---------------------------------------------------------------------------TODO
 //Create Update form modal and display it
-function createForm(cardID) {
+function createForm() {
 
     //create form from scratch
     let form = document.createElement("form");
@@ -168,31 +178,24 @@ function createForm(cardID) {
     categoryDiv.id = "categoryBanner";
     categoryDiv.appendChild(categoryInput);
     addCategoryOptions(categoryInput);
-    categoryInput.value = cardData.Category;
     categoryInput.id = "categoryCardInput";
 
     submitButton.innerText = "Save Changes";
     submitButton.className = "flashCardButton";
     submitButton.id = "formSubmitButton";
-    submitButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        //send data off to back end
-        //
-        updateFlashCardDB(cardID);
-    })
+
 
     //build the rest of the form
     for (i = 0; i < elementArray.length; i++) {
         form.appendChild(elementArray[i]);
     }
 
-    nodeStart.appendChild(form);
-  
-    toggleModal(true);
+    formInfo.formPositionQ.appendChild(form);
+
 }
 
 async function fetchUpdate(url = "", updatedFlashCardData = {}) {
-    let response = fetch(url, {
+    let response = await fetch(url, {
         method: "POST",
         headers: {
             "Accept": "application/json",
@@ -209,7 +212,7 @@ async function fetchCategories() {
     let domain = domainArr[0] + "//" + domainArr[2];
     let requestAddress = domain + "/Home/GetCategories";
 
-    let response = fetch(requestAddress, {
+    let response = await fetch(requestAddress, {
         method: "GET",
         headers: {
             "Accept": "application/json"
@@ -219,9 +222,10 @@ async function fetchCategories() {
         .then((data) => {
             let jsonData = JSON.parse(data);
             for (let i in jsonData) formInfo.categories.push(jsonData[i]);//store categories from backend
-        }).then(function () {
-            formInfo.initializeCategoryButtons();
         })
+        .then(function () {
+            formInfo.initializeCategoryButtons();
+        });
     return response;
 }
 
@@ -230,16 +234,11 @@ async function updateFlashCardDB(cardID) {
     let OK = "200";
     let NotFound = "404";
     let BadRequest = "400";
-
-    //extract function----------------------------------------------------------------TODO
-    let domainArr = window.location.href.split('/');
-    let domain = domainArr[0] + "//" + domainArr[2];
-    let requestAddress = domain + '/Home/UpdateFC';
-
+    let requestAddress = urlBuilder("/Home/UpdateFC");
     let updatedFlashCardData = createUpdatedFC(cardID);
 
 
-    fetchUpdate(requestAddress, updatedFlashCardData).then(function (response) {
+    await fetchUpdate(requestAddress, updatedFlashCardData).then(function (response) {
         if (response.status == OK) {
             //add flashcard to the page manually here.
             console.log('It worked, NICE!');
@@ -251,6 +250,12 @@ async function updateFlashCardDB(cardID) {
     });
 
     toggleModal(false);
+}
+
+function urlBuilder(uriString) {
+    let domainArr = window.location.href.split('/');
+    let domain = domainArr[0] + "//" + domainArr[2];
+    return (domain + uriString);
 }
 
 //update card on DOM
