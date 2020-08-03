@@ -28,7 +28,7 @@ namespace FlashGordon.DALs
             List<FCards> result = new List<FCards>();
             using (FCContext)
             {
-                result = FCContext.FCards.ToList();
+                result = FCContext.FCards.OrderBy(x => x.Category).ToList();
             }
 
             return result;

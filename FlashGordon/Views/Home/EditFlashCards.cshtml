@@ -11,10 +11,10 @@
 <div id="editControls">
     <h1 id="categoriesTitle">View Categories</h1>
     <div id="categoryContainer">
+        <button id="seeAll" class="categoryButton" onclick="toggleAllCategories()">See All</button>
         @foreach(string c in Model.AllCategories)
         {
-            <button id="seeAll" class="flashCardButton" onclick="toggleCategory("All")">See All</button>
-            <button id="@String.Concat(c, "xyz")" class="flashCardButton" onclick="toggleCategory(@c)">@c</button>
+            <button id="@String.Concat(c, "xyz")" class="categoryButton" onclick="toggleCategory('@c')">@c</button>
         }
     </div>
 </div>

@@ -55,7 +55,7 @@ body {
     text-align: center;
 }
 /*#endregion*/
-/*----------------------------------------------------flash card form-------------------------------------------------*/
+/*---------------------------------------------------flash card modal-------------------------------------------------*/
 /*#region*/
 .modalBackground {
     will-change: opacity;
@@ -188,8 +188,7 @@ body {
 .flashCardButton {
     margin-top: 5px;
     will-change: background-color, color;
-    margin-left: 2%;
-    margin-right: 2%;
+    margin: 5px 7.5px 5px 7.5px;;
     font-size: 20px;
     width: 45%;
     display: inline-block;
@@ -324,4 +323,21 @@ body {
 
 
 
+/*#endregion*/
+
+/*---------------------------------------------------Category filter--------------------------------------------------*/
+/*#region*/
+.categoryButton {
+    margin-top: 5px;
+    will-change: background-color, color;
+    margin-left: 7.5px;
+    margin-right: 7.5px;
+    font-size: 20px;
+    width: 150px;
+    display: inline-block;
+    color: white;
+    background-color: rgb(6, 123, 194);
+    border: 2px solid rgb(6, 123, 194);
+    transition: background-color 500ms ease-out, color 500ms ease-out;
+}
 /*#endregion*/

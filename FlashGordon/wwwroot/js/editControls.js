@@ -1,4 +1,4 @@
-﻿//Use to store general form information 
+﻿//Use to store general form information
 let formInfo = {
     lastId: "",
     modalBackgroundQ: document.getElementsByClassName("modalBackground")[0],
@@ -7,6 +7,7 @@ let formInfo = {
     categories: [],
     initializeCategoryButtons: function () {
         this.categories.forEach((x) => {
+            debugger;
             this.categoryButtons.push(new categoryButton(x));
         })
     }
@@ -23,11 +24,16 @@ function categoryButton(categoryString) {
         if (this.isHidden) {
             for (let i = 0; i < this.nodeQuery.length; i++) {
                 this.nodeQuery[i].parentNode.parentNode.style.display = "none";
+                this.buttonQ.style.backgroundColor = "white";
+                this.buttonQ.style.color = "rgb(180, 180, 190)";
             }
         }
         else {
             for (let i = 0; i < this.nodeQuery.length; i++) {
                 this.nodeQuery[i].parentNode.parentNode.style.display = "inline-block";
+                this.buttonQ.style.backgroundColor = "rgb(6, 123, 194)";
+                this.buttonQ.style.color = "white";
+
             }
         }
     }
@@ -37,11 +43,14 @@ function categoryButton(categoryString) {
 //onclick function of buttons
 function toggleCategory(category) {
     debugger;
-    formInfo.categoryButtons.find(x => x.name == category.id).toggleHiddenBool();
+    formInfo.categoryButtons.find(x => x.name == category).toggleHidden();
 } 
 
 //find nodes via innerContent
 function queryInnerString(selector, innerTextRegEx) {
+    if (innerTextRegEx.includes("/")) {
+        innerTextRegEx = innerTextRegEx.replace("\/", "\\/");
+    }
     var elements = document.querySelectorAll(selector);
     return Array.prototype.filter.call(elements, function (element) {
         return RegExp(innerTextRegEx).test(element.innerText);
