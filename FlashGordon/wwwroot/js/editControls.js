@@ -2,19 +2,46 @@
 let formInfo = {
     lastId: "",
     modalBackgroundQ: document.getElementsByClassName("modalBackground")[0],
-    //Use to append form of choice
-    formPositionQ: document.getElementById("formStandin"),
-    category:[]
+    formPositionQ: document.getElementById("formStandin"),//Use to append form of choice
+    categoryButtons: [],//buttons with functionality
+    categories: [],
+    initializeCategoryButtons: function () {
+        this.categories.forEach((x) => {
+            return categoryButton(x);
+        })
+    }
 }
 
 //constructor for button with functionality
 function categoryButton(categoryString) {
     this.name = categoryString;
     this.isHidden = false;
+    this.nodeQuery = queryInnerString("h1", `${categoryString}`)
     this.buttonQ = document.getElementById(categoryString + "xyz");
-    this.toggleHidden = function () {
+    this.toggleHiddenBool = function () {
         this.isHidden ? this.isHidden = false : this.isHidden = true;
+        if (this.isHidden) {
+            for (i = 0; i < this.nodeQuery.length; i++) {
+                console.log(this.nodeQuery[i].innerText);
+            }
+        }
+        else {
+            
+        }
     }
+    
+}
+
+function toggleCategory(category) {
+    formInfo.categoryButtons.find(x => x.name = category).toggleHiddenBool;
+} 
+
+//find nodes via innerContent
+function queryInnerString(selector, innerTextRegEx) {
+    var elements = document.querySelectorAll(selector);
+    return Array.prototype.filter.call(elements, function (element) {
+        return RegExp(innerTextRegEx).test(element.InnerText);
+    });
 }
 
 //constructor matching entity on back end
@@ -27,10 +54,10 @@ function flashCardData(front, back, category, id) {
 }
 
 function addCategoryOptions(htmlSelectElement) {
-    for (i = 0; i < formInfo.category.length; i++) {
+    for (i = 0; i < formInfo.categories.length; i++) {
         let category = document.createElement('option');
-        category.value = formInfo.category[i];
-        category.innerText = formInfo.category[i];
+        category.value = formInfo.categories[i];
+        category.innerText = formInfo.categories[i];
         htmlSelectElement.appendChild(category);
     }
     //In case I need to append the whole thing elsewhere 
@@ -157,7 +184,7 @@ async function fetchCategories() {
         }
     })
         .then(response => response.json())
-        .then(data => formInfo.category = data);
+        .then(data => formInfo.categories = data);
 }
 
 //update the flashcard in database
@@ -223,4 +250,8 @@ function toggleModal(onOrOff) {
     }
 }
 
-fetchCategories();
+//initialize page data and buttons
+(function () {
+    fetchCategories();
+    formInfo.initializeCategoryButtons();
+})();
