@@ -114,8 +114,7 @@ body {
                         "buttons";
     box-shadow: 5px 5px 10px grey;
     margin: 10px;
-    width: 20%;
-    min-width: 300px;
+    width: 380px;
     border: 2px solid rgb(6, 123, 194);
     animation-duration: 1s;
     animation-fill-mode: forwards;
@@ -190,7 +189,7 @@ body {
     will-change: background-color, color;
     margin: 5px 7.5px 5px 7.5px;;
     font-size: 20px;
-    width: 45%;
+    width: 170px;
     display: inline-block;
     color: rgb(6, 123, 194);
     background-color: white;
@@ -339,5 +338,9 @@ body {
     background-color: rgb(6, 123, 194);
     border: 2px solid rgb(6, 123, 194);
     transition: background-color 500ms ease-out, color 500ms ease-out;
+}
+
+#categoryContainer {
+    margin-left: 2.5px;
 }
 /*#endregion*/
