@@ -52,7 +52,7 @@ function toggleAllCategories() {
     })
 }
 
-//find nodes via innerText
+//find nodes via their innerText
 function queryInnerString(selector, innerTextRegEx) {
     var elements = document.querySelectorAll(selector);
     return Array.prototype.filter.call(elements, function (element) {
@@ -140,7 +140,6 @@ function updateFCForm(cardID) {
 
 }
 
-//refactor me please---------------------------------------------------------------------------TODO
 //Create Update form modal and display it
 function createForm() {
 

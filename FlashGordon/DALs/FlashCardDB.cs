@@ -19,7 +19,7 @@ namespace FlashGordon.DALs
             AllCategories = GetCategoriesSorted();
         }
 
-        public  UpdateCategories()
+        public void UpdateCategories()
         {
             AllCategories = GetCategoriesSorted();
         }

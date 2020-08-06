@@ -72,7 +72,7 @@ namespace FlashGordon.Controllers
         }
 
 
-
+        [HttpDelete]
         public IActionResult DeleteFC(int id)
         {
             if (FlashCardDAL.DeleteFlashCard(id))
