@@ -16,14 +16,14 @@ namespace FlashGordon.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private FlashCardsContext FCContext;
-        FlashCardDB FlashCardData;
+        FlashCardDB FlashCardDAL;
 
         public HomeController(ILogger<HomeController> logger, FlashCardsContext fcc)
         {
             _logger = logger;
             FCContext = fcc;
             //initialize list of flash cards
-            FlashCardData = new FlashCardDB();
+            FlashCardDAL = new FlashCardDB();
         }
 
         public IActionResult Index()
@@ -51,6 +51,7 @@ namespace FlashGordon.Controllers
         {
             try
             {
+                //move this to DAL
                 using (FCContext)
                 {
                     FlashCard updateCard = FCContext.FCards.Single(x => x.Id == frontEndCard.Id);
@@ -70,10 +71,22 @@ namespace FlashGordon.Controllers
             return Ok();
         }
 
+
+
+        public IActionResult DeleteFC(int id)
+        {
+            if (FlashCardDAL.DeleteFlashCard(id))
+            {
+                return Ok();
+            }
+
+            return NotFound();
+        }
+
         public IActionResult GetCategories()
         {
-            FlashCardData.UpdateCategories();
-            List<string> categories = FlashCardData.AllCategories;
+            FlashCardDAL.UpdateCategories();
+            List<string> categories = FlashCardDAL.AllCategories;
 
             return Ok(JsonConvert.SerializeObject(categories));
             
@@ -81,7 +94,7 @@ namespace FlashGordon.Controllers
 
         public IActionResult EditFlashCards()
         {
-            return View(FlashCardData);
+            return View(FlashCardDAL);
         }
 
         public IActionResult Privacy()

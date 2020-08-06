@@ -19,19 +19,28 @@ namespace FlashGordon.DALs
             AllCategories = GetCategoriesSorted();
         }
 
-        public void UpdateCategories()
+        public  UpdateCategories()
         {
             AllCategories = GetCategoriesSorted();
         }
 
-        public void DeleteFlashCard(int id)
+        public bool DeleteFlashCard(int id)
         {
-            using (FCContext)
+            try
             {
-                FlashCard selectedCard = FCContext.FCards.Find(id);
+                using (FCContext)
+                {
+                    FlashCard selectedCard = FCContext.FCards.Find(id);
 
-                FCContext.FCards.Remove(selectedCard);
-                FCContext.SaveChanges();
+                    FCContext.FCards.Remove(selectedCard);
+                    FCContext.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 
