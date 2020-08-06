@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace FlashGordon.DALs
@@ -9,7 +10,7 @@ namespace FlashGordon.DALs
     public class FlashCardDB
     {
         private readonly FlashCardsContext FCContext;
-        public List<FCards> AllFlashCards { get; private set; }
+        public List<FlashCard> AllFlashCards { get; private set; }
         public List<string> AllCategories { get; private set; }
         public FlashCardDB()
         {
@@ -23,9 +24,20 @@ namespace FlashGordon.DALs
             AllCategories = GetCategoriesSorted();
         }
 
-        private List<FCards> GetAllCards()
+        public void DeleteFlashCard(int id)
         {
-            List<FCards> result = new List<FCards>();
+            using (FCContext)
+            {
+                FlashCard selectedCard = FCContext.FCards.Find(id);
+
+                FCContext.FCards.Remove(selectedCard);
+                FCContext.SaveChanges();
+            }
+        }
+
+        private List<FlashCard> GetAllCards()
+        {
+            List<FlashCard> result = new List<FlashCard>();
             using (FCContext)
             {
                 result = FCContext.FCards.OrderBy(x => x.Category).ToList();

@@ -35,7 +35,7 @@ namespace FlashGordon.Controllers
         public IActionResult AddFC(string front, string back, string category)
         {
             //Validate!--------------------------------------------------------------------------------------------TODO
-            FCards flashCard = new FCards(front, back, category);
+            FlashCard flashCard = new FlashCard(front, back, category);
 
             using (FCContext)
             {
@@ -47,13 +47,13 @@ namespace FlashGordon.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateFC([FromBody] FCards frontEndCard)
+        public IActionResult UpdateFC([FromBody] FlashCard frontEndCard)
         {
             try
             {
                 using (FCContext)
                 {
-                    FCards updateCard = FCContext.FCards.Single(x => x.Id == frontEndCard.Id);
+                    FlashCard updateCard = FCContext.FCards.Single(x => x.Id == frontEndCard.Id);
 
                     updateCard.Category = frontEndCard.Category;
                     updateCard.Front = frontEndCard.Front;

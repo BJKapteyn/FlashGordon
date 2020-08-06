@@ -15,7 +15,7 @@ namespace FlashGordon.Models
         {
         }
 
-        public virtual DbSet<FCards> FCards { get; set; }
+        public virtual DbSet<FlashCard> FCards { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,7 +29,7 @@ namespace FlashGordon.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FCards>(entity =>
+            modelBuilder.Entity<FlashCard>(entity =>
             {
                 entity.ToTable("FCards");
 

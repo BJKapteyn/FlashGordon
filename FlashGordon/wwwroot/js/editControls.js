@@ -54,9 +54,6 @@ function toggleAllCategories() {
 
 //find nodes via innerText
 function queryInnerString(selector, innerTextRegEx) {
-    //if (innerTextRegEx.includes("/")) {
-    //    innerTextRegEx = innerTextRegEx.replace("\/", "\\/");
-    //}
     var elements = document.querySelectorAll(selector);
     return Array.prototype.filter.call(elements, function (element) {
         return RegExp(innerTextRegEx).test(element.innerText);

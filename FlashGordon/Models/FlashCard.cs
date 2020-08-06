@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace FlashGordon.Models
 {
-    public partial class FCards
+    public partial class FlashCard
     {
-        public FCards(string front, string back, string category)
+        public FlashCard(string front, string back, string category)
         {
             Front = front;
             Back = back;
