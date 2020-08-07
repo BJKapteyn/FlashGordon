@@ -111,12 +111,20 @@ function clearForm(formParentElement) {
     }
 }
 
-function updateFCForm(cardID) {
+function clearElement(element) {
+    element.parentNode.removeChild(element);
+}
+
+function updateFCFormModal(cardID) {
+    let currentModal = formInfo.formPositionQ.firstChild;
+    if (currentModal.className != "updateFCForm") {
+        clearElement(currentModal);
+        formInfo.formPositionQ.appendChild(createUpdateForm());
+    }
     if (cardID != formInfo.lastId) {
         formInfo.lastId = cardID;
         let nodeStart = formInfo.formPositionQ;
-        debugger;
-        if (!nodeStart.firstChild) {
+        if (!nodeStart.firstChild ) {
             createUpdateForm();
         }
         let frontCardInputQ = document.getElementById("frontCardInput");
@@ -136,6 +144,10 @@ function updateFCForm(cardID) {
         })
     }
     toggleModal(true);
+}
+
+function deleteFCModal(cardID) {
+    
 }
 
 //Create Update form modal and display it
@@ -183,7 +195,7 @@ function createUpdateForm() {
         form.appendChild(elementArray[i]);
     }
 
-    formInfo.formPositionQ.appendChild(form);
+    return form;
 
 }
 
@@ -197,13 +209,19 @@ function createYesNoModal(cardID) {
     let noButton = document.createElement('button');
     let noSymbol = document.createElement('span');
 
-    //add attributes
+    //add attributes and text
     modalContainer.className = "yesNoModalContainer";
     modalContainer.id = cardID;
 
     yesNoText.className = "yesNoText";
-    yesButton.className = "flashCardButton";
-    noButton.className = "delete flashCardButto";
+    yesButton.className = "delete flashCardButton";
+    yesButton.innerText = "Yes";
+    yesSymbol.innerText = "&#10004"
+    yesButton.onclick = deleteFlashCard(cardID);
+    noButton.className = "flashCardButton";
+    noButton.innerText = "No";
+    noButton.innerText = "&#&#10006"
+    noButton.onclick = toggleModal(false);
 
     //build it
     yesButton.appendChild(yesSymbol);
@@ -231,10 +249,7 @@ async function fetchUpdate(url = "", updatedFlashCardData = {}) {
 }
 
 async function fetchCategories() {
-    //extract function----------------------------------------------------------------TODO
-    let domainArr = window.location.href.split("/");
-    let domain = domainArr[0] + "//" + domainArr[2];
-    let requestAddress = domain + "/Home/GetCategories";
+    let requestAddress = urlBuilder("/Home/GetCategories");
 
     let response = await fetch(requestAddress, {
         method: "GET",
@@ -277,10 +292,21 @@ async function updateFlashCardDB(cardID) {
 }
 
 async function deleteFlashCard(cardID) {
-    
+    let requestAddress = urlBuilder("/Home/DeleteFC");
+    let cardToDeleteData = { id: cardID };
+    let cardToDeleteQ = document.getElementById(cardID);
+    let response = await fetch(requestAddress, {
+        method: "DELETE",
+        body: JSON.stringify(cardToDeleteData)
+    })
+        .then(clearElement(cardToDeleteQ));
+
 }
 
+async function deleteFlashCard(cardID) {
+    let response = await deleteFlashCardRequest(cardID);
 
+}
 
 function urlBuilder(uriString) {
     let domainArr = window.location.href.split('/');

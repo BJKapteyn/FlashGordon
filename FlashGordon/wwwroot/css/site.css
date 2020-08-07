@@ -348,9 +348,12 @@ body {
 /*#region*/
 .yesNoModalContainer {
     width: 380px;
+    height: 300px;
+    border: 2px solid rgb(6, 123, 194);
 }
 
 .yesNoText {
-
+    text-align: center;
+    font-size: 20px;
 }
 /*#endregion*/
