@@ -187,6 +187,37 @@ function createUpdateForm() {
 
 }
 
+//create are you sure? modal
+function createYesNoModal(cardID) {
+    let modalContainer = document.createElement('div');
+    let yesNoText = document.createElement('p');
+    let buttonContainer = document.createElement('div');
+    let yesButton = document.createElement('button');
+    let yesSymbol = document.createElement('span');
+    let noButton = document.createElement('button');
+    let noSymbol = document.createElement('span');
+
+    //add attributes
+    modalContainer.className = "yesNoModalContainer";
+    modalContainer.id = cardID;
+
+    yesNoText.className = "yesNoText";
+    yesButton.className = "flashCardButton";
+    noButton.className = "delete flashCardButto";
+
+    //build it
+    yesButton.appendChild(yesSymbol);
+    noButton.appendChild(noSymbol);
+
+    buttonContainer.appendChild(noButton);
+    buttonContainer.appendChild(yesButton);
+
+    modalContainer.appendChild(yesNoText);
+    modalContainer.appendChild(buttonContainer);
+
+    return modalContainer;
+}
+
 async function fetchUpdate(url = "", updatedFlashCardData = {}) {
     let response = await fetch(url, {
         method: "POST",
@@ -244,6 +275,12 @@ async function updateFlashCardDB(cardID) {
 
     toggleModal(false);
 }
+
+async function deleteFlashCard(cardID) {
+    
+}
+
+
 
 function urlBuilder(uriString) {
     let domainArr = window.location.href.split('/');
