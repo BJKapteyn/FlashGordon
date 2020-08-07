@@ -115,44 +115,52 @@ function clearElement(element) {
     element.parentNode.removeChild(element);
 }
 
-function swapModal(modalClassName) {
+//if modal isn't the intended form or a form hasn't been uppended yet, clear the modal
+function didSwapModal(modalClassName) {
+    debugger;
     let currentModal = formInfo.formPositionQ.firstChild;
-    if (currentModal.className != modalClassName) {
-        clearElement(currentModal);
-        formInfo.formPositionQ.appendChild(createUpdateForm());
+    if (currentModal) {
+        if (currentModal.className != modalClassName) {
+            clearElement(currentModal);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+    return true;
 }
 
 function updateFCFormModal(cardID) {
-    swapModal("updateFCForm");
-
-    if (cardID != formInfo.lastId) {
-        formInfo.lastId = cardID;
-        let nodeStart = formInfo.formPositionQ;
-        if (!nodeStart.firstChild ) {
-            createUpdateForm();
-        }
-        let frontCardInputQ = document.getElementById("frontCardInput");
-        let backCardInputQ = document.getElementById("backCardInput");
-        let categoryCardInputQ = document.getElementById("categoryCardInput");
-        let submitButtonQ = document.getElementById("formSubmitButton");
-        let cardData = grabFlashCardText(cardID);
-
-        frontCardInputQ.innerText = cardData.Front;
-        backCardInputQ.innerText = cardData.Back;
-        categoryCardInputQ.value = cardData.Category;
-
-        submitButtonQ.addEventListener("click", function (event) {
-            event.preventDefault();
-            updateFlashCardDB(cardData.Id);//send data off to back end
-            toggleModal(false);
-        })
+    if (didSwapModal("updateFCForm")) {
+        formInfo.formPositionQ.appendChild(createUpdateForm());
     }
+    formInfo.lastId = cardID;//need to skip some stuff the last id and current match----------------------TODO
+
+    let frontCardInputQ = document.getElementById("frontCardInput");
+    let backCardInputQ = document.getElementById("backCardInput");
+    let categoryCardInputQ = document.getElementById("categoryCardInput");
+    let submitButtonQ = document.getElementById("formSubmitButton");
+    let cardData = grabFlashCardText(cardID);
+
+    frontCardInputQ.innerText = cardData.Front;
+    backCardInputQ.innerText = cardData.Back;
+    categoryCardInputQ.value = cardData.Category;
+
+    submitButtonQ.addEventListener("click", function (event) {
+        event.preventDefault();
+        updateFlashCardDB(cardData.Id);//send data off to back end
+        toggleModal(false);
+    });
+
     toggleModal(true);
 }
 
 function deleteFCModal(cardID) {
-    
+    if (didSwapModal("yesNoModalContainer")) {
+        formInfo.formPositionQ.appendChild(createYesNoModal(cardID));
+    }
+    toggleModal(true);
 }
 
 //Create Update form modal and display it
@@ -222,12 +230,12 @@ function createYesNoModal(cardID) {
     yesButton.className = "delete flashCardButton";
     yesButton.innerText = "Yes";
     yesSymbol.innerText = "&#10004"
-    yesButton.onclick = deleteFlashCard(cardID);
+   // yesButton.onclick = deleteFlashCard(cardID);
     noButton.className = "flashCardButton";
     noButton.innerText = "No";
     noButton.innerText = "&#&#10006"
     noButton.onclick = toggleModal(false);
-
+    debugger;
     //build it
     yesButton.appendChild(yesSymbol);
     noButton.appendChild(noSymbol);
