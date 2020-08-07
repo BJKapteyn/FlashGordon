@@ -115,12 +115,17 @@ function clearElement(element) {
     element.parentNode.removeChild(element);
 }
 
-function updateFCFormModal(cardID) {
+function swapModal(modalClassName) {
     let currentModal = formInfo.formPositionQ.firstChild;
-    if (currentModal.className != "updateFCForm") {
+    if (currentModal.className != modalClassName) {
         clearElement(currentModal);
         formInfo.formPositionQ.appendChild(createUpdateForm());
     }
+}
+
+function updateFCFormModal(cardID) {
+    swapModal("updateFCForm");
+
     if (cardID != formInfo.lastId) {
         formInfo.lastId = cardID;
         let nodeStart = formInfo.formPositionQ;
