@@ -187,7 +187,7 @@ body {
 .flashCardButton {
     margin-top: 5px;
     will-change: background-color, color;
-    margin: 5px 7.5px 5px 7.5px;;
+    margin: 5px 7.5px 5px 7.5px;
     font-size: 20px;
     width: 170px;
     display: inline-block;
@@ -239,7 +239,7 @@ body {
 }
 
 #formFront,
-#formBack,{
+#formBack{
     padding: 5px;
     font-size: 20px;
 }
@@ -342,5 +342,15 @@ body {
 
 #categoryContainer {
     margin-left: 2.5px;
+}
+/*#endregion*/
+/*----------------------------------------------------Yes or No Modal-------------------------------------------------*/
+/*#region*/
+.yesNoModalContainer {
+
+}
+
+.yesNoText {
+
 }
 /*#endregion*/

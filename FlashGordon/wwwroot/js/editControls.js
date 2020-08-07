@@ -105,9 +105,9 @@ function createUpdatedFC(updateFormID) {
     return new flashCardData(front, back, category, updateFormID);
 }
 
-function clearForm(element) {
-    while (element.firstChild) {
-        element.remove(element.lastChild);
+function clearForm(formParentElement) {
+    while (formParentElement.firstChild) {
+        formParentElement.remove(formParentElement.lastChild);
     }
 }
 
@@ -117,7 +117,7 @@ function updateFCForm(cardID) {
         let nodeStart = formInfo.formPositionQ;
         debugger;
         if (!nodeStart.firstChild) {
-            createForm();
+            createUpdateForm();
         }
         let frontCardInputQ = document.getElementById("frontCardInput");
         let backCardInputQ = document.getElementById("backCardInput");
@@ -135,14 +135,11 @@ function updateFCForm(cardID) {
             toggleModal(false);
         })
     }
-
     toggleModal(true);
-
 }
 
 //Create Update form modal and display it
-function createForm() {
-
+function createUpdateForm() {
     //create form from scratch
     let form = document.createElement("form");
     let categoryDiv = document.createElement("div");
