@@ -115,9 +115,8 @@ function clearElement(element) {
     element.parentNode.removeChild(element);
 }
 
-//if modal isn't the intended form or a form hasn't been uppended yet, clear the modal
+//if modal isn't the intended form or a form hasn't been appended yet, clear the modal
 function didSwapModal(modalClassName) {
-    debugger;
     let currentModal = formInfo.formPositionQ.firstChild;
     if (currentModal) {
         if (currentModal.className != modalClassName) {
@@ -218,27 +217,35 @@ function createYesNoModal(cardID) {
     let yesNoText = document.createElement('p');
     let buttonContainer = document.createElement('div');
     let yesButton = document.createElement('button');
-    let yesSymbol = document.createElement('span');
+    //let yesSymbol = document.createElement('span');
     let noButton = document.createElement('button');
-    let noSymbol = document.createElement('span');
+    //let noSymbol = document.createElement('span');
 
     //add attributes and text
+    buttonContainer.className = "yesNoButtons";
     modalContainer.className = "yesNoModalContainer";
     modalContainer.id = cardID;
 
     yesNoText.className = "yesNoText";
+    yesNoText.innerText = "Are you sure?"
     yesButton.className = "delete flashCardButton";
-    yesButton.innerText = "Yes";
-    yesSymbol.innerText = "&#10004"
-   // yesButton.onclick = deleteFlashCard(cardID);
+    yesButton.innerText = "Yes ";
+    yesButton.type = "button";
+    yesButton.addEventListener("click", function () {
+        
+    });
+    //yesSymbol.innerHTML = "&#10004";
     noButton.className = "flashCardButton";
-    noButton.innerText = "No";
-    noButton.innerText = "&#&#10006"
-    noButton.onclick = toggleModal(false);
-    debugger;
+    noButton.innerText = "No ";
+    noButton.type = "button";
+    //noSymbol.innerHTML = "&#10006";
+    noButton.addEventListener("click", function () {
+        toggleModal(false);
+    });
+
     //build it
-    yesButton.appendChild(yesSymbol);
-    noButton.appendChild(noSymbol);
+    //yesButton.appendChild(yesSymbol);
+    //noButton.appendChild(noSymbol);
 
     buttonContainer.appendChild(noButton);
     buttonContainer.appendChild(yesButton);
@@ -312,13 +319,10 @@ async function deleteFlashCard(cardID) {
         method: "DELETE",
         body: JSON.stringify(cardToDeleteData)
     })
-        .then(clearElement(cardToDeleteQ));
-
-}
-
-async function deleteFlashCard(cardID) {
-    let response = await deleteFlashCardRequest(cardID);
-
+        .then(function () {
+            clearElement(cardToDeleteQ);
+            console.log(`card #${cardID} successfully deleted!`)
+        });
 }
 
 function urlBuilder(uriString) {

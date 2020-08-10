@@ -5,52 +5,56 @@
 }
 
 <h1>Flash Cards Overview</h1>
-
-<div id="editControls">
-    <div id="addNewCardButton">
-        <button class="flashCardButton" onclick="newCard()">New Flash Card <span class="buttonAction">&#10010</span></button>
-    </div>
-    <div id="categoryfilterControls">
-        <h1 id="categoriesTitle">View Categories</h1>
-        <div id="categoryContainer">
-            <button id="seeAll" class="categoryButton" onclick="toggleAllCategories()">See All</button>
-            @foreach(string c in Model.AllCategories)
-            {
-                <button id="@String.Concat(c, "xyz")" class="categoryButton" onclick="toggleCategory('@c')">@c</button>
-            }
+<section>
+    <div id="editControls">
+        <div id="addNewCardButton">
+            <button class="flashCardButton" onclick="newCard()">New Flash Card <span class="buttonAction">&#10010</span></button>
         </div>
-    </div>
-</div>
-
-<div id="flexContainer">
-    @foreach (FlashCard c in Model.AllFlashCards)
-    {
-    <div class="fCardFlex" id="@c.Id">
-        <!--Use the id string builds to grab the text-->
-        <div class="flashCardHead">
-            <h1 id="@String.Concat("cardCatText", c.Id.ToString())" class="fCardCategory">@c.Category</h1>
-            <h1 class="status"> </h1>
-        </div>
-
-        <div class="flexBody">
-            <div class="frontOfCard">
-                <h2 class="fCardHead">Front:</h2>
-                <div id="@String.Concat("cardFrontText", c.Id.ToString())" class="frontText">@c.Front</div>
-            </div>
-            <div class="backOfCard">
-                <h2 class="fCardHead">Back:</h2>
-                <div id="@String.Concat("cardBackText", c.Id.ToString())" class="backText">@c.Back</div>
+        <div id="categoryfilterControls">
+            <h1 id="categoriesTitle">View Categories</h1>
+            <div id="categoryContainer">
+                <button id="seeAll" class="categoryButton" onclick="toggleAllCategories()">See All</button>
+                @foreach(string c in Model.AllCategories)
+                {
+                    <button id="@String.Concat(c, "xyz")" class="categoryButton" onclick="toggleCategory('@c')">@c</button>
+                }
             </div>
         </div>
-        <div class="flashCardButtons">
-            <button class="flashCardButton" type="button" onclick="updateFCFormModal(@c.Id)" value="Edit">Edit <span class="buttonAction">&#9998</span></button>
-            <button class="delete flashCardButton" type="button" onclick="deleteFCModal(@c.Id)" value="Delete">Delete <span class="buttonAction">&#10006</span></button>
-        </div>
     </div>
-    }
-</div>
+</section>
+
+<section>
+    <div id="flexContainer">
+        @foreach (FlashCard c in Model.AllFlashCards)
+        {
+        <div class="fCardFlex" id="@c.Id">
+            <!--Use the id string builds to grab the text-->
+            <div class="flashCardHead">
+                <h1 id="@String.Concat("cardCatText", c.Id.ToString())" class="fCardCategory">@c.Category</h1>
+                <h1 class="status"> </h1>
+            </div>
+
+            <div class="flexBody">
+                <div class="frontOfCard">
+                    <h2 class="fCardHead">Front:</h2>
+                    <div id="@String.Concat("cardFrontText", c.Id.ToString())" class="frontText">@c.Front</div>
+                </div>
+                <div class="backOfCard">
+                    <h2 class="fCardHead">Back:</h2>
+                    <div id="@String.Concat("cardBackText", c.Id.ToString())" class="backText">@c.Back</div>
+                </div>
+            </div>
+            <div class="flashCardButtons">
+                <button class="flashCardButton" type="button" onclick="updateFCFormModal(@c.Id)" value="Edit">Edit <span class="buttonAction">&#9998</span></button>
+                <button class="delete flashCardButton" type="button" onclick="deleteFCModal(@c.Id)" value="Delete">Delete <span class="buttonAction">&#10006</span></button>
+            </div>
+        </div>
+        }
+    </div>
+</section>
 <!--Form to add card -->
-<form id="newCardForm" method="post" asp-controller="Home" asp-action="AddFC">
+<section>
+    <form id="newCardForm" method="post" asp-controller="Home" asp-action="AddFC">
     <p class="FCFormLabel">Front of Card:</p>
     <input required type="text" class="FCFormInput" name="front" oninvalid="this.setCustomValidity('Please enter the front of the card.')" oninput="this.setCustomValidity('')" />
 
@@ -66,5 +70,6 @@
     }
     <input type="submit" />
 </form>
+</section>
 <script src="~/js/editControls.js"></script>
 <script src="~/js/fadeAnimation.js"></script>
