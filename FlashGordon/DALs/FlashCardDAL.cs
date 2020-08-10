@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace FlashGordon.DALs
 {
-    public class FlashCardDB
+    public class FlashCardDAL : IFlashCardDAL
     {
-        private readonly FlashCardsContext FCContext;
-        public List<FlashCard> AllFlashCards { get; private set; }
-        public List<string> AllCategories { get; private set; }
-        public FlashCardDB()
+        private FlashCardsContext FCContext;
+        public List<FlashCard> AllFlashCards { get; set; }
+        public List<string> AllCategories { get; set; }
+        public FlashCardDAL(FlashCardsContext fcc)
         {
-            FCContext = new FlashCardsContext();
+            FCContext = fcc;
             AllFlashCards = GetAllCards();
             AllCategories = GetCategoriesSorted();
         }
@@ -28,29 +28,37 @@ namespace FlashGordon.DALs
         {
             try
             {
-                using (FCContext)
-                {
-                    FlashCard selectedCard = FCContext.FCards.Find(id);
+                FlashCard selectedCard = FCContext.FCards.Find(id);
 
-                    FCContext.FCards.Remove(selectedCard);
-                    FCContext.SaveChanges();
+                FCContext.FCards.Remove(selectedCard);
+                FCContext.SaveChanges();
 
-                    return true;
-                }
-            }
+                return true;
+        }
             catch
             {
                 return false;
             }
         }
 
+        public void UpdateFlashCard(FlashCard frontEndCard)
+        {
+
+            FlashCard updateCard = FCContext.FCards.Single(x => x.Id == frontEndCard.Id);
+
+            updateCard.Category = frontEndCard.Category;
+            updateCard.Front = frontEndCard.Front;
+            updateCard.Back = frontEndCard.Back;
+
+            FCContext.SaveChanges();
+
+        }
+
         private List<FlashCard> GetAllCards()
         {
             List<FlashCard> result = new List<FlashCard>();
-            using (FCContext)
-            {
-                result = FCContext.FCards.OrderBy(x => x.Category).ToList();
-            }
+
+            result = FCContext.FCards.OrderBy(x => x.Category).ToList();
 
             return result;
         }
@@ -58,10 +66,9 @@ namespace FlashGordon.DALs
         private List<string> GetCategories()
         {
             List<string> categories = new List<string>();
-            using (FCContext)
-            {
-                categories = FCContext.Categories.Select(x => x.Name).ToList();
-            }
+
+            categories = FCContext.Categories.Select(x => x.Name).ToList();
+
             return categories;
         }
         
@@ -69,10 +76,9 @@ namespace FlashGordon.DALs
         {
             FlashCardsContext thisFCContext = new FlashCardsContext();
             List<string> categories = new List<string>();
-            using (thisFCContext)
-            {
-                categories = thisFCContext.Categories.Select(x => x.Name).ToList();
-            }
+
+            categories = thisFCContext.Categories.Select(x => x.Name).ToList();
+
             return categories;
         }
     }

@@ -232,7 +232,7 @@ function createYesNoModal(cardID) {
     yesButton.innerText = "Yes ";
     yesButton.type = "button";
     yesButton.addEventListener("click", function () {
-        
+        deleteFlashCard(cardID);
     });
     //yesSymbol.innerHTML = "&#10004";
     noButton.className = "flashCardButton";
@@ -312,18 +312,28 @@ async function updateFlashCardDB(cardID) {
 }
 
 async function deleteFlashCard(cardID) {
-    let requestAddress = urlBuilder("/Home/DeleteFC");
-    let cardToDeleteData = { id: cardID };
+    debugger;
+    let requestAddress = urlBuilder(`/Home/DeleteFC`);
+    let cardToDeleteData = JSON.stringify({ id: cardID });
     let cardToDeleteQ = document.getElementById(cardID);
     let response = await fetch(requestAddress, {
-        method: "DELETE",
-        body: JSON.stringify(cardToDeleteData)
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: cardToDeleteData
     })
-        .then(function () {
-            clearElement(cardToDeleteQ);
-            console.log(`card #${cardID} successfully deleted!`)
-        });
+    if (response.status == 200) {
+        console.log("Success!");
+        clearElement(cardToDeleteQ);
+
+    }
+    else {
+        console.log("Uh oh");
+    }
 }
+
 
 function urlBuilder(uriString) {
     let domainArr = window.location.href.split('/');

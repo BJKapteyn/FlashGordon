@@ -16,14 +16,13 @@ namespace FlashGordon.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private FlashCardsContext FCContext;
-        FlashCardDB FlashCardDAL;
+        IFlashCardDAL FlashCardDAL;
 
-        public HomeController(ILogger<HomeController> logger, FlashCardsContext fcc)
+        public HomeController(ILogger<HomeController> logger, IFlashCardDAL flashCardDAL)
         {
             _logger = logger;
-            FCContext = fcc;
             //initialize list of flash cards
-            FlashCardDAL = new FlashCardDB();
+            FlashCardDAL = flashCardDAL;
         }
 
         public IActionResult Index()
@@ -36,12 +35,8 @@ namespace FlashGordon.Controllers
         {
             //Validate!--------------------------------------------------------------------------------------------TODO
             FlashCard flashCard = new FlashCard(front, back, category);
-
-            using (FCContext)
-            {
-                FCContext.Add(flashCard);
-                FCContext.SaveChanges();
-            }
+            FCContext.Add(flashCard);
+            FCContext.SaveChanges();
             //Take me back, back where I belong
             return Redirect("EditFlashCards");
         }
@@ -51,20 +46,9 @@ namespace FlashGordon.Controllers
         {
             try
             {
-                //move this to DAL
-                using (FCContext)
-                {
-                    FlashCard updateCard = FCContext.FCards.Single(x => x.Id == frontEndCard.Id);
-
-                    updateCard.Category = frontEndCard.Category;
-                    updateCard.Front = frontEndCard.Front;
-                    updateCard.Back = frontEndCard.Back;
-
-                    FCContext.SaveChanges();
-           
-                }
+                FlashCardDAL.UpdateFlashCard(frontEndCard);
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 return BadRequest();
             }
@@ -72,10 +56,10 @@ namespace FlashGordon.Controllers
         }
 
 
-        [HttpDelete]
-        public IActionResult DeleteFC([FromBody]int id)
+        [HttpPost]
+        public IActionResult DeleteFC([FromBody] FlashCardIdBind flashCardId)
         {
-            if (FlashCardDAL.DeleteFlashCard(id))
+            if (FlashCardDAL.DeleteFlashCard(flashCardId.id))
             {
                 return Ok();
             }
