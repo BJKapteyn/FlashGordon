@@ -15,7 +15,6 @@ namespace FlashGordon.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private FlashCardsContext FCContext;
         IFlashCardDAL FlashCardDAL;
 
         public HomeController(ILogger<HomeController> logger, IFlashCardDAL flashCardDAL)
@@ -34,9 +33,13 @@ namespace FlashGordon.Controllers
         public IActionResult AddFC(string front, string back, string category)
         {
             //Validate!--------------------------------------------------------------------------------------------TODO
-            FlashCard flashCard = new FlashCard(front, back, category);
-            FCContext.Add(flashCard);
-            FCContext.SaveChanges();
+            using(var FCContext = new FlashCardsContext())
+            {
+                FlashCard flashCard = new FlashCard(front, back, category);
+                FCContext.Add(flashCard);
+                FCContext.SaveChanges();
+
+            }
             //Take me back, back where I belong
             return Redirect("EditFlashCards");
         }
@@ -59,7 +62,7 @@ namespace FlashGordon.Controllers
         [HttpPost]
         public IActionResult DeleteFC([FromBody] FlashCardIdBind flashCardId)
         {
-            if (FlashCardDAL.DeleteFlashCard(flashCardId.id))
+            if (FlashCardDAL.DeleteFlashCard(flashCardId.Id))
             {
                 return Ok();
             }

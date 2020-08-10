@@ -224,7 +224,7 @@ function createYesNoModal(cardID) {
     //add attributes and text
     buttonContainer.className = "yesNoButtons";
     modalContainer.className = "yesNoModalContainer";
-    modalContainer.id = cardID;
+    modalContainer.id = "modal" + cardID;
 
     yesNoText.className = "yesNoText";
     yesNoText.innerText = "Are you sure?"
@@ -314,27 +314,37 @@ async function updateFlashCardDB(cardID) {
 async function deleteFlashCard(cardID) {
     debugger;
     let requestAddress = urlBuilder(`/Home/DeleteFC`);
-    let cardToDeleteData = JSON.stringify({ id: cardID });
+    let cardToDeleteData = JSON.stringify({ Id: cardID });
     let cardToDeleteQ = document.getElementById(cardID);
-    let response = await fetch(requestAddress, {
+    await fetch(requestAddress, {
         method: "POST",
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
         },
         body: cardToDeleteData
-    })
-    if (response.status == 200) {
-        console.log("Success!");
-        clearElement(cardToDeleteQ);
+    }).then(response => {
+        if (response.status == 200) {
+            debugger;
+            console.log("Success!");
+            fadeElementOut(cardToDeleteQ, 2000);
 
-    }
-    else {
-        console.log("Uh oh");
-    }
+        }
+        else {
+            console.log("Uh oh");
+        }
+    })
+    toggleModal(false);
 }
 
-
+function fadeElementOut(htmlElement, fadeTimeInMs) {
+    htmlElement.style.animationFillMode = "forwards";
+    htmlElement.style.animationDuration = `${fadeTimeInMs}ms`;
+    htmlElement.style.animationName = "fadeAway";
+    setTimeout(function () {
+        clearElement(htmlElement);
+    }, fadeTimeInMs)
+}
 function urlBuilder(uriString) {
     let domainArr = window.location.href.split('/');
     let domain = domainArr[0] + "//" + domainArr[2];

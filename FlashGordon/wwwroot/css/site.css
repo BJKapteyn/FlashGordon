@@ -302,27 +302,6 @@ body {
     color: rgb(244, 124, 124);
 }
 
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        box-shadow: 0px 0px 0px grey;
-    }
-    100% {
-        opacity: 1;
-        box-shadow: 5px 5px 10px grey;
-    }
-}
-
-@keyframes fadeInModal {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
 /*#endregion*/
 /*#region*/
 .categoryButton {
@@ -343,13 +322,16 @@ body {
     margin-left: 2.5px;
 }
 /*#endregion*/
-/*----------------------------------------------------Yes or No Modal-------------------------------------------------*/
+/*----------------------------------------------------Are you Sure Modal-------------------------------------------------*/
 /*#region*/
 .yesNoModalContainer {
     width: 400px;
     height: auto;
     border: 2px solid rgb(6, 123, 194);
     background-color: white;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    animation-timing-function:ease-out;
 }
 
 .yesNoText {
@@ -361,4 +343,43 @@ body {
     width: 370px;
     margin: auto;
 }
+/*#endregion*/
+
+/*------------------------------------------------------------Animations------------------------------------------------*/
+/*#region*/
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        box-shadow: 0px 0px 0px grey;
+    }
+
+    100% {
+        opacity: 1;
+        box-shadow: 5px 5px 10px grey;
+    }
+}
+
+@keyframes fadeAway {
+    0% {
+        
+        opacity: 1;
+        box-shadow: 5px 5px 10px grey;
+    }
+
+    100% {
+        opacity: 0;
+        box-shadow: 0px 0px 0px grey;
+    }
+}
+
+@keyframes fadeInModal {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 /*#endregion*/
