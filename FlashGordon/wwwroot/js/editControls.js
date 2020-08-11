@@ -97,7 +97,7 @@ function grabFlashCardText(formID) {
 }
 
 //get updated flash card info to submit for update
-function createUpdatedFC(updateFormID) {
+function createFC(updateFormID) {
     let category = document.querySelector("#categoryCardInput").value;
     let front = document.querySelector("#frontCardInput").value;
     let back = document.querySelector("#backCardInput").value;
@@ -130,8 +130,9 @@ function didSwapModal(modalClassName) {
     return true;
 }
 
+//add card info for new or update card form
 function updateFCFormModal(cardID) {
-    if (didSwapModal("updateFCForm")) {
+    if (didSwapModal("FCForm")) {
         formInfo.formPositionQ.appendChild(createUpdateForm());
     }
     formInfo.lastId = cardID;//need to skip some stuff the last id and current match----------------------TODO
@@ -178,7 +179,7 @@ function createUpdateForm() {
 
     //add attributes and text
     form.id = "updateForm";
-    form.className = "updateFCForm";
+    form.className = "FCForm";
     frontCardLabel.innerText = "Front";
     frontCardLabel.id = "formFront";
     frontCardInput.type = "text";
@@ -256,7 +257,7 @@ function createYesNoModal(cardID) {
     return modalContainer;
 }
 
-async function fetchUpdate(url = "", updatedFlashCardData = {}) {
+async function backEndUpdateFC(url = "", updatedFlashCardData = {}) {
     let response = await fetch(url, {
         method: "POST",
         headers: {
@@ -289,19 +290,21 @@ async function fetchCategories() {
 }
 
 //update the flashcard in database
-async function updateFlashCardDB(cardID) {
+async function updateFlashCardDB(cardData, newOrUpdateFCURL) {
     let OK = "200";
     let NotFound = "404";
     let BadRequest = "400";
-    let requestAddress = urlBuilder("/Home/UpdateFC");
-    let updatedFlashCardData = createUpdatedFC(cardID);
+    let requestAddress = urlBuilder(newOrUpdateFCURL);
+    let flashCardData = createFC(cardData.Id);
 
 
-    await fetchUpdate(requestAddress, updatedFlashCardData).then(function (response) {
+    await backEndUpdateFC(requestAddress, flashCardData).then(function (response) {
         if (response.status == OK) {
             //add flashcard to the page manually here.
             console.log('It worked, NICE!');
-            updateFrontEndFlashCard(cardID, updatedFlashCardData);
+            if (cardData.Id) {//If it's a update operation, update the front end
+                updateFrontEndFlashCard(cardData.Id, flashCardData);
+            }
         }
         else {
             console.log('yeah that didn\'t work');
