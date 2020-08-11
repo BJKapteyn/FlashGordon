@@ -345,6 +345,7 @@ function fadeElementOut(htmlElement, fadeTimeInMs) {
         clearElement(htmlElement);
     }, fadeTimeInMs)
 }
+
 function urlBuilder(uriString) {
     let domainArr = window.location.href.split('/');
     let domain = domainArr[0] + "//" + domainArr[2];
@@ -378,8 +379,6 @@ function toggleModal(onOrOff) {
     else {
         formInfo.formPositionQ.style.display = "none";
         formInfo.modalBackgroundQ.style.display = "none";
-        //take this out after animation switch-----------------------------------------------------TODO
-        formInfo.modalBackgroundQ.classList.remove("modalBackgroundSwitch");
         formInfo.modalBackgroundQ.style.animationName = "";
     }
 }
