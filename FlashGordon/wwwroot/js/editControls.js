@@ -86,7 +86,7 @@ function grabFlashCardText(formID) {
     let category = "";
     let frontCard = "";
     let backCard = "";
-    if (formID) {
+    if (formID >= 0) {
         category = document.getElementById(`cardCatText${formID}`).innerText;
         frontCard = document.getElementById(`cardFrontText${formID}`).innerText;
         backCard = document.getElementById(`cardBackText${formID}`).innerText;
@@ -102,6 +102,7 @@ function createFC(updateFormID) {
     let category = document.querySelector("#categoryCardInput").value;
     let front = document.querySelector("#frontCardInput").value;
     let back = document.querySelector("#backCardInput").value;
+    updateFormID >= 0 ? updateFormID = null : updateFormID = updateFormID;
 
     return new flashCardData(front, back, category, updateFormID);
 }
@@ -150,8 +151,9 @@ function updateFCFormModal(cardID, newOrUpdateURL) {
     categoryCardInputQ.value = cardData.Category;
 
     submitButtonQ.addEventListener("click", function (event) {
+        debugger;
         event.preventDefault();
-        updateFlashCardDB(cardData.Id, newOrUpdateURL);//send data off to back end
+        updateFlashCardDB(cardData, newOrUpdateURL);//send data off to back end
         toggleModal(false);
     });
 
@@ -186,11 +188,13 @@ function createUpdateForm() {
     frontCardLabel.id = "formFront";
     frontCardInput.type = "text";
     frontCardInput.id = "frontCardInput"
+    frontCardInput.required = true;
 
     backCardLabel.innerText = "Back";
     backCardLabel.id = "formBack";
     backCardInput.type = "text";
     backCardInput.id = "backCardInput";
+    backCardInput.required = true;
     backDiv.id = "backCardForm";
     backDiv.appendChild(backCardLabel);
     backDiv.appendChild(backCardInput);
@@ -199,6 +203,7 @@ function createUpdateForm() {
     categoryDiv.appendChild(categoryInput);
     addCategoryOptions(categoryInput);
     categoryInput.id = "categoryCardInput";
+    categoryInput.required = true;
 
     submitButton.innerText = "Save Changes";
     submitButton.className = "flashCardButton";
@@ -293,19 +298,20 @@ async function fetchCategories() {
 
 //update the flashcard in database
 async function updateFlashCardDB(cardData, newOrUpdateFCURL) {
+    debugger;
     let OK = "200";
     let NotFound = "404";
     let BadRequest = "400";
     let requestAddress = urlBuilder(newOrUpdateFCURL);
-    let flashCardData = createFC(cardData.Id);
+    let updatedFlashCardData = createFC(cardData.Id);
 
 
-    await backEndUpdateFC(requestAddress, flashCardData).then(function (response) {
+    await backEndUpdateFC(requestAddress, updatedFlashCardData).then(function (response) {
         if (response.status == OK) {
             //add flashcard to the page manually here.
             console.log('It worked, NICE!');
-            if (cardData.Id) {//If it's a update operation, update the front end
-                updateFrontEndFlashCard(cardData.Id, flashCardData);
+            if (cardData.Id != null) {//If it's a update operation, update the front end
+                updateFrontEndFlashCard(cardData.Id, updatedFlashCardData);
             }
         }
         else {

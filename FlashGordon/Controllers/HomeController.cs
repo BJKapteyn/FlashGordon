@@ -30,12 +30,15 @@ namespace FlashGordon.Controllers
         }
         //add flashcard to DB
         [HttpPost]
-        public IActionResult AddFC(string front, string back, string category)
+        public IActionResult AddFC([FromBody] FlashCard flashCard)
         {
-            //Validate!--------------------------------------------------------------------------------------------TODO
+            //Validate and move to flashCardDal--------------------------------------------------------------------------------------------TODO
             using(var FCContext = new FlashCardsContext())
             {
-                FlashCard flashCard = new FlashCard(front, back, category);
+                if(flashCard.Id < 0)
+                {
+                    flashCard.Id = 0;
+                }
                 FCContext.Add(flashCard);
                 FCContext.SaveChanges();
 
