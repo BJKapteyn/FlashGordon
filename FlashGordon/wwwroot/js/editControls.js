@@ -80,16 +80,17 @@ function addCategoryOptions(htmlSelectElement) {
     return htmlSelectElement;//In case I need to append the whole thing elsewhere 
 }
 
-//takes text from the flash card after hitting edit.
+//takes text from the flash card after hitting edit or creates blank card for a new flash card if id is null
 function grabFlashCardText(formID) {
     //these queries were built by the razor page flashcard Id
-    let categoryQ = document.getElementById(`cardCatText${formID}`);
-    let frontQ = document.getElementById(`cardFrontText${formID}`);
-    let backQ = document.getElementById(`cardBackText${formID}`);
-
-    let category = categoryQ.innerText;
-    let frontCard = frontQ.innerText;
-    let backCard = backQ.innerText;
+    let category = "";
+    let frontCard = "";
+    let backCard = "";
+    if (formID) {
+        category = document.getElementById(`cardCatText${formID}`).innerText;
+        frontCard = document.getElementById(`cardFrontText${formID}`).innerText;
+        backCard = document.getElementById(`cardBackText${formID}`).innerText;
+    }
 
     let data = new flashCardData(frontCard, backCard, category, formID);
 
@@ -131,7 +132,8 @@ function didSwapModal(modalClassName) {
 }
 
 //add card info for new or update card form
-function updateFCFormModal(cardID) {
+function updateFCFormModal(cardID, newOrUpdateURL) {
+    debugger;
     if (didSwapModal("FCForm")) {
         formInfo.formPositionQ.appendChild(createUpdateForm());
     }
@@ -149,7 +151,7 @@ function updateFCFormModal(cardID) {
 
     submitButtonQ.addEventListener("click", function (event) {
         event.preventDefault();
-        updateFlashCardDB(cardData.Id);//send data off to back end
+        updateFlashCardDB(cardData.Id, newOrUpdateURL);//send data off to back end
         toggleModal(false);
     });
 
