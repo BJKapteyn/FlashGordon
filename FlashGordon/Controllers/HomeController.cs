@@ -29,9 +29,10 @@ namespace FlashGordon.Controllers
             return View();
         }
 
-        public IActionResult GetFlashCards()
+        [HttpGet]
+        public IActionResult GetAllFlashCards()
         {
-            return Json(FlashCardDAL.AllFlashCards);
+            return Ok(JsonConvert.SerializeObject(FlashCardDAL.AllFlashCards));
         }
         //add flashcard to DB
         [HttpPost]

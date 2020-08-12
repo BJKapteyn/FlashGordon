@@ -43,7 +43,6 @@ namespace FlashGordon.DALs
 
         public void UpdateFlashCard(FlashCard frontEndCard)
         {
-
             FlashCard updateCard = FCContext.FCards.Single(x => x.Id == frontEndCard.Id);
 
             updateCard.Category = frontEndCard.Category;
@@ -51,7 +50,6 @@ namespace FlashGordon.DALs
             updateCard.Back = frontEndCard.Back;
 
             FCContext.SaveChanges();
-
         }
 
         private List<FlashCard> GetAllCards()

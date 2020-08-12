@@ -61,7 +61,7 @@ function queryInnerString(selector, innerTextRegEx) {
 }
 
 //constructor matching entity on back end
-function flashCardData(front, back, category, id) {
+function flashCard(front, back, category, id) {
     this.Front = front;
     this.Back = back;
     this.Category = category;
@@ -92,7 +92,7 @@ function grabFlashCardText(formID) {
         backCard = document.getElementById(`cardBackText${formID}`).innerText;
     }
 
-    let data = new flashCardData(frontCard, backCard, category, formID);
+    let data = new flashCard(frontCard, backCard, category, formID);
 
     return data;
 }
@@ -104,7 +104,7 @@ function createFC(updateFormID) {
     let back = document.querySelector("#backCardInput").value;
     updateFormID >= 0 ? updateFormID = null : updateFormID = updateFormID;
 
-    return new flashCardData(front, back, category, updateFormID);
+    return new flashCard(front, back, category, updateFormID);
 }
 
 function clearForm(formParentElement) {

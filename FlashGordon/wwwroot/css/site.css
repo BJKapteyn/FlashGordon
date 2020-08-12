@@ -11,10 +11,28 @@
 /*--------------------------------------------------Game---------------------------------------------------------------*/
 /*#region*/
 #gameWindow {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 200px 400px;
+    grid-template-areas:
+                        "head"
+                        "body";
     width: 700px;
     height: 600px;
     background-color: white;
+    border: 2px solid rgb(132, 188, 218);
+}
 
+.gameHead {
+    grid-area: head;
+}
+
+.gameTitle {
+    
+}
+
+.gameBody {
+    grid-area: body;
 }
 /*#endregion*/
 /*-----------------------------------------------------Update Form----------------------------------------------------*/
