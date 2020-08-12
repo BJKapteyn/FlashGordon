@@ -32,7 +32,7 @@ namespace FlashGordon
             services.AddMvcCore().AddNewtonsoftJson();
             //Scaffold-DbContext "Server=(localdb)\MSSQLLocalDb;Database=flash_cards;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
             services.AddDbContext<FlashCardsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FlashCardConnectionString")));
-            services.AddScoped<IFlashCardDAL, FlashCardDAL>();
+            services.AddScoped<IFlashCardDAL, FlashCardDAL>();//
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
