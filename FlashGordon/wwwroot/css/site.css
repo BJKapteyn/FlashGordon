@@ -8,7 +8,15 @@
     grey           - rgb(200, 199, 209)
 
 */
+/*--------------------------------------------------Game---------------------------------------------------------------*/
+/*#region*/
+#gameWindow {
+    width: 700px;
+    height: 600px;
+    background-color: white;
 
+}
+/*#endregion*/
 /*-----------------------------------------------------Update Form----------------------------------------------------*/
 /*#region*/
 #updateForm {
@@ -127,17 +135,17 @@ body {
         transition: background-color 500ms ease-out, color 500ms ease-out;
     }
 
-        .navElement,
-        .navElement:hover,
-        .navElement:visited,
-        .navElement:active {
-            text-decoration: none;
-        }
+    .navElement,
+    .navElement:hover,
+    .navElement:visited,
+    .navElement:active {
+        text-decoration: none;
+    }
 
-        .navElement:hover {
-            background-color: rgb(6, 123, 194);
-            color: white;
-        }
+    .navElement:hover {
+        background-color: rgb(6, 123, 194);
+        color: white;
+    }
 
 
 .mainTitle {

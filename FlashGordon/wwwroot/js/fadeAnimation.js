@@ -2,8 +2,8 @@
     allCardsArr: document.getElementsByClassName("fCardFlex")
 }
 
-function fadeInElement(elementQuery) {
-    elementQuery.style.animationName = "fadeIn";
+function fadeInElement(element) {
+    element.style.animationName = "fadeIn";
 }
 
 
