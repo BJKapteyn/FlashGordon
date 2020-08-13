@@ -1,4 +1,8 @@
-﻿function flashCard(front, back, category, id) {
+﻿let flashCards = {
+    allFlashCards: []
+}
+
+function flashCard(front, back, category, id) {
     this.Front = front;
     this.Back = back;
     this.Category = category;
@@ -19,6 +23,20 @@ function startGame() {
 async function getFlashCards() {
     let URL = urlBuilder('/Home/GetAllFlashCards');
     await fetch(URL, {
+        method: "GET",
+    })
+        .then(response => jsonData = response.json())
+        .then(data => {
+            for (let i in data) {
+                debugger;
+                let newFC = new flashCard(data[i].Front, data[i].Back, data[i].Category, data[i].Id);
+                flashCards.allFlashCards.push(newFC);
+            }
+        });
+}
 
-    }).then(response => );
+window.onload = async function () {
+    await getFlashCards();
+
+    console.log(flashCards.allFlashCards[0]);
 }

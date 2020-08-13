@@ -80,8 +80,8 @@ function addCategoryOptions(htmlSelectElement) {
     return htmlSelectElement;//In case I need to append the whole thing elsewhere 
 }
 
-//takes text from the flash card after hitting edit or creates blank card for a new flash card if id is null
-function grabFlashCardText(formID) {
+//takes text from the flash card after hitting edit or creates blank card or a new flash card if id is null
+function getFlashCardText(formID) {
     //these queries were built by the razor page flashcard Id
     let category = "";
     let frontCard = "";
@@ -102,7 +102,7 @@ function createFC(updateFormID) {
     let category = document.querySelector("#categoryCardInput").value;
     let front = document.querySelector("#frontCardInput").value;
     let back = document.querySelector("#backCardInput").value;
-    updateFormID >= 0 ? updateFormID = null : updateFormID = updateFormID;
+    updateFormID <= 0 ? updateFormID = null : updateFormID = updateFormID;
 
     return new flashCard(front, back, category, updateFormID);
 }
@@ -144,7 +144,7 @@ function updateFCFormModal(cardID, newOrUpdateURL) {
     let backCardInputQ = document.getElementById("backCardInput");
     let categoryCardInputQ = document.getElementById("categoryCardInput");
     let submitButtonQ = document.getElementById("formSubmitButton");
-    let cardData = grabFlashCardText(cardID);
+    let cardData = getFlashCardText(cardID);
 
     frontCardInputQ.innerText = cardData.Front;
     backCardInputQ.innerText = cardData.Back;
@@ -276,7 +276,7 @@ async function backEndUpdateFC(url = "", updatedFlashCardData = {}) {
     return response;
 }
 
-async function fetchCategories() {
+async function getCategories() {
     let requestAddress = urlBuilder("/Home/GetCategories");
 
     let response = await fetch(requestAddress, {
@@ -396,5 +396,5 @@ function toggleModal(onOrOff) {
 
 //initialize page data and buttons
 window.onload = function () {
-    fetchCategories();
+    getCategories();
 }();
