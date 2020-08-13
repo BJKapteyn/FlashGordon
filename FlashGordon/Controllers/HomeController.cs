@@ -67,7 +67,6 @@ namespace FlashGordon.Controllers
             return Ok();
         }
 
-
         [HttpPost]
         public IActionResult DeleteFC([FromBody] FlashCardIdBind flashCardId)
         {
