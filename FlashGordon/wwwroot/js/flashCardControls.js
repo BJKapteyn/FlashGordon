@@ -36,8 +36,25 @@ async function getFlashCards() {
         });
 }
 
+async function getCategories(categoryArray) {
+    let requestAddress = urlBuilder("/Home/GetCategories");
+
+    let response = await fetch(requestAddress, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    })
+        .then(response => response.json())
+        .then((data) => {
+            let jsonData = JSON.parse(data);
+            for (let i in jsonData) categoryArray.push(jsonData[i]);//store categories from backend
+        })
+    return response;
+}
+
 window.onload = async function () {
     await getFlashCards();
-
+    await getCategories(flashCards.categories);
     console.log(flashCards.allFlashCards[0]);
 }
