@@ -276,7 +276,7 @@ async function backEndUpdateFC(url = "", updatedFlashCardData = {}) {
     return response;
 }
 
-async function getCategories() {
+async function getCategories(categoryArray) {
     let requestAddress = urlBuilder("/Home/GetCategories");
 
     let response = await fetch(requestAddress, {
@@ -288,11 +288,8 @@ async function getCategories() {
         .then(response => response.json())
         .then((data) => {
             let jsonData = JSON.parse(data);
-            for (let i in jsonData) formInfo.categories.push(jsonData[i]);//store categories from backend
+            for (let i in jsonData) categoryArray.push(jsonData[i]);//store categories from backend
         })
-        .then(function () {
-            formInfo.initializeCategoryButtons();
-        });
     return response;
 }
 
@@ -396,5 +393,5 @@ function toggleModal(onOrOff) {
 
 //initialize page data and buttons
 window.onload = function () {
-    getCategories();
+    getCategories(formInfo.categories).then(formInfo.initializeCategoryButtons());
 }();

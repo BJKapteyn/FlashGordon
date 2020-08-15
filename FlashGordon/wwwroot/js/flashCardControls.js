@@ -1,5 +1,6 @@
 ﻿let flashCards = {
-    allFlashCards: []
+    allFlashCards: [],
+    categories: []
 }
 
 function flashCard(front, back, category, id) {
