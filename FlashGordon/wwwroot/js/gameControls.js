@@ -1,4 +1,8 @@
-﻿let flashCards = {
+﻿let asyncOps = {
+    dataIsLoaded: false
+}
+
+let flashCards = {
     allFlashCards: [],
     categories: []
 }
@@ -23,17 +27,17 @@ function startGame() {
 
 async function getFlashCards() {
     let URL = urlBuilder('/Home/GetAllFlashCards');
-    await fetch(URL, {
+    let response = await fetch(URL, {
         method: "GET",
     })
         .then(response => jsonData = response.json())
         .then(data => {
             for (let i in data) {
-                debugger;
                 let newFC = new flashCard(data[i].Front, data[i].Back, data[i].Category, data[i].Id);
                 flashCards.allFlashCards.push(newFC);
             }
         });
+    return response;//promise
 }
 
 async function getCategories(categoryArray) {
@@ -50,10 +54,11 @@ async function getCategories(categoryArray) {
             let jsonData = JSON.parse(data);
             for (let i in jsonData) categoryArray.push(jsonData[i]);//store categories from backend
         })
-    return response;
+    return response;//promise
 }
 
 window.onload = async function () {
+    debugger;
     await getFlashCards();
     await getCategories(flashCards.categories);
     console.log(flashCards.allFlashCards[0]);

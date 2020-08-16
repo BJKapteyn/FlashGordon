@@ -35,6 +35,11 @@
 .gameBody {
     grid-area: body;
 }
+
+.centeredButton {
+    display: block;
+    margin: auto;
+}
 /*#endregion*/
 /*-----------------------------------------------------Update Form----------------------------------------------------*/
 /*#region*/
@@ -48,7 +53,7 @@
     font-size: 20px;
 }
 
-#formCategory {
+#formCategory, #flashCardCategory {
     color: white;
     background-color:rgb(6, 123, 194);
 }

@@ -102,7 +102,7 @@ function createFC(updateFormID) {
     let category = document.querySelector("#categoryCardInput").value;
     let front = document.querySelector("#frontCardInput").value;
     let back = document.querySelector("#backCardInput").value;
-    updateFormID <= 0 ? updateFormID = null : updateFormID = updateFormID;
+    updateFormID <= 0 ? updateFormID = null : updateFormID = updateFormID;//for new cards so the primary key is generated
 
     return new flashCard(front, back, category, updateFormID);
 }

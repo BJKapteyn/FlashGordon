@@ -8,8 +8,13 @@
             <h2 class="gameTitle">Game Time!</h2>
         </div>
         <div id="gameBody">
-            <button onclick="startGame()" type="button" class="flashCardButton">Start</button>
+            <div id="flashCardStandin">
+                <div id="flashCardCategory"></div>
+                <div id="flashCardContent"></div>
+                <button type="button" id="flipButton" class="centeredButton flashCardButton">Flip Card</button>
+            </div>
+            <button onclick="startGame()" type="button" class="centeredButton flashCardButton">Start</button>
         </div>
     </div>
 </main>
-<script src="~/js/flashCardControls.js"></script>
+<script src="~/js/gameControls.js"></script>
