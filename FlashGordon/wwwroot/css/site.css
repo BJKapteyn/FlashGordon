@@ -40,6 +40,10 @@
     display: block;
     margin: auto;
 }
+
+.flashCardStandin {
+    display: none;
+}
 /*#endregion*/
 /*-----------------------------------------------------Update Form----------------------------------------------------*/
 /*#region*/
