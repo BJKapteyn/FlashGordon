@@ -6,6 +6,7 @@ let gameUtilities = {
     allFlashCards: [],
     categories: [],
     categoryButtons: [],
+    selectedCategories: [],
     populateCatButtons: function () {
         for (let i in this.categories) {
             let id = this.categories[i] + "Id";
@@ -13,45 +14,45 @@ let gameUtilities = {
             this.categoryButtons.push(button);
         }
     },
-    updateButtonLocations: function () {
+    updateButtonLocations: function () {//
         if (this.categoryButtons) {
             for (let i in this.categoryButtons) {
-                this.categoryButtons[i].updateNodelocation();
+                this.categoryButtons[i].updateNodeLocation();
             }
         }
         else {
-            console.error("Couldn't find category buttons");
+            console.error("Couldn't update nodes because they don't exist");
         }
     }
 }
 
-function flashCard(front, back, category, id) {
+function flashCard(front, back, category, id) {//keep naming scheme to match back end
     this.Front = front;
     this.Back = back;
     this.Category = category;
     this.Id = id;
-    this.IsUsed = true;
+    this.selected = true;
 }
 
 function categoryButton(_id, _name) {//hold button location and functionality
     this.id = _id;
-    this.isUsed = false;
+    this.selected = false;
     this.name = _name;
-    this.node = document.getElementById("");//initialize to falsy value
-    this.updateNodelocation = function() {//used after buttons are added to page
-        this.node = document.getElementById(`${this.id}`);
+    this.elementNode = document.getElementById("");//initialize to falsy value
+    this.updateNodeLocation = function () {//used after buttons are added to page
+        this.elementNode = document.getElementById(`${this.id}`);
     }
-    this.toggleIsUsed = function () {
-        this.isUsed ? this.isUsed = false : this.isUsed = true;
+    this.toggleSelected = function () {
+        this.selected ? this.selected = false : this.selected = true;
         try {
-            if (this.isUsed) {
-                this.node.style.backgroundColor = "white";
-                this.node.style.color = "rgb(180, 180, 190)";
+            if (this.selected) {
+                this.elementNode.style.backgroundColor = "white";
+                this.elementNode.style.color = "rgb(180, 180, 190)";
           
             }
             else {
-                this.node.style.backgroundColor = "rgb(6, 123, 194)";
-                this.node.style.color = "white";
+                this.elementNode.style.backgroundColor = "rgb(6, 123, 194)";
+                this.elementNode.style.color = "white";
             }
         }
         catch (err) {
@@ -77,8 +78,10 @@ function createChooseCatElement() {
         node.id = gameUtilities.categoryButtons[i].id;
         node.className = "flashCardButton";
         node.addEventListener('click', function () {
-            gameUtilities.categoryButtons[i].toggleIsUsed();
+            gameUtilities.categoryButtons[i].toggleSelected();
         });
+
+        parent.appendChild(node);
     }
 }
 
