@@ -5,7 +5,14 @@
 let flashCards = {
     allFlashCards: [],
     categories: [],
-    categoryButtons: []
+    categoryButtons: [],
+    populateCatButtons: function () {
+        for (let i in this.categories) {
+            let id = this.categories[i] + "Id";
+            let button = new categoryButton(id, false, this.categories[i]);
+            this.categoryButtons.push(button);
+        }
+    }
 }
 
 function flashCard(front, back, category, id) {
@@ -16,10 +23,29 @@ function flashCard(front, back, category, id) {
     this.IsUsed = true;
 }
 
-function categoryButton(_queryLocation, _isUsed, _name) {
-    this.queryLocation = _queryLocation;
+function categoryButton(_id, _isUsed, _name) {
+    this.id = _id;
     this.isUsed = _isUsed;
     this.name = _name;
+    this.toggleIsUsed = function () {
+        this.isUsed ? this.isUsed = false : this.isUsed = true;
+        if (this.isUsed) {
+            
+        }
+    }
+}
+
+function startGame() {
+    
+}
+
+function chooseCategories() {
+    
+}
+
+function createChooseCatElement() {
+    let parent = document.createElement('div');
+    for(let i in )
 }
 
 function urlBuilder(uriString) {
@@ -28,9 +54,6 @@ function urlBuilder(uriString) {
     return (domain + uriString);
 }
 
-function startGame() {
-    
-}
 
 async function getFlashCards() {
     let URL = urlBuilder('/Home/GetAllFlashCards');
@@ -64,12 +87,14 @@ async function getCategories(categoryArray) {
     return response;//promise
 }
 
-flipCard() {
-
+function flipCard() {
+    
 }
 
 window.onload = async function () {
     await getFlashCards();
-    await getCategories(flashCards.categories);
+    await getCategories(flashCards.categories).then(() => {
+        
+    })
     console.log(flashCards.allFlashCards[0]);
 }

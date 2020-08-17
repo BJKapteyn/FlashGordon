@@ -16,7 +16,7 @@ let formInfo = {
 //constructor for object representing filter button with functionality
 function categoryButton(categoryString) {
     this.name = categoryString;
-    this.isHidden = false;
+    this.isHidden = false;//represents if cards of this category are hidden or not
     this.nodeQuery = queryInnerString("h1", categoryString);
     this.buttonQ = document.getElementById(categoryString + "xyz");
     this.toggleHidden = function () {
