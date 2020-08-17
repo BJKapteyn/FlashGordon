@@ -4,7 +4,8 @@
 
 let flashCards = {
     allFlashCards: [],
-    categories: []
+    categories: [],
+    categoryButtons: []
 }
 
 function flashCard(front, back, category, id) {
@@ -13,6 +14,12 @@ function flashCard(front, back, category, id) {
     this.Category = category;
     this.Id = id;
     this.IsUsed = true;
+}
+
+function categoryButton(_queryLocation, _isUsed, _name) {
+    this.queryLocation = _queryLocation;
+    this.isUsed = _isUsed;
+    this.name = _name;
 }
 
 function urlBuilder(uriString) {
@@ -57,8 +64,11 @@ async function getCategories(categoryArray) {
     return response;//promise
 }
 
+flipCard() {
+
+}
+
 window.onload = async function () {
-    debugger;
     await getFlashCards();
     await getCategories(flashCards.categories);
     console.log(flashCards.allFlashCards[0]);
