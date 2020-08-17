@@ -2,15 +2,25 @@
     dataIsLoaded: false
 }
 
-let flashCards = {
+let gameUtilities = {
     allFlashCards: [],
     categories: [],
     categoryButtons: [],
     populateCatButtons: function () {
         for (let i in this.categories) {
             let id = this.categories[i] + "Id";
-            let button = new categoryButton(id, false, this.categories[i]);
+            let button = new categoryButton(id, this.categories[i]);
             this.categoryButtons.push(button);
+        }
+    },
+    updateButtonLocations: function () {
+        if (this.categoryButtons) {
+            for (let i in this.categoryButtons) {
+                this.categoryButtons[i].updateNodelocation();
+            }
+        }
+        else {
+            console.error("Couldn't find category buttons");
         }
     }
 }
@@ -23,14 +33,29 @@ function flashCard(front, back, category, id) {
     this.IsUsed = true;
 }
 
-function categoryButton(_id, _isUsed, _name) {
+function categoryButton(_id, _name) {//hold button location and functionality
     this.id = _id;
-    this.isUsed = _isUsed;
+    this.isUsed = false;
     this.name = _name;
+    this.node = document.getElementById("");//initialize to falsy value
+    this.updateNodelocation = function() {//used after buttons are added to page
+        this.node = document.getElementById(`${this.id}`);
+    }
     this.toggleIsUsed = function () {
         this.isUsed ? this.isUsed = false : this.isUsed = true;
-        if (this.isUsed) {
-            
+        try {
+            if (this.isUsed) {
+                this.node.style.backgroundColor = "white";
+                this.node.style.color = "rgb(180, 180, 190)";
+          
+            }
+            else {
+                this.node.style.backgroundColor = "rgb(6, 123, 194)";
+                this.node.style.color = "white";
+            }
+        }
+        catch (err) {
+            console.error(`${err}\n"${this.name}" button doesn't exist`);
         }
     }
 }
@@ -45,18 +70,29 @@ function chooseCategories() {
 
 function createChooseCatElement() {
     let parent = document.createElement('div');
-    for(let i in )
+    parent.id = "gameCategoriesContainer";
+
+    for (let i in gameUtilities.categoryButtons) {
+        let node = document.createElement('button');
+        node.id = gameUtilities.categoryButtons[i].id;
+        node.className = "flashCardButton";
+        node.addEventListener('click', function () {
+            gameUtilities.categoryButtons[i].toggleIsUsed();
+        });
+    }
 }
 
 function urlBuilder(uriString) {
     let domainArr = window.location.href.split('/');
     let domain = domainArr[0] + "//" + domainArr[2];
+
     return (domain + uriString);
 }
 
 
 async function getFlashCards() {
     let URL = urlBuilder('/Home/GetAllFlashCards');
+
     let response = await fetch(URL, {
         method: "GET",
     })
@@ -67,6 +103,7 @@ async function getFlashCards() {
                 flashCards.allFlashCards.push(newFC);
             }
         });
+
     return response;//promise
 }
 
@@ -84,6 +121,7 @@ async function getCategories(categoryArray) {
             let jsonData = JSON.parse(data);
             for (let i in jsonData) categoryArray.push(jsonData[i]);//store categories from backend
         })
+
     return response;//promise
 }
 
