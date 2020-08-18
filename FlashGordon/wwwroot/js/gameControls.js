@@ -62,14 +62,16 @@ function categoryButton(_id, _name) {//hold button location and functionality
 }
 
 function startGame() {
-    
+    let chooseCategoryView = document.creatElement('div');
+    chooseCategoryView.id = "chooseCategoryView";
+    chooseCategoryView.appendChild(createChooseCatElements());
 }
 
 function chooseCategories() {
     
 }
 
-function createChooseCatElement() {//---------------------------------------------------------------Not Finished
+function createChooseCatElements() {//---------------------------------------------------------------Not Finished
     let parent = document.createElement('div');
     parent.id = "gameCategoriesContainer";
 

@@ -45,11 +45,15 @@
     display: none;
 }
 
-.gameCategoriesContainer {
+#gameCategoriesContainer {
     width: 98%;
     padding: 2%;
     display: flex;
     flex-wrap: wrap;
+}
+
+#chooseCategoryView{
+    
 }
 /*#endregion*/
 /*-----------------------------------------------------Update Form----------------------------------------------------*/
