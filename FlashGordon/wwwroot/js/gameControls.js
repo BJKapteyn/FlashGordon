@@ -69,7 +69,7 @@ function chooseCategories() {
     
 }
 
-function createChooseCatElement() {
+function createChooseCatElement() {//---------------------------------------------------------------Not Finished
     let parent = document.createElement('div');
     parent.id = "gameCategoriesContainer";
 
@@ -83,6 +83,8 @@ function createChooseCatElement() {
 
         parent.appendChild(node);
     }
+
+    return parent;
 }
 
 function urlBuilder(uriString) {

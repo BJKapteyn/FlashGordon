@@ -44,6 +44,13 @@
 .flashCardStandin {
     display: none;
 }
+
+.gameCategoriesContainer {
+    width: 98%;
+    padding: 2%;
+    display: flex;
+    flex-wrap: wrap;
+}
 /*#endregion*/
 /*-----------------------------------------------------Update Form----------------------------------------------------*/
 /*#region*/
