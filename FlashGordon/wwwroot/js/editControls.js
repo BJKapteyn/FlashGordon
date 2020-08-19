@@ -398,9 +398,9 @@ window.onload = function () {
 //#endregion
 //--------------------------------------------------------Game Controls------------------------------------------------------------------
 //#region
-let asyncOps = {
-    dataIsLoaded: false
-}
+//let asyncOps = {//------may use this to resolve promises
+//    dataIsLoaded: false
+//}
 
 let gameUtilities = {
     allFlashCards: [],
@@ -456,6 +456,7 @@ function categoryButton(_id, _name) {//hold button location and functionality
 function startGame() {
     let chooseCategoryView = document.creatElement('div');
     chooseCategoryView.id = "chooseCategoryView";
+
     chooseCategoryView.appendChild(createChooseCatElements());
 }
 
@@ -494,10 +495,9 @@ async function getFlashCards() {
                 flashCards.allFlashCards.push(newFC);
             }
         });
-
 }
 
-async function getCategories(categoryArray) {
+async function getCategories(storageArray) {
     let requestAddress = urlBuilder("/Home/GetCategories");
 
     let response = await fetch(requestAddress, {
@@ -509,7 +509,7 @@ async function getCategories(categoryArray) {
         .then(response => response.json())
         .then((data) => {
             let jsonData = JSON.parse(data);
-            for (let i in jsonData) categoryArray.push(jsonData[i]);//store categories from backend
+            for (let i in jsonData) storageArray.push(jsonData[i]);//store categories from backend
         })
 }
 
@@ -519,10 +519,10 @@ function flipCard() {
 //#endregion
 //-----------------------------------------------------Animation Stuff------------------------------------------------------------------
 //#region
-function fadeInElement(element) {
+function fadeElement(element, forwardsOrReverse) {
     element.style.animationName = "fadeIn";
     element.style.animationDuration = "1s";
-    element.style.animationFillMode = "forwards";
+    element.style.animationFillMode = forwardsOrReverse;
 }
 
 function fadeInAllElements(elementsClassName) {
@@ -531,7 +531,7 @@ function fadeInAllElements(elementsClassName) {
     if (elements.length > 0) {
         var i = 0;
         let interval = setInterval(function () {
-            fadeInElement(elements.item(i));
+            fadeElement(elements.item(i), "forwards");
             if (i == elements.length - 1) {
                 clearInterval(interval);
             }
