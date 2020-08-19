@@ -8,7 +8,10 @@ function fadeInElement(element) {
 
 
 function fadeInAllElements() {
-    flashCards.allCardsArr = document.getElementsByClassName("fCardFlex");
+    if (!flashCards.allCardsArr) {
+        flashCards.allCardsArr = document.getElementsByClassName("fCardFlex");
+    }
+
     if (flashCards.allCardsArr.length > 0) {
         var i = 0;
         let interval = setInterval(function () {
