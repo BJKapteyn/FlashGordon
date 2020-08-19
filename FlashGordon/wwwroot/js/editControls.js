@@ -534,16 +534,14 @@ function fadeInElement(element) {
     element.style.animationName = "fadeIn";
 }
 
-function fadeInAllElements(elemntsClassName) {
-    if (!flashCards.allCardsArr) {
-        flashCards.allCardsArr = document.getElementsByClassName("fCardFlex");
-    }
+function fadeInAllElements(elementsClassName) {
+    let elements = document.getElementsByClassName(elementsClassName);
 
-    if (flashCards.allCardsArr.length > 0) {
+    if (elements.length > 0) {
         var i = 0;
         let interval = setInterval(function () {
-            fadeInElement(flashCards.allCardsArr.item(i));
-            if (i == flashCards.allCardsArr.length - 1) {
+            fadeInElement(elements.item(i));
+            if (i == elements.length - 1) {
                 clearInterval(interval);
             }
             i++;
