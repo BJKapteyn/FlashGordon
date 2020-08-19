@@ -426,14 +426,6 @@ let gameUtilities = {
     }
 }
 
-//function flashCard(front, back, category, id) {//keep naming scheme to match back end
-//    this.Front = front;
-//    this.Back = back;
-//    this.Category = category;
-//    this.Id = id;
-//    this.selected = true;
-//}
-
 function categoryButton(_id, _name) {//hold button location and functionality
     this.id = _id;
     this.selected = false;
@@ -468,7 +460,7 @@ function startGame() {
 }
 
 function chooseCategories() {
-
+    
 }
 
 function createChooseCatElements() {//---------------------------------------------------------------Not Finished
@@ -503,7 +495,6 @@ async function getFlashCards() {
             }
         });
 
-    return response;//promise
 }
 
 async function getCategories(categoryArray) {
@@ -520,8 +511,6 @@ async function getCategories(categoryArray) {
             let jsonData = JSON.parse(data);
             for (let i in jsonData) categoryArray.push(jsonData[i]);//store categories from backend
         })
-
-    return response;//promise
 }
 
 function flipCard() {
@@ -532,6 +521,8 @@ function flipCard() {
 //#region
 function fadeInElement(element) {
     element.style.animationName = "fadeIn";
+    element.style.animationDuration = "1s";
+    element.style.animationFillMode = "forwards";
 }
 
 function fadeInAllElements(elementsClassName) {
