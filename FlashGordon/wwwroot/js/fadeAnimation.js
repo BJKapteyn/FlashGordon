@@ -3,5 +3,6 @@
 }
 
 window.onload = function () {
+    getCategories(formInfo.categories).then(formInfo.initializeCategoryButtons());
     fadeInAllElements("fCardFlex");
 };

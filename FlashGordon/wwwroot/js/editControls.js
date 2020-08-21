@@ -391,9 +391,7 @@ function toggleModal(onOrOff) {
 }
 
 //initialize page data and buttons
-window.onload = function () {
-    getCategories(formInfo.categories).then(formInfo.initializeCategoryButtons());
-}();
+
 
 //#endregion
 //--------------------------------------------------------Game Controls------------------------------------------------------------------
@@ -403,10 +401,12 @@ window.onload = function () {
 //}
 
 let gameUtilities = {
+    flashCardView: document.getElementById("gameWindow"),
     allFlashCards: [],
     categories: [],
     categoryButtons: [],
     selectedCategories: [],
+    frontOrBack: true;
     populateCatButtons: function () {
         for (let i in this.categories) {
             let id = this.categories[i] + "Id";
@@ -436,6 +436,9 @@ function categoryButton(_id, _name) {//hold button location and functionality
     }
     this.toggleSelected = function () {
         this.selected ? this.selected = false : this.selected = true;
+        this.styleCategory();
+    }
+    this.styleCategory = function () {
         try {
             if (this.selected) {
                 this.elementNode.style.backgroundColor = "white";
