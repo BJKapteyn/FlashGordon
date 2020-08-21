@@ -338,7 +338,7 @@ async function deleteFlashCard(cardID) {
         if (response.status == 200) {
             debugger;
             console.log("Success!");
-            fadeElementOut(cardToDeleteQ, 2000);
+            fadeElementOut(cardToDeleteQ, 2000, false, true);
 
         }
         else {
@@ -348,13 +348,15 @@ async function deleteFlashCard(cardID) {
     toggleModal(false);
 }
 
-function fadeElementOut(htmlElement, fadeTimeInMs) {
-    htmlElement.style.animationFillMode = "forwards";
+function fadeElementOut(htmlElement, fadeTimeInMs = 0, forwardsOrBackwards = true, removeAfter = false) {
+    htmlElement.style.animationFillMode = forwardsOrBackwards ? "forwards" : "backwards";
     htmlElement.style.animationDuration = `${fadeTimeInMs}ms`;
     htmlElement.style.animationName = "fadeAway";
-    setTimeout(function () {
-        clearElement(htmlElement);
-    }, fadeTimeInMs)
+    if (removeAfter) {
+        setTimeout(function () {
+            clearElement(htmlElement);
+        }, fadeTimeInMs)
+    }
 }
 
 
@@ -536,10 +538,10 @@ function flipCard() {
 //#endregion
 //-----------------------------------------------------Animation Stuff------------------------------------------------------------------
 //#region
-function fadeElement(element, forwardsOrReverse) {
+function fadeElement(element, forwardsOrReverse = false) {
     element.style.animationName = "fadeIn";
     element.style.animationDuration = "1s";
-    element.style.animationFillMode = forwardsOrReverse;
+    element.style.animationFillMode = forwardsOrReverse ? "forwards" : "backwards";
 }
 
 function fadeInAllElements(elementsClassName) {
@@ -548,7 +550,7 @@ function fadeInAllElements(elementsClassName) {
     if (elements.length > 0) {
         var i = 0;
         let interval = setInterval(function () {
-            fadeElement(elements.item(i), "forwards");
+            fadeElement(elements.item(i), true);
             if (i == elements.length - 1) {
                 clearInterval(interval);
             }
