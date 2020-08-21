@@ -348,7 +348,7 @@ async function deleteFlashCard(cardID) {
     toggleModal(false);
 }
 
-function fadeElementOut(htmlElement, fadeTimeInMs = 0, forwardsOrBackwards = true, removeAfter = false) {
+function fadeElement(htmlElement, fadeTimeInMs = 0, forwardsOrBackwards = true, removeAfter = false) {
     htmlElement.style.animationFillMode = forwardsOrBackwards ? "forwards" : "backwards";
     htmlElement.style.animationDuration = `${fadeTimeInMs}ms`;
     htmlElement.style.animationName = "fadeAway";
@@ -459,7 +459,7 @@ function categoryButton(_id, _name) {//hold button location and functionality
 }
 
 function startGame() {
-    let chooseCategoryView = document.creatElement("div");
+    let chooseCategoryView = document.createElement("div");
     let chooseCategoryButton = document.createElement("button");
 
     chooseCategoryView.id = "chooseCategoryView";
@@ -511,7 +511,7 @@ async function getFlashCards() {
         .then(data => {
             for (let i in data) {
                 let newFC = new flashCard(data[i].Front, data[i].Back, data[i].Category, data[i].Id);
-                flashCards.allFlashCards.push(newFC);
+                gameUtilities.allFlashCards.push(newFC);
             }
         });
 }
