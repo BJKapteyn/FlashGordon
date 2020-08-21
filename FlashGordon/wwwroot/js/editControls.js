@@ -406,7 +406,7 @@ let gameUtilities = {
     categories: [],
     categoryButtons: [],
     selectedCategories: [],
-    frontOrBack: true;
+    frontOrBack: true,
     populateCatButtons: function () {
         for (let i in this.categories) {
             let id = this.categories[i] + "Id";
@@ -430,7 +430,7 @@ function categoryButton(_id, _name) {//hold button location and functionality
     this.id = _id;
     this.selected = false;
     this.name = _name;
-    this.elementNode = document.getElementById("");//initialize to falsy value
+    this.elementNode = document.getElementById("");//initialize to falsy value for checks
     this.updateNodeLocation = function () {//used after buttons are added to page
         this.elementNode = document.getElementById(`${this.id}`);
     }
@@ -457,13 +457,27 @@ function categoryButton(_id, _name) {//hold button location and functionality
 }
 
 function startGame() {
-    let chooseCategoryView = document.creatElement('div');
+    let chooseCategoryView = document.creatElement("div");
+    let chooseCategoryButton = document.createElement("button");
+
     chooseCategoryView.id = "chooseCategoryView";
+    chooseCategoryButton.className = "flashCardButton";
+    chooseCategoryButton.type = "button";
+
+    chooseCategoryButton.addEventListener("click", function () {
+        chooseCategories();
+    })
+
 
     chooseCategoryView.appendChild(createChooseCatElements());
+    chooseCategoryView.appendChild(chooseCategoryButton);
 }
 
 function chooseCategories() {
+    
+}
+
+function addFlashCardsToGame(category = "") {
     
 }
 
