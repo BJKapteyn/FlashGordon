@@ -338,7 +338,7 @@ async function deleteFlashCard(cardID) {
         if (response.status == 200) {
             debugger;
             console.log("Success!");
-            fadeElementOut(cardToDeleteQ, 2000, false, true);
+            fadeElement(cardToDeleteQ, 2000, false, true);
 
         }
         else {
@@ -538,7 +538,7 @@ function flipCard() {
 //#endregion
 //-----------------------------------------------------Animation Stuff------------------------------------------------------------------
 //#region
-function fadeElement(element, forwardsOrReverse = false) {
+function fadeElement(element, forwardsOrReverse = false) {//depricate this thing
     element.style.animationName = "fadeIn";
     element.style.animationDuration = "1s";
     element.style.animationFillMode = forwardsOrReverse ? "forwards" : "backwards";
