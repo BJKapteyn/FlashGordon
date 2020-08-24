@@ -39,7 +39,6 @@ function categoryFilterButton(categoryString) {
             }
         }
     }
-    
 }
 
 //onclick function of buttons
@@ -101,7 +100,7 @@ function getFlashCardText(formID) {
 }
 
 //get updated flash card info to submit for update
-function createFC(updateFormID) {
+function createUpdatedFC(updateFormID) {
     let category = document.querySelector("#categoryCardInput").value;
     let front = document.querySelector("#frontCardInput").value;
     let back = document.querySelector("#backCardInput").value;
@@ -137,7 +136,6 @@ function didSwapModal(modalClassName) {
 
 //add card info for new or update card form
 function updateFCFormModal(cardID, newOrUpdateURL) {
-    debugger;
     if (didSwapModal("FCForm")) {
         formInfo.formPositionQ.appendChild(createUpdateForm());
     }
@@ -154,7 +152,6 @@ function updateFCFormModal(cardID, newOrUpdateURL) {
     categoryCardInputQ.value = cardData.Category;
 
     submitButtonQ.addEventListener("click", function (event) {
-        debugger;
         event.preventDefault();
         updateFlashCardDB(cardData, newOrUpdateURL);//send data off to back end
         toggleModal(false);
@@ -267,7 +264,7 @@ function createYesNoModal(cardID) {
     return modalContainer;
 }
 
-async function backEndUpdateFC(url = "", updatedFlashCardData = {}) {
+async function backEndUpdateFC(url = "", updatedFlashCardData = {}) {//update flash card on database
     let response = await fetch(url, {
         method: "POST",
         headers: {
@@ -290,7 +287,6 @@ async function getCategories(categoryArray) {
     })
         .then(response => response.json())
         .then((data) => {
-            debugger;
             let jsonData = JSON.parse(data);
             for (let i in jsonData) categoryArray.push(jsonData[i]);//store categories from backend
         })
@@ -299,12 +295,11 @@ async function getCategories(categoryArray) {
 
 //update the flashcard in database
 async function updateFlashCardDB(cardData, newOrUpdateFCURL) {
-    debugger;
     let OK = "200";
     let NotFound = "404";
     let BadRequest = "400";
     let requestAddress = urlBuilder(newOrUpdateFCURL);
-    let updatedFlashCardData = createFC(cardData.Id);
+    let updatedFlashCardData = createUpdatedFC(cardData.Id);
 
 
     await backEndUpdateFC(requestAddress, updatedFlashCardData).then(function (response) {
@@ -324,7 +319,6 @@ async function updateFlashCardDB(cardData, newOrUpdateFCURL) {
 }
 
 async function deleteFlashCard(cardID) {
-    debugger;
     let requestAddress = urlBuilder(`/Home/DeleteFC`);
     let cardToDeleteData = JSON.stringify({ Id: cardID });
     let cardToDeleteQ = document.getElementById(cardID);
@@ -337,7 +331,6 @@ async function deleteFlashCard(cardID) {
         body: cardToDeleteData
     }).then(response => {
         if (response.status == 200) {
-            debugger;
             console.log("Success!");
             fadeElement(cardToDeleteQ, 2000, false, true);
 
@@ -407,11 +400,12 @@ let gameUtilities = {
     flashCardView: document.getElementById("gameWindow"),
     bodyView: document.getElementById("gameBody"),
     allFlashCards: [],
+    gameFlashCards: [],
     categories: [],
     categoryButtons: [],
     selectedCategories: [],
     frontOrBack: true,
-    populateCatButtons: function () {
+    populateCatButtons: function () {//create category buttons based on available categories
         for (let i in this.categories) {
             let id = this.categories[i] + "Id";
             let button = new categoryButton(id, this.categories[i]);
@@ -419,7 +413,7 @@ let gameUtilities = {
             this.categoryButtons.push(button);
         }
     },
-    updateButtonLocations: function () {//
+    updateButtonLocations: function () {//add button locations after they are added to the page
         if (this.categoryButtons) {
             for (let i in this.categoryButtons) {
                 this.categoryButtons[i].updateNodeLocation();
@@ -427,6 +421,13 @@ let gameUtilities = {
         }
         else {
             console.error("Couldn't update nodes because they don't exist");
+        }
+    },
+    pupulateSelectedCategories: function () {
+        for (let i in this.categoryButtons) {
+            if (this.categoryButtons[i].selected) {
+                this.selectedCategories.push(this.categoryButtons[i].name);
+            }
         }
     }
 }
@@ -445,7 +446,7 @@ function categoryButton(_id, _name) {//hold button location and functionality
     }
     this.styleCategory = function () {
         try {
-            if (this.selected) {
+            if (!this.selected) {
                 this.elementNode.style.backgroundColor = "white";
                 this.elementNode.style.color = "rgb(180, 180, 190)";
 
@@ -461,7 +462,7 @@ function categoryButton(_id, _name) {//hold button location and functionality
     }
 }
 
-function startGame() {
+function startGame() {//game starts here
     let startButton = document.getElementById("startButton");
     
     let chooseCategoryView = document.createElement("div");
@@ -471,10 +472,6 @@ function startGame() {
     chooseCategoryButton.className = "flashCardButton";
     chooseCategoryButton.type = "button";
     chooseCategoryButton.innerText = "Continue";
-
-    chooseCategoryButton.addEventListener("click", function () {
-        chooseCategories();
-    });
 
     gameUtilities.bodyView.appendChild(createChooseCatElements());
     gameUtilities.bodyView.appendChild(chooseCategoryButton); 
@@ -487,18 +484,32 @@ function startGame() {
         gameUtilities.categoryButtons.forEach(x => x.styleCategory());
         fadeInAllChildren("gameCategoriesContainer");//fade in the category buttons
     }, 1000);
+    document.getElementById("gameTitle").innerText = "Choose Categories";
+
+    chooseCategoryButton.addEventListener("click", function () {
+        chooseCategories();
+    });
+}
+
+function filterCards(flashCard) {
+    if (gameUtilities.selectedCategories.includes(flashCard.Category)) {
+        return true;
+    }
+    return false;
 }
 
 
-function chooseCategories() {
-    
+function chooseCategories() {//creates list of flashcards to show based on selected categories
+    gameUtilities.pupulateSelectedCategories();
+    addFlashCardsToGame();
 }
 
-function addFlashCardsToGame(category = "") {
-    
+function addFlashCardsToGame() {
+    debugger;
+    gameUtilities.gameFlashCards = gameUtilities.allFlashCards.filter(filterCards);//create new array of flashcards of selected categories
 }
 
-function createChooseCatElements() {//---------------------------------------------------------------Not Finished
+function createChooseCatElements() {
     let parent = document.createElement('div');
     parent.id = "gameCategoriesContainer";
 
@@ -563,7 +574,6 @@ function fadeElement(element, forwardsOrReverse = false, animationName = "") {//
 function fadeInAllChildren(parentId) {
     let parent = document.getElementById(parentId);
     let parentLength = parent.children.length;
-    debugger;
     if (parentLength > 0) {
         let i = 0;
         let interval = setInterval(function () {
