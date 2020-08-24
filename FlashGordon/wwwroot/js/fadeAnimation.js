@@ -6,4 +6,5 @@ window.onload = async function () {
     await getCategories(formInfo.categories);
     formInfo.initializeCategoryButtons();
     fadeInAllElements("fCardFlex");
+    this.fadeInAllChildren("categoryContainer");
 };

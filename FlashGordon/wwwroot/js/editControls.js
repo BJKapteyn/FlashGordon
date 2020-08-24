@@ -505,7 +505,6 @@ function chooseCategories() {//creates list of flashcards to show based on selec
 }
 
 function addFlashCardsToGame() {
-    debugger;
     gameUtilities.gameFlashCards = gameUtilities.allFlashCards.filter(filterCards);//create new array of flashcards of selected categories
 }
 
