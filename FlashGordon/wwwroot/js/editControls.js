@@ -520,6 +520,7 @@ function shuffle(array) {
 function chooseCategories() {//creates list of flashcards to show based on selected categories
     gameUtilities.pupulateSelectedCategories();
     addFlashCardsToGame();
+    shuffle(gameUtilities.gameFlashCards);
 }
 
 function addFlashCardsToGame() {
