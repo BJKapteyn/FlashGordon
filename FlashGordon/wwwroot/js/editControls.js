@@ -44,7 +44,6 @@ function categoryFilterButton(categoryString) {
 
 //onclick function of buttons
 function toggleCategory(category) {
-    debugger;
     formInfo.categoryButtons.find(x => x.name == category).toggleHidden();
 } 
 
@@ -471,22 +470,22 @@ function startGame() {
     chooseCategoryView.id = "chooseCategoryView";
     chooseCategoryButton.className = "flashCardButton";
     chooseCategoryButton.type = "button";
+    chooseCategoryButton.innerText = "Continue";
 
     chooseCategoryButton.addEventListener("click", function () {
         chooseCategories();
     });
 
-    chooseCategoryView.appendChild(createChooseCatElements());
-    chooseCategoryView.appendChild(chooseCategoryButton); 
+    gameUtilities.bodyView.appendChild(createChooseCatElements());
+    gameUtilities.bodyView.appendChild(chooseCategoryButton); 
     gameUtilities.flashCardView.appendChild(chooseCategoryView); 
     gameUtilities.updateButtonLocations();//update button's locations for slection functionality
 
-    debugger;//--------------------------------------------------------------------------------------------
-
     fadeElement(startButton, true, "fadeOutModal");
     setTimeout(function () {
-        fadeInAllChildren("gameBody");//fade in the category buttons
-
+        clearElement(startButton);
+        gameUtilities.categoryButtons.forEach(x => x.styleCategory());
+        fadeInAllChildren("gameCategoriesContainer");//fade in the category buttons
     }, 1000);
 }
 
@@ -506,7 +505,7 @@ function createChooseCatElements() {//------------------------------------------
     for (let i in gameUtilities.categoryButtons) {
         let node = document.createElement('button');
         node.id = gameUtilities.categoryButtons[i].id;
-        node.className = "flashCardButton";
+        node.className = "flashCardButton categoryButton";
         node.textContent = gameUtilities.categoryButtons[i].name;
         node.addEventListener('click', function () {
             gameUtilities.categoryButtons[i].toggleSelected();
@@ -564,7 +563,7 @@ function fadeElement(element, forwardsOrReverse = false, animationName = "") {//
 function fadeInAllChildren(parentId) {
     let parent = document.getElementById(parentId);
     let parentLength = parent.children.length;
-
+    debugger;
     if (parentLength > 0) {
         let i = 0;
         let interval = setInterval(function () {
