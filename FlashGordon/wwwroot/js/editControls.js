@@ -290,6 +290,7 @@ async function getCategories(categoryArray) {
     })
         .then(response => response.json())
         .then((data) => {
+            debugger;
             let jsonData = JSON.parse(data);
             for (let i in jsonData) categoryArray.push(jsonData[i]);//store categories from backend
         })
@@ -460,7 +461,7 @@ function categoryButton(_id, _name) {//hold button location and functionality
 }
 
 function startGame() {
-    let startButton = document.getElementById("startGame");
+    let startButton = document.getElementById("startButton");
     
     let chooseCategoryView = document.createElement("div");
     let chooseCategoryButton = document.createElement("button");
@@ -471,14 +472,14 @@ function startGame() {
 
     chooseCategoryButton.addEventListener("click", function () {
         chooseCategories();
-    })
-
+    });
 
     chooseCategoryView.appendChild(createChooseCatElements());
     chooseCategoryView.appendChild(chooseCategoryButton); 
+    gameUtilities.flashCardView.appendChild(chooseCategoryView);
 
     fadeElement(startButton, false);
-    fadeInAllElements();
+    fadeInAllChildren("gameCategoriesContainer");//fade in the category buttons
 
 }
 
@@ -498,6 +499,7 @@ function createChooseCatElements() {//------------------------------------------
         let node = document.createElement('button');
         node.id = gameUtilities.categoryButtons[i].id;
         node.className = "flashCardButton";
+        node.textContent = gameUtilities.categoryButtons[i].name;
         node.addEventListener('click', function () {
             gameUtilities.categoryButtons[i].toggleSelected();
         });
@@ -534,6 +536,7 @@ async function getCategories(storageArray) {
     })
         .then(response => response.json())
         .then((data) => {
+            debugger;
             let jsonData = JSON.parse(data);
             for (let i in jsonData) storageArray.push(jsonData[i]);//store categories from backend
         })
@@ -551,17 +554,23 @@ function fadeElement(element, forwardsOrReverse = false) {//depricate this thing
     element.style.animationFillMode = forwardsOrReverse ? "forwards" : "backwards";
 }
 
-function fadeInAllElementsFromParent(parentId) {
+function fadeInAllChildren(parentId) {
     let parent = document.getElementById(parentId);
+    let parentLength = parent.children.length;
 
-    let i = 0;
-    let interval = setInterval(function () {
-        fadeElement(parent.children.item(i), true);
-        if (i == elements.length - 1) {
-            clearInterval(interval);
-        }
-        i++
-    })
+    if (parentLength > 0) {
+        let i = 0;
+        let interval = setInterval(function () {
+            fadeElement(parent.children.item(i), true);
+            if (i == parentLength - 1) {
+                clearInterval(interval);
+            }
+            i++;
+        });
+    }
+    else {
+        console.error("No categories to choose from");
+    }
 }
 
 function fadeInAllElements(elementsClassName) {
