@@ -407,7 +407,6 @@ body {
 
 @keyframes fadeAway {
     0% {
-        
         opacity: 1;
         box-shadow: 5px 5px 10px grey;
     }
@@ -425,6 +424,15 @@ body {
 
     100% {
         opacity: 1;
+    }
+}
+
+@keyframes fadeOutModal {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }
 

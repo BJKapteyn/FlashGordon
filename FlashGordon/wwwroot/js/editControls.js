@@ -406,6 +406,7 @@ function toggleModal(onOrOff) {
 
 let gameUtilities = {
     flashCardView: document.getElementById("gameWindow"),
+    bodyView: document.getElementById("gameBody"),
     allFlashCards: [],
     categories: [],
     categoryButtons: [],
@@ -482,10 +483,13 @@ function startGame() {
 
     debugger;//--------------------------------------------------------------------------------------------
 
-    fadeElement(startButton, true, "fadeInModal");
-    fadeInAllChildren("gameCategoriesContainer");//fade in the category buttons
+    fadeElement(startButton, true, "fadeOutModal");
+    setTimeout(function () {
+        fadeInAllChildren("gameBody");//fade in the category buttons
 
+    }, 1000);
 }
+
 
 function chooseCategories() {
     
@@ -552,9 +556,9 @@ function flipCard() {
 //-----------------------------------------------------Animation Stuff------------------------------------------------------------------
 //#region
 function fadeElement(element, forwardsOrReverse = false, animationName = "") {//depricate this thing
-    element.style.animationName = animationName;
     element.style.animationDuration = "1s";
     element.style.animationFillMode = forwardsOrReverse ? "forwards" : "backwards";
+    element.style.animationName = animationName;
 }
 
 function fadeInAllChildren(parentId) {
