@@ -436,6 +436,7 @@ function categoryButton(_id, _name) {//hold button location and functionality
     this.name = _name;
     this.elementNode = document.getElementById("");//initialize to falsy value for checks
     this.updateNodeLocation = function () {//used after buttons are added to page
+        debugger;
         this.elementNode = document.getElementById(`${this.id}`);
     }
     this.toggleSelected = function () {
@@ -476,7 +477,10 @@ function startGame() {
 
     chooseCategoryView.appendChild(createChooseCatElements());
     chooseCategoryView.appendChild(chooseCategoryButton); 
-    gameUtilities.flashCardView.appendChild(chooseCategoryView);
+    gameUtilities.flashCardView.appendChild(chooseCategoryView); 
+    gameUtilities.updateButtonLocations();//update button's locations for slection functionality
+
+    debugger;//--------------------------------------------------------------------------------------------
 
     fadeElement(startButton, false);
     fadeInAllChildren("gameCategoriesContainer");//fade in the category buttons
@@ -513,7 +517,7 @@ function createChooseCatElements() {//------------------------------------------
 async function getFlashCards() {
     let URL = urlBuilder('/Home/GetAllFlashCards');
 
-    let response = await fetch(URL, {
+    await fetch(URL, {
         method: "GET",
     })
         .then(response => jsonData = response.json())
@@ -536,7 +540,6 @@ async function getCategories(storageArray) {
     })
         .then(response => response.json())
         .then((data) => {
-            debugger;
             let jsonData = JSON.parse(data);
             for (let i in jsonData) storageArray.push(jsonData[i]);//store categories from backend
         })
