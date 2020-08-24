@@ -2,7 +2,8 @@
     allCardsArr: document.getElementsByClassName("fCardFlex")
 }
 
-window.onload = function () {
-    getCategories(formInfo.categories).then(formInfo.initializeCategoryButtons());
+window.onload = async function () {
+    await getCategories(formInfo.categories);
+    formInfo.initializeCategoryButtons();
     fadeInAllElements("fCardFlex");
 };

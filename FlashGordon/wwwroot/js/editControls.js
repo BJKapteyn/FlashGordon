@@ -11,13 +11,13 @@ let formInfo = {
     updateOrNewFormQ: document.getElementById(''),
     initializeCategoryButtons: function () {
         this.categories.forEach((x) => {
-            this.categoryButtons.push(new categoryButton(x));
+            this.categoryButtons.push(new categoryFilterButton(x));
         })
     }
 }
 
 //constructor for object representing filter button with functionality
-function categoryButton(categoryString) {
+function categoryFilterButton(categoryString) {
     this.name = categoryString;
     this.isHidden = false;//represents if cards of this category are hidden or not
     this.nodeQuery = queryInnerString("h1", categoryString);
@@ -44,6 +44,7 @@ function categoryButton(categoryString) {
 
 //onclick function of buttons
 function toggleCategory(category) {
+    debugger;
     formInfo.categoryButtons.find(x => x.name == category).toggleHidden();
 } 
 
@@ -436,8 +437,7 @@ function categoryButton(_id, _name) {//hold button location and functionality
     this.name = _name;
     this.elementNode = document.getElementById("");//initialize to falsy value for checks
     this.updateNodeLocation = function () {//used after buttons are added to page
-        debugger;
-        this.elementNode = document.getElementById(`${this.id}`);
+        this.elementNode = document.getElementById(`${this.id}`);//-------------------------------------------------stopped here doesn't work
     }
     this.toggleSelected = function () {
         this.selected ? this.selected = false : this.selected = true;
@@ -482,7 +482,7 @@ function startGame() {
 
     debugger;//--------------------------------------------------------------------------------------------
 
-    fadeElement(startButton, false);
+    fadeElement(startButton, true, "fadeInModal");
     fadeInAllChildren("gameCategoriesContainer");//fade in the category buttons
 
 }
@@ -551,8 +551,8 @@ function flipCard() {
 //#endregion
 //-----------------------------------------------------Animation Stuff------------------------------------------------------------------
 //#region
-function fadeElement(element, forwardsOrReverse = false) {//depricate this thing
-    element.style.animationName = "fadeIn";
+function fadeElement(element, forwardsOrReverse = false, animationName = "") {//depricate this thing
+    element.style.animationName = animationName;
     element.style.animationDuration = "1s";
     element.style.animationFillMode = forwardsOrReverse ? "forwards" : "backwards";
 }
@@ -564,7 +564,7 @@ function fadeInAllChildren(parentId) {
     if (parentLength > 0) {
         let i = 0;
         let interval = setInterval(function () {
-            fadeElement(parent.children.item(i), true);
+            fadeElement(parent.children.item(i), true, "fadeInModal");
             if (i == parentLength - 1) {
                 clearInterval(interval);
             }
@@ -582,7 +582,7 @@ function fadeInAllElements(elementsClassName) {
     if (elements.length > 0) {
         var i = 0;
         let interval = setInterval(function () {
-            fadeElement(elements.item(i), true);
+            fadeElement(elements.item(i), true, "fadeIn");
             if (i == elements.length - 1) {
                 clearInterval(interval);
             }
