@@ -413,6 +413,7 @@ let gameUtilities = {
         for (let i in this.categories) {
             let id = this.categories[i] + "Id";
             let button = new categoryButton(id, this.categories[i]);
+
             this.categoryButtons.push(button);
         }
     },
@@ -459,6 +460,8 @@ function categoryButton(_id, _name) {//hold button location and functionality
 }
 
 function startGame() {
+    let startButton = document.getElementById("startGame");
+    
     let chooseCategoryView = document.createElement("div");
     let chooseCategoryButton = document.createElement("button");
 
@@ -472,7 +475,11 @@ function startGame() {
 
 
     chooseCategoryView.appendChild(createChooseCatElements());
-    chooseCategoryView.appendChild(chooseCategoryButton);
+    chooseCategoryView.appendChild(chooseCategoryButton); 
+
+    fadeElement(startButton, false);
+    fadeInAllElements();
+
 }
 
 function chooseCategories() {
@@ -519,7 +526,7 @@ async function getFlashCards() {
 async function getCategories(storageArray) {
     let requestAddress = urlBuilder("/Home/GetCategories");
 
-    let response = await fetch(requestAddress, {
+    await fetch(requestAddress, {
         method: "GET",
         headers: {
             "Accept": "application/json"
@@ -542,6 +549,19 @@ function fadeElement(element, forwardsOrReverse = false) {//depricate this thing
     element.style.animationName = "fadeIn";
     element.style.animationDuration = "1s";
     element.style.animationFillMode = forwardsOrReverse ? "forwards" : "backwards";
+}
+
+function fadeInAllElementsFromParent(parentId) {
+    let parent = document.getElementById(parentId);
+
+    let i = 0;
+    let interval = setInterval(function () {
+        fadeElement(parent.children.item(i), true);
+        if (i == elements.length - 1) {
+            clearInterval(interval);
+        }
+        i++
+    })
 }
 
 function fadeInAllElements(elementsClassName) {
