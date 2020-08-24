@@ -498,6 +498,24 @@ function filterCards(flashCard) {
     return false;
 }
 
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
 
 function chooseCategories() {//creates list of flashcards to show based on selected categories
     gameUtilities.pupulateSelectedCategories();
@@ -564,7 +582,7 @@ function flipCard() {
 //#endregion
 //-----------------------------------------------------Animation Stuff------------------------------------------------------------------
 //#region
-function fadeElement(element, forwardsOrReverse = false, animationName = "") {//depricate this thing
+function fadeElement(element, forwardsOrReverse = false, animationName = "") {
     element.style.animationDuration = "1s";
     element.style.animationFillMode = forwardsOrReverse ? "forwards" : "backwards";
     element.style.animationName = animationName;
