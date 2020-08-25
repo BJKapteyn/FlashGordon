@@ -28,10 +28,6 @@
     grid-area: head;
 }
 
-.gameTitle {
-    
-}
-
 .gameBody {
     grid-area: body;
 }

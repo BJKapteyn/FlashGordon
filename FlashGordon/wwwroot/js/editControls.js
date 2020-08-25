@@ -397,7 +397,7 @@ function toggleModal(onOrOff) {
 //}
 
 let gameUtilities = {
-    flashCardView: document.getElementById("gameWindow"),
+    flashCardView: document.getElementById("flashCardStandin"),
     bodyView: document.getElementById("gameBody"),
     fcCategoryView: document.getElementById("flashCardCategory"),
     fcContentView: document.getElementById("flashCardContent"),
@@ -408,29 +408,29 @@ let gameUtilities = {
     categoryButtons: [],
     selectedCategories: [],
     frontOrBack: true,//used to flip the card
-    cardNumber: 0,
+    currentCardIndex: 0,
     currentCard: new flashCard(null, null, null, null),
 
-    flashCardGame = function () {
-        this.currentCard = gameFlashCards[currentNumber];
+    flashCardGame: function () {
+        this.currentCard = this.gameFlashCards[this.currentCardIndex];
         this.fcCategoryView.innerText = this.currentCard.Category;
         this.fcContentView.innerText = this.currentCard.Front;
     },
 
-    nextCard = function () {
-        cardNumber++;
-        frontOrBack = true;
-        flashCardGame();
+    nextCard: function () {
+        this.currentCardIndex++;
+        this.frontOrBack = true;
+        this.flashCardGame();
     },
 
-    flipCard = function () {
+    flipCard: function () {
         if (this.frontOrBack) {
-            this.fcContentView.innerText = this.currentCard[Back];
-            frontOrBack = false;
+            this.fcContentView.innerText = this.currentCard.Back;
+            this.frontOrBack = false;
         }
         else {
-            this.fcContentView.innerText = this.currentCard[Front];
-            frontOrBack = true;
+            this.fcContentView.innerText = this.currentCard.Front;
+            this.frontOrBack = true;
         }
     },
 
@@ -509,7 +509,8 @@ function startGame() {//game starts here
     gameUtilities.updateButtonLocations();//update button's locations for slection functionality
 
     fadeElement(startButton, true, "fadeOutModal");
-    setTimeout(function () {
+
+    setTimeout(function () {//wait for animation
         clearElement(startButton);
         gameUtilities.categoryButtons.forEach(x => x.styleCategory());
         fadeInAllChildren("gameCategoriesContainer");//fade in the category buttons
@@ -521,7 +522,7 @@ function startGame() {//game starts here
     });
 }
 
-function filterCards(flashCard) {
+function filterCards(flashCard) {//boolean for filtering cards by category
     if (gameUtilities.selectedCategories.includes(flashCard.Category)) {
         return true;
     }
@@ -559,6 +560,7 @@ function chooseCategories() {//creates list of flashcards to show based on selec
     fadeElement(catButtons, true, "fadeOutModal");
 
     setTimeout(function () {//wait for animation
+        gameUtilities.flashCardView.style.display = "block";//-----------------------------------change to grid when styling
         gameUtilities.flashCardGame();
     }, 1000);
 }
@@ -618,9 +620,6 @@ async function getCategories(storageArray) {
         })
 }
 
-function flipCard() {
-
-}
 //#endregion
 //-----------------------------------------------------Animation Stuff------------------------------------------------------------------
 //#region
