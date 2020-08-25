@@ -409,17 +409,30 @@ let gameUtilities = {
     selectedCategories: [],
     frontOrBack: true,//used to flip the card
     cardNumber: 0,
+    currentCard: new flashCard(null, null, null, null),
 
     flashCardGame = function () {
-        this.fcCategoryView.innerText = this.gameFlashCards[cardNumber].Category;
-        this.fcContentView.innerText = this.gameFlashCards[cardNumber].Front;
+        this.currentCard = gameFlashCards[currentNumber];
+        this.fcCategoryView.innerText = this.currentCard.Category;
+        this.fcContentView.innerText = this.currentCard.Front;
     },
 
     nextCard = function () {
         cardNumber++;
         frontOrBack = true;
         flashCardGame();
-    }
+    },
+
+    flipCard = function () {
+        if (this.frontOrBack) {
+            this.fcContentView.innerText = this.currentCard[Back];
+            frontOrBack = false;
+        }
+        else {
+            this.fcContentView.innerText = this.currentCard[Front];
+            frontOrBack = true;
+        }
+    },
 
     populateCatButtons: function () {//create category buttons based on available categories
         for (let i in this.categories) {
