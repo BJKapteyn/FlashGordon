@@ -332,7 +332,7 @@ async function deleteFlashCard(cardID) {
     }).then(response => {
         if (response.status == 200) {
             console.log("Success!");
-            fadeElement(cardToDeleteQ, 2000, false, true);
+            opacityFadeElement(cardToDeleteQ, 2000, false, true);
 
         }
         else {
@@ -342,7 +342,7 @@ async function deleteFlashCard(cardID) {
     toggleModal(false);
 }
 
-function fadeElement(htmlElement, fadeTimeInMs = 0, forwardsOrBackwards = true, removeAfter = false) {
+function opacityFadeElement(htmlElement, fadeTimeInMs = 0, forwardsOrBackwards = true, removeAfter = false) {
     htmlElement.style.animationFillMode = forwardsOrBackwards ? "forwards" : "backwards";
     htmlElement.style.animationDuration = `${fadeTimeInMs}ms`;
     htmlElement.style.animationName = "fadeAway";
@@ -399,20 +399,25 @@ function toggleModal(onOrOff) {
 let gameUtilities = {
     flashCardView: document.getElementById("gameWindow"),
     bodyView: document.getElementById("gameBody"),
+    fcCategoryView: document.getElementById("flashCardCategory"),
+    fcContentView: document.getElementById("flashCardContent"),
     allFlashCards: [],
     gameFlashCards: [],
+    gameFlashCardsLength: 0,
     categories: [],
     categoryButtons: [],
     selectedCategories: [],
     frontOrBack: true,
+    cardNumber: 0,
+
     populateCatButtons: function () {//create category buttons based on available categories
         for (let i in this.categories) {
             let id = this.categories[i] + "Id";
             let button = new categoryButton(id, this.categories[i]);
-
             this.categoryButtons.push(button);
         }
     },
+
     updateButtonLocations: function () {//add button locations after they are added to the page
         if (this.categoryButtons) {
             for (let i in this.categoryButtons) {
@@ -423,7 +428,8 @@ let gameUtilities = {
             console.error("Couldn't update nodes because they don't exist");
         }
     },
-    pupulateSelectedCategories: function () {
+
+    populateSelectedCategories: function () {
         for (let i in this.categoryButtons) {
             if (this.categoryButtons[i].selected) {
                 this.selectedCategories.push(this.categoryButtons[i].name);
@@ -464,12 +470,12 @@ function categoryButton(_id, _name) {//hold button location and functionality
 
 function startGame() {//game starts here
     let startButton = document.getElementById("startButton");
-    
     let chooseCategoryView = document.createElement("div");
     let chooseCategoryButton = document.createElement("button");
 
     chooseCategoryView.id = "chooseCategoryView";
     chooseCategoryButton.className = "flashCardButton";
+    chooseCategoryButton.id = "continueButton";
     chooseCategoryButton.type = "button";
     chooseCategoryButton.innerText = "Continue";
 
@@ -518,13 +524,28 @@ function shuffle(array) {
 }
 
 function chooseCategories() {//creates list of flashcards to show based on selected categories
-    gameUtilities.pupulateSelectedCategories();
+    let catButtons = document.getElementById("gameCategoriesContainer");
+    let continueButton = document.getElementById("continueButton");
+
+    gameUtilities.populateSelectedCategories();
     addFlashCardsToGame();
     shuffle(gameUtilities.gameFlashCards);
+
+    fadeElement(continueButton, true, "fadeOutModal");
+    fadeElement(catButtons, true, "fadeOutModal");
+
+    setTimeout(function () {
+        flashCardGame();
+    }, 1000);
+}
+
+function flashCardGame() {
+    
 }
 
 function addFlashCardsToGame() {
     gameUtilities.gameFlashCards = gameUtilities.allFlashCards.filter(filterCards);//create new array of flashcards of selected categories
+    gameUtilities.gameFlashCardsLength = gameUtilities.gameFlashCards.length;
 }
 
 function createChooseCatElements() {
