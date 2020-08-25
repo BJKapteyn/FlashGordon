@@ -410,6 +410,10 @@ let gameUtilities = {
     frontOrBack: true,
     cardNumber: 0,
 
+    flashCardGame = function () {
+        
+    },
+
     populateCatButtons: function () {//create category buttons based on available categories
         for (let i in this.categories) {
             let id = this.categories[i] + "Id";
@@ -534,13 +538,9 @@ function chooseCategories() {//creates list of flashcards to show based on selec
     fadeElement(continueButton, true, "fadeOutModal");
     fadeElement(catButtons, true, "fadeOutModal");
 
-    setTimeout(function () {
-        flashCardGame();
+    setTimeout(function () {//wait for animation
+        gameUtilities.flashCardGame();
     }, 1000);
-}
-
-function flashCardGame() {
-    
 }
 
 function addFlashCardsToGame() {
