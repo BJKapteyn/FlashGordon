@@ -563,8 +563,7 @@ function chooseCategories() {//creates list of flashcards to show based on selec
         }, 1000);
     }
     else {
-        console.log("No cards selected!");
-        startGame();
+        document.getElementById("message").innerText = "No categories selected or no cards exist in the selected categories. If that's the case head on over to the edit cards page and make some ya turkey!"
     }
 }
 

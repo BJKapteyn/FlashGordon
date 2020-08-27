@@ -47,6 +47,11 @@
     display: none;
 }
 
+#message {
+    margin: 10px;
+    font-size: 20px
+}
+
 #gameCategoriesContainer {
     width: 100%;
     padding: 2%;
