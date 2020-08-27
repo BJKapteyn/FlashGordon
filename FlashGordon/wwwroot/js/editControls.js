@@ -398,6 +398,7 @@ let gameUtilities = {
     bodyView: document.getElementById("gameBody"),
     fcCategoryView: document.getElementById("flashCardCategory"),
     fcContentView: document.getElementById("flashCardContent"),
+    gameTitle: document.getElementById("gameTitle"),
     allFlashCards: [],
     gameFlashCards: [],//cards after choosing categories
     gameFlashCardsLength: 0,
@@ -511,7 +512,7 @@ function startGame() {//game starts here
         clearElement(startButton);
         gameUtilities.categoryButtons.forEach(x => x.styleCategory());
         fadeInAllChildren("gameCategoriesContainer");//fade in the category buttons
-        document.getElementById("gameTitle").innerText = "Choose Categories";
+        gameUtilities.gameTitle.innerText = "Choose Categories";
     }, 1000);
 
     chooseCategoryButton.addEventListener("click", function () {
@@ -546,12 +547,13 @@ function shuffle(array) {
 }
 
 function chooseCategories() {//creates list of flashcards to show based on selected categories
+    let message = document.getElementById("message");
+    gameUtilities.populateSelectedCategories();
+    addFlashCardsToGame();
     if (gameUtilities.gameFlashCards.length) {
         let catButtons = document.getElementById("gameCategoriesContainer");
         let continueButton = document.getElementById("continueButton");
 
-        gameUtilities.populateSelectedCategories();
-        addFlashCardsToGame();
         shuffle(gameUtilities.gameFlashCards);
 
         fadeElement(continueButton, true, "fadeOutModal");
@@ -560,10 +562,12 @@ function chooseCategories() {//creates list of flashcards to show based on selec
         setTimeout(function () {//wait for animation
             gameUtilities.flashCardView.style.display = "block";//-----------------------------------change to grid when styling
             gameUtilities.flashCardGame();
+            gameUtilities.gameTitle.innerText = "Let's Study";
         }, 1000);
+        message.innerText = "";
     }
     else {
-        document.getElementById("message").innerText = "No categories selected or no cards exist in the selected categories. If that's the case head on over to the edit cards page and make some ya turkey!"
+        message.innerText = "No categories selected or no cards exist in the selected categories. If that's the case head on over to the edit cards page and make some ya turkey!"
     }
 }
 
