@@ -16,7 +16,8 @@
     grid-template-rows: 100px 300px;
     grid-template-areas: "head" "body";
     width: 600px;
-    height: 400px;
+    min-height: 400px;
+    height: auto;
     background-color: white;
     border: 4px solid rgb(6, 123, 194);
     margin: auto;
@@ -266,7 +267,7 @@ body {
     box-shadow: 5px 5px 10px grey;
     margin: 10px;
     width: 380px;
-    border: 2px solid rgb(6, 123, 194);
+    border: 4px solid rgb(6, 123, 194);
     animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-name: none;
@@ -333,7 +334,22 @@ body {
 
 .flashCardButtons {
     grid-area: buttons;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "edit delete";
     width: 100%;
+}
+
+#delete, #edit {
+    margin: auto;
+}
+
+#deleteButton {
+    grid-area: delete;
+}
+
+#editButton {
+    grid-area: edit;
 }
 
 .flashCardButton {
