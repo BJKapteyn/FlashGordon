@@ -209,7 +209,6 @@ function createUpdateForm() {
     submitButton.className = "flashCardButton";
     submitButton.id = "formSubmitButton";
 
-
     //build the rest of the form
     for (i = 0; i < elementArray.length; i++) {
         form.appendChild(elementArray[i]);
@@ -225,9 +224,7 @@ function createYesNoModal(cardID) {
     let yesNoText = document.createElement('p');
     let buttonContainer = document.createElement('div');
     let yesButton = document.createElement('button');
-    //let yesSymbol = document.createElement('span');
     let noButton = document.createElement('button');
-    //let noSymbol = document.createElement('span');
 
     //add attributes and text
     buttonContainer.className = "yesNoButtons";
@@ -402,7 +399,7 @@ let gameUtilities = {
     fcCategoryView: document.getElementById("flashCardCategory"),
     fcContentView: document.getElementById("flashCardContent"),
     allFlashCards: [],
-    gameFlashCards: [],
+    gameFlashCards: [],//cards after choosing categories
     gameFlashCardsLength: 0,
     categories: [],
     categoryButtons: [],
@@ -504,18 +501,18 @@ function startGame() {//game starts here
     chooseCategoryButton.innerText = "Continue";
 
     gameUtilities.bodyView.appendChild(createChooseCatElements());
-    gameUtilities.bodyView.appendChild(chooseCategoryButton); 
     gameUtilities.flashCardView.appendChild(chooseCategoryView); 
     gameUtilities.updateButtonLocations();//update button's locations for slection functionality
 
     fadeElement(startButton, true, "fadeOutModal");
 
     setTimeout(function () {//wait for animation
+        gameUtilities.bodyView.appendChild(chooseCategoryButton); 
         clearElement(startButton);
         gameUtilities.categoryButtons.forEach(x => x.styleCategory());
         fadeInAllChildren("gameCategoriesContainer");//fade in the category buttons
+        document.getElementById("gameTitle").innerText = "Choose Categories";
     }, 1000);
-    document.getElementById("gameTitle").innerText = "Choose Categories";
 
     chooseCategoryButton.addEventListener("click", function () {
         chooseCategories();
@@ -549,20 +546,26 @@ function shuffle(array) {
 }
 
 function chooseCategories() {//creates list of flashcards to show based on selected categories
-    let catButtons = document.getElementById("gameCategoriesContainer");
-    let continueButton = document.getElementById("continueButton");
+    if (gameUtilities.gameFlashCards.length) {
+        let catButtons = document.getElementById("gameCategoriesContainer");
+        let continueButton = document.getElementById("continueButton");
 
-    gameUtilities.populateSelectedCategories();
-    addFlashCardsToGame();
-    shuffle(gameUtilities.gameFlashCards);
+        gameUtilities.populateSelectedCategories();
+        addFlashCardsToGame();
+        shuffle(gameUtilities.gameFlashCards);
 
-    fadeElement(continueButton, true, "fadeOutModal");
-    fadeElement(catButtons, true, "fadeOutModal");
+        fadeElement(continueButton, true, "fadeOutModal");
+        fadeElement(catButtons, true, "fadeOutModal");
 
-    setTimeout(function () {//wait for animation
-        gameUtilities.flashCardView.style.display = "block";//-----------------------------------change to grid when styling
-        gameUtilities.flashCardGame();
-    }, 1000);
+        setTimeout(function () {//wait for animation
+            gameUtilities.flashCardView.style.display = "block";//-----------------------------------change to grid when styling
+            gameUtilities.flashCardGame();
+        }, 1000);
+    }
+    else {
+        console.log("No cards selected!");
+        startGame();
+    }
 }
 
 function addFlashCardsToGame() {
