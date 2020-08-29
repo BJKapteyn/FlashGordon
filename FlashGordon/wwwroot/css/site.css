@@ -38,18 +38,21 @@
 }
 
 #startButton {
-    display: block !important;
+    grid-area: next;
+    display: block;
     margin: auto;
     margin-top: 85px;
 }
 
 #flashCardStandin {
     display: none;
+    grid-template-areas: "card card card"
+                         "previous flip next";
 }
 
 #message {
     margin: 10px;
-    font-size: 20px
+    font-size: 15px
 }
 
 #gameCategoriesContainer {

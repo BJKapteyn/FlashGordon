@@ -416,9 +416,11 @@ let gameUtilities = {
     },
 
     nextCard: function () {
-        this.currentCardIndex++;
-        this.frontOrBack = true;
-        this.flashCardGame();
+        if (this.currentCardIndex != this.gameFlashCards.length - 1) {
+            this.currentCardIndex++;
+            this.frontOrBack = true;
+            this.flashCardGame();
+        }
     },
 
     flipCard: function () {
@@ -563,6 +565,8 @@ function chooseCategories() {//creates list of flashcards to show based on selec
             gameUtilities.flashCardView.style.display = "block";//-----------------------------------change to grid when styling
             gameUtilities.flashCardGame();
             gameUtilities.gameTitle.innerText = "Let's Study";
+            continueButton.style.display = "none";
+            catButtons.style.display = "none";
         }, 1000);
         message.innerText = "";
     }
