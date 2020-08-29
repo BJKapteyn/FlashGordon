@@ -421,6 +421,9 @@ let gameUtilities = {
             this.frontOrBack = true;
             this.flashCardGame();
         }
+        else {
+            //-----------------------------------------------------------------------------------add restart game here
+        }
     },
 
     flipCard: function () {
