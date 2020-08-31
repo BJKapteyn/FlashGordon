@@ -45,9 +45,27 @@
 }
 
 #flashCardStandin {
+    height: 230px;
     display: none;
     grid-template-areas: "card card card"
                          "previous flip next";
+}
+
+
+
+#flashCardCategory {
+    font-size: 20px;
+}
+
+#flashCardStandin button {
+    margin: auto;
+}
+
+#gameCard {
+    margin: 14px;
+    grid-area: card;
+    margin: 10px;
+    border: 2px solid rgb(6, 123, 194);
 }
 
 #message {
@@ -61,6 +79,12 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+}
+
+#flashCardContent {
+    font-size: 20px;
+    text-align: center;
+    margin-top: auto;
 }
 
 #chooseCategoryView{

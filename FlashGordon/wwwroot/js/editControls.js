@@ -471,7 +471,7 @@ function categoryButton(_id, _name) {//hold button location and functionality
     this.name = _name;
     this.elementNode = document.getElementById("");//initialize to falsy value for checks
     this.updateNodeLocation = function () {//used after buttons are added to page
-        this.elementNode = document.getElementById(`${this.id}`);//-------------------------------------------------stopped here doesn't work
+        this.elementNode = document.getElementById(`${this.id}`);
     }
     this.toggleSelected = function () {
         this.selected ? this.selected = false : this.selected = true;
@@ -565,7 +565,7 @@ function chooseCategories() {//creates list of flashcards to show based on selec
         fadeElement(catButtons, true, "fadeOutModal");
 
         setTimeout(function () {//wait for animation
-            gameUtilities.flashCardView.style.display = "block";//-----------------------------------change to grid when styling
+            gameUtilities.flashCardView.style.display = "grid";
             gameUtilities.flashCardGame();
             gameUtilities.gameTitle.innerText = "Let's Study";
             continueButton.style.display = "none";
