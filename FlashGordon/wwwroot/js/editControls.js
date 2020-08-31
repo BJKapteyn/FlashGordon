@@ -394,11 +394,12 @@ function toggleModal(onOrOff) {
 //}
 
 let gameUtilities = {
-    flashCardView: document.getElementById("flashCardStandin"),
-    bodyView: document.getElementById("gameBody"),
-    fcCategoryView: document.getElementById("flashCardCategory"),
-    fcContentView: document.getElementById("flashCardContent"),
-    gameTitle: document.getElementById("gameTitle"),
+    flashCard: document.getElementById(""),
+    flashCardView: document.getElementById(""),
+    bodyView: document.getElementById(""),
+    fcCategoryView: document.getElementById(""),
+    fcContentView: document.getElementById(""),
+    gameTitle: document.getElementById(""),
     allFlashCards: [],
     gameFlashCards: [],//cards after choosing categories
     gameFlashCardsLength: 0,
@@ -427,14 +428,18 @@ let gameUtilities = {
     },
 
     flipCard: function () {
-        if (this.frontOrBack) {
-            this.fcContentView.innerText = this.currentCard.Back;
-            this.frontOrBack = false;
-        }
-        else {
-            this.fcContentView.innerText = this.currentCard.Front;
-            this.frontOrBack = true;
-        }
+        animateFlip();
+        debugger;
+        setTimeout(function () {
+            if (this.frontOrBack) {
+                this.frontOrBack = false;
+                this.fcContentView.innerText = this.currentCard.Back;
+            }
+            else {
+                this.fcContentView.innerText = this.currentCard.Front;
+                this.frontOrBack = true;
+            }
+        }, 500);
     },
 
     populateCatButtons: function () {//create category buttons based on available categories
@@ -462,7 +467,23 @@ let gameUtilities = {
                 this.selectedCategories.push(this.categoryButtons[i].name);
             }
         }
+    },
+
+    updateViews() {
+        this.flashCard = document.getElementById("gameCard");
+        this.flashCardView = document.getElementById("flashCardStandin");
+        this.bodyView = document.getElementById("gameBody");
+        this.fcCategoryView = document.getElementById("flashCardCategory");
+        this.fcContentView = document.getElementById("flashCardContent");
+        this.gameTitle = document.getElementById("gameTitle");
     }
+}
+
+function animateFlip() {
+    gameUtilities.flashCard.style.animationName = "";
+    gameUtilities.flashCard.style.animationDuration = "1s";
+    gameUtilities.flashCard.style.animationDirection = "forwards";
+    gameUtilities.flashCard.style.animationName = "flipCard";
 }
 
 function categoryButton(_id, _name) {//hold button location and functionality
@@ -570,13 +591,15 @@ function chooseCategories() {//creates list of flashcards to show based on selec
             gameUtilities.gameTitle.innerText = "Let's Study";
             continueButton.style.display = "none";
             catButtons.style.display = "none";
+            gameUtilities.updateViews();
         }, 1000);
         message.innerText = "";
     }
     else {
         message.innerText = "No categories selected or no cards exist in the selected categories. If that's the case head on over to the edit cards page and make some ya turkey!"
     }
-}
+    
+}   
 
 function addFlashCardsToGame() {
     gameUtilities.gameFlashCards = gameUtilities.allFlashCards.filter(filterCards);//create new array of flashcards of selected categories
