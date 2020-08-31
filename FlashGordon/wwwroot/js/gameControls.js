@@ -6,5 +6,5 @@ window.onload = async function () {
         gameUtilities.populateCatButtons();
     })
     console.log(gameUtilities.allFlashCards[0]);
-    gameUtilities.updateViews();
+    updateViews();
 } 

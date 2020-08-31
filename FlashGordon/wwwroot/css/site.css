@@ -51,6 +51,12 @@
                          "previous flip next";
 }
 
+.flipper {
+    animation-fill-mode: forwards;
+    animation-duration: 1s;
+    animation-name: flipCard;
+}
+
 
 
 #flashCardCategory {
@@ -65,7 +71,7 @@
     margin: 14px;
     grid-area: card;
     margin: 10px;
-    border: 2px solid rgb(6, 123, 194);
+    border: 4px solid rgb(6, 123, 194);
 }
 
 #message {

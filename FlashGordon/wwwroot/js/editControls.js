@@ -429,15 +429,16 @@ let gameUtilities = {
 
     flipCard: function () {
         animateFlip();
-        debugger;
         setTimeout(function () {
-            if (this.frontOrBack) {
-                this.frontOrBack = false;
-                this.fcContentView.innerText = this.currentCard.Back;
+            if (gameUtilities.frontOrBack) {
+                gameUtilities.frontOrBack = false;
+                gameUtilities.fcContentView.innerText = gameUtilities.currentCard.Back;
+                gameUtilities.fcCategoryView.innerText = "\n";
             }
             else {
-                this.fcContentView.innerText = this.currentCard.Front;
-                this.frontOrBack = true;
+                gameUtilities.fcContentView.innerText = gameUtilities.currentCard.Front;
+                gameUtilities.frontOrBack = true;
+                gameUtilities.fcCategoryView.innerText = gameUtilities.currentCard.Category;
             }
         }, 500);
     },
@@ -467,23 +468,24 @@ let gameUtilities = {
                 this.selectedCategories.push(this.categoryButtons[i].name);
             }
         }
-    },
-
-    updateViews() {
-        this.flashCard = document.getElementById("gameCard");
-        this.flashCardView = document.getElementById("flashCardStandin");
-        this.bodyView = document.getElementById("gameBody");
-        this.fcCategoryView = document.getElementById("flashCardCategory");
-        this.fcContentView = document.getElementById("flashCardContent");
-        this.gameTitle = document.getElementById("gameTitle");
     }
+
 }
 
+function updateViews() {
+    
+    gameUtilities.flashCard = document.getElementById("gameCard");
+    gameUtilities.flashCardView = document.getElementById("flashCardStandin");
+    gameUtilities.bodyView = document.getElementById("gameBody");
+    gameUtilities.fcCategoryView = document.getElementById("flashCardCategory");
+    gameUtilities.fcContentView = document.getElementById("flashCardContent");
+    gameUtilities.gameTitle = document.getElementById("gameTitle");
+}
 function animateFlip() {
-    gameUtilities.flashCard.style.animationName = "";
-    gameUtilities.flashCard.style.animationDuration = "1s";
-    gameUtilities.flashCard.style.animationDirection = "forwards";
-    gameUtilities.flashCard.style.animationName = "flipCard";
+    gameUtilities.flashCard.classList.add("flipper");
+    setTimeout(function () {
+        gameUtilities.flashCard.classList.remove("flipper");
+    }, 1000);
 }
 
 function categoryButton(_id, _name) {//hold button location and functionality
@@ -591,7 +593,7 @@ function chooseCategories() {//creates list of flashcards to show based on selec
             gameUtilities.gameTitle.innerText = "Let's Study";
             continueButton.style.display = "none";
             catButtons.style.display = "none";
-            gameUtilities.updateViews();
+            updateViews();
         }, 1000);
         message.innerText = "";
     }
