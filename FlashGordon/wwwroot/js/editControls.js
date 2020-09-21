@@ -134,7 +134,7 @@ function didSwapModal(modalClassName) {
     return true;
 }
 
-//add card info for new or update card form
+//add card info for 'new' or 'update' card form
 function updateFCFormModal(cardID, newOrUpdateURL) {
     if (didSwapModal("FCForm")) {
         formInfo.formPositionQ.appendChild(createUpdateForm());
@@ -153,16 +153,16 @@ function updateFCFormModal(cardID, newOrUpdateURL) {
 
     submitButtonQ.addEventListener("click", function (event) {
         event.preventDefault();
-        debugger;
         if (!cardData.Front) {//check if the card has data------------------------split update and new function apart TODO
             cardData.Front = frontCardInputQ.value;
             cardData.Back = backCardInputQ.value;
             cardData.Category = categoryCardInputQ.value;
 
         }
+        toggleModal(false);
 
         updateFlashCardDB(cardData, newOrUpdateURL);//send data off to back end
-        toggleModal(false);
+        clearElement(formInfo.formPositionQ.firstChild);
     });
 
     toggleModal(true);
