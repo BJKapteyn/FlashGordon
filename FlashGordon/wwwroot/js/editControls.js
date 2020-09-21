@@ -136,7 +136,6 @@ function didSwapModal(modalClassName) {
 
 //add card info for new or update card form
 function updateFCFormModal(cardID, newOrUpdateURL) {
-    debugger;
     if (didSwapModal("FCForm")) {
         formInfo.formPositionQ.appendChild(createUpdateForm());
     }
@@ -155,6 +154,13 @@ function updateFCFormModal(cardID, newOrUpdateURL) {
     submitButtonQ.addEventListener("click", function (event) {
         event.preventDefault();
         debugger;
+        if (!cardData.Front) {//check if the card has data------------------------split update and new function apart TODO
+            cardData.Front = frontCardInputQ.value;
+            cardData.Back = backCardInputQ.value;
+            cardData.Category = categoryCardInputQ.value;
+
+        }
+
         updateFlashCardDB(cardData, newOrUpdateURL);//send data off to back end
         toggleModal(false);
     });
@@ -299,9 +305,7 @@ async function updateFlashCardDB(cardData, newOrUpdateFCURL) {
     let NotFound = "404";
     let BadRequest = "400";
     let requestAddress = urlBuilder(newOrUpdateFCURL);
-    let updatedFlashCardData = createUpdatedFC(cardData.Id);
-
-
+    let updatedFlashCardData = cardData.Id == -1 ? cardData : createUpdatedFC(cardData.Id);//if it's a new card, data should already be there
     await backEndUpdateFC(requestAddress, updatedFlashCardData).then(function (response) {
         if (response.status == OK) {
             //add flashcard to the page manually here.
@@ -353,8 +357,6 @@ function opacityFadeElement(htmlElement, fadeTimeInMs = 0, forwardsOrBackwards =
     }
 }
 
-
-
 //update card on DOM
 function updateFrontEndFlashCard(cardID, flashCardData) {
     let flashCardQ = document.getElementById(cardID);
@@ -385,9 +387,6 @@ function toggleModal(onOrOff) {
         formInfo.modalBackgroundQ.style.animationName = "";
     }
 }
-
-//initialize page data and buttons
-
 
 //#endregion
 //--------------------------------------------------------Game Controls------------------------------------------------------------------
