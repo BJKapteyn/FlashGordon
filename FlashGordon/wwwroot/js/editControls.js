@@ -136,10 +136,11 @@ function didSwapModal(modalClassName) {
 
 //add card info for new or update card form
 function updateFCFormModal(cardID, newOrUpdateURL) {
+    debugger;
     if (didSwapModal("FCForm")) {
         formInfo.formPositionQ.appendChild(createUpdateForm());
     }
-    formInfo.lastId = cardID;//need to skip some stuff the last id and current match----------------------TODO
+    formInfo.lastId = cardID;//need to skip some stuff if the last id and current match----------------------TODO
 
     let frontCardInputQ = document.getElementById("frontCardInput");
     let backCardInputQ = document.getElementById("backCardInput");
@@ -153,6 +154,7 @@ function updateFCFormModal(cardID, newOrUpdateURL) {
 
     submitButtonQ.addEventListener("click", function (event) {
         event.preventDefault();
+        debugger;
         updateFlashCardDB(cardData, newOrUpdateURL);//send data off to back end
         toggleModal(false);
     });
@@ -292,6 +294,7 @@ async function getCategories(categoryArray) {
 
 //update the flashcard in database
 async function updateFlashCardDB(cardData, newOrUpdateFCURL) {
+    debugger;
     let OK = "200";
     let NotFound = "404";
     let BadRequest = "400";

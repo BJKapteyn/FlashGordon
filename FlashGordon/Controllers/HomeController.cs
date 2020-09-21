@@ -41,12 +41,19 @@ namespace FlashGordon.Controllers
             //Validate and move to flashCardDal--------------------------------------------------------------------------------------------TODO
             using(var FCContext = new FlashCardsContext())
             {
-                if(flashCard.Id < 0)
+                try
                 {
-                    flashCard.Id = 0;
+                    if(flashCard.Id < 0)
+                    {
+                        flashCard.Id = 0;
+                    }
+                    FCContext.Add(flashCard);
+                    FCContext.SaveChanges();
                 }
-                FCContext.Add(flashCard);
-                FCContext.SaveChanges();
+                catch
+                {
+                    return BadRequest();
+                }
 
             }
             //Take me back, back where I belong
