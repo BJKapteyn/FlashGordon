@@ -57,11 +57,12 @@ namespace FlashGordon.DALs
 
         private List<FlashCard> GetAllCards()
         {
-            List<FlashCard> result = new List<FlashCard>();
+            List<FlashCard> allFlashCards = new List<FlashCard>();
 
-            result = FCContext.FCards.OrderBy(x => x.Category).ToList();
 
-            return result;
+            allFlashCards = FCContext.FCards.OrderBy(x => x.Category).ToList();
+
+            return allFlashCards;
         }
 
         private List<string> GetCategories()
@@ -86,6 +87,16 @@ namespace FlashGordon.DALs
             }
 
             return categories;
+        }
+
+        public void AddCategory(string CategoryName)
+        {
+
+        }
+
+        public void DeleteCategory(string CategoryName)
+        {
+
         }
     }
 }
