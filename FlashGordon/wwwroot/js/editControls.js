@@ -533,7 +533,7 @@ function startGame() {//game starts here
 
     gameUtilities.bodyView.appendChild(createChooseCatElements());
     gameUtilities.flashCardView.appendChild(chooseCategoryView); 
-    gameUtilities.updateButtonLocations();//update button's locations for slection functionality
+    gameUtilities.updateButtonLocations();//update button's locations for selection functionality
 
     fadeElement(startButton, true, "fadeOutModal");
 

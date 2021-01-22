@@ -19,6 +19,7 @@ namespace FlashGordon.DALs
             AllCategories = GetCategoriesSorted();
         }
 
+        //
         public void UpdateCategories()
         {
             AllCategories = GetCategoriesSorted();
@@ -28,10 +29,12 @@ namespace FlashGordon.DALs
         {
             try
             {
-                FlashCard selectedCard = FCContext.FCards.Find(id);
-
-                FCContext.FCards.Remove(selectedCard);
-                FCContext.SaveChanges();
+                using (FCContext)
+                {
+                    FlashCard selectedCard = FCContext.FCards.Find(id);
+                    FCContext.FCards.Remove(selectedCard);
+                    FCContext.SaveChanges();
+                }
 
                 return true;
         }
@@ -64,18 +67,23 @@ namespace FlashGordon.DALs
         private List<string> GetCategories()
         {
             List<string> categories = new List<string>();
+            using (FCContext)
+            {
+                categories = FCContext.Categories.Select(x => x.Name).ToList();
+            }
 
-            categories = FCContext.Categories.Select(x => x.Name).ToList();
 
             return categories;
         }
-        
+
         private List<string> GetCategoriesSorted()
         {
-            FlashCardsContext thisFCContext = new FlashCardsContext();
             List<string> categories = new List<string>();
 
-            categories = thisFCContext.Categories.Select(x => x.Name).ToList();
+            using (var context = new FlashCardsContext())
+            {
+                categories = FCContext.Categories.Select(x => x.Name).ToList();
+            }
 
             return categories;
         }
