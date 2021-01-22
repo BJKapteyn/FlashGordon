@@ -16,7 +16,7 @@ namespace FlashGordon.Models
         }
 
         public virtual DbSet<FlashCard> FCards { get; set; }
-        public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -83,15 +83,32 @@ namespace FlashGordon.DALs
 
             using (var context = new FlashCardsContext())
             {
-                categories = FCContext.Categories.Select(x => x.Name).ToList();
+                categories = context.Categories.Select(x => x.Name).ToList();
             }
 
             return categories;
         }
 
-        public void AddCategory(string CategoryName)
+        public bool AddCategory(string CategoryName)
         {
+            using (var context = new FlashCardsContext())
+            {
+                if(AllCategories.Contains(CategoryName) == false)
+                {
+                    Category cat = new Category()
+                    {
+                        Name = CategoryName
+                    };
 
+
+                    context.Categories.Add(cat);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         public void DeleteCategory(string CategoryName)

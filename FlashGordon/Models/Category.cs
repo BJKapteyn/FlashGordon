@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlashGordon.Models
 {
-    public class Categories
+    public class Category
     {
         [Key]
         public string Name { get; set; }
