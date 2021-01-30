@@ -11,6 +11,8 @@ namespace FlashGordon.DALs
         public void UpdateCategories();
         public bool DeleteFlashCard(int id);
         public void UpdateFlashCard(FlashCard frontEndCard);
+        public bool AddCategory(string CategoryName);
+        public void DeleteCategory(string CategoryName);
         List<FlashCard> AllFlashCards { get; set; }
         List<string> AllCategories { get; set; }
     }
