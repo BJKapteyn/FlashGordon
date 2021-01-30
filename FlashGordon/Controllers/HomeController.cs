@@ -9,6 +9,7 @@ using FlashGordon.Models;
 using FlashGordon.Utility;
 using FlashGordon.DALs;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace FlashGordon.Controllers
 {
@@ -93,6 +94,23 @@ namespace FlashGordon.Controllers
 
             return Ok(JsonConvert.SerializeObject(categories));
             
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public IActionResult AddCategory([FromBody]string categoryName)
+        {
+            bool didAdd = FlashCardDAL.AddCategory(categoryName);
+
+            if(didAdd)
+            {
+                return Ok();
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         public IActionResult EditFlashCards()
