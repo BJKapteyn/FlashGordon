@@ -41,11 +41,11 @@ namespace FlashGordon.Controllers
         public IActionResult AddFC([FromBody] FlashCard flashCard)
         {
             //Validate and move to flashCardDal--------------------------------------------------------------------------------------------TODO
-            using(var FCContext = new FlashCardsContext())
+            using (var FCContext = new FlashCardsContext())
             {
                 try
                 {
-                    if(flashCard.Id < 0)
+                    if (flashCard.Id < 0)
                     {
                         flashCard.Id = 0;
                     }
@@ -76,7 +76,7 @@ namespace FlashGordon.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpDelete]
         public IActionResult DeleteFC([FromBody] FlashCardIdBind flashCardId)
         {
             if (FlashCardDAL.DeleteFlashCard(flashCardId.Id))
@@ -93,17 +93,18 @@ namespace FlashGordon.Controllers
             List<string> categories = FlashCardDAL.AllCategories;
 
             return Ok(JsonConvert.SerializeObject(categories));
-            
+
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult AddCategory([FromBody]string categoryName)
+        public IActionResult AddCategory([FromBody] string categoryName)
         {
             bool didAdd = FlashCardDAL.AddCategory(categoryName);
 
-            if(didAdd)
+            //return unauthorized if category is already present
+            if (didAdd)
             {
                 return Ok();
             }
@@ -111,6 +112,12 @@ namespace FlashGordon.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteCategory(string categoryName)
+        {
+            bool didDelete = FlashCardDAL.DeleteCategory(categoryName);
         }
 
         public IActionResult EditFlashCards()

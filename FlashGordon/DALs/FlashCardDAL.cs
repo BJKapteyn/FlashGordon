@@ -95,12 +95,8 @@ namespace FlashGordon.DALs
             {
                 if(AllCategories.Contains(CategoryName) == false)
                 {
-                    Category cat = new Category()
-                    {
-                        Name = CategoryName
-                    };
-
-
+                    Category cat = new Category(CategoryName);
+                    
                     context.Categories.Add(cat);
                     return true;
                 }
@@ -111,15 +107,21 @@ namespace FlashGordon.DALs
             }
         }
 
-        public void DeleteCategory(string CategoryName)
+        public bool DeleteCategory(string CategoryName)
         {
             using (var context = new FlashCardsContext())
             {
-                Category cat = new Category()
+                try
                 {
-                    Name = CategoryName
-                };
-                context.Categories.Remove(cat);
+                    Category cat = new Category(CategoryName);
+
+                    context.Categories.Remove(cat);
+                }
+                catch
+                {
+                    return false;
+                }
+                return true;
             }
         }
     }
