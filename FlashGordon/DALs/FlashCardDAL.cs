@@ -113,7 +113,14 @@ namespace FlashGordon.DALs
 
         public void DeleteCategory(string CategoryName)
         {
-
+            using (var context = new FlashCardsContext())
+            {
+                Category cat = new Category()
+                {
+                    Name = CategoryName
+                };
+                context.Categories.Remove(cat);
+            }
         }
     }
 }
