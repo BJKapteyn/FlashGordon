@@ -115,9 +115,20 @@ namespace FlashGordon.Controllers
         }
 
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult DeleteCategory(string categoryName)
         {
             bool didDelete = FlashCardDAL.DeleteCategory(categoryName);
+
+            if(didDelete)
+            {
+                return Ok();
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         public IActionResult EditFlashCards()
