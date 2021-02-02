@@ -10,14 +10,18 @@
         <div id="addNewCardButton">
             <button class="flashCardButton" onclick="updateFCFormModal(-1, '/Home/AddFC')">New Flash Card <span class="buttonAction">&#10010</span></button>
         </div>
+
         <div id="categoryfilterControls">
             <h1 id="categoriesTitle">View Categories</h1>
             <div id="categoryContainer">
                 <button id="seeAll" class="categoryButton" onclick="toggleAllCategories()">See All</button>
-                @foreach(string c in Model.AllCategories)
+                @foreach (string c in Model.AllCategories)
                 {
                     <button id="@String.Concat(c, "xyz")" class="categoryButton" onclick="toggleCategory('@c')">@c</button>
                 }
+            </div>
+            <div id="addNewCardButton">
+                <button class="flashCardButton">New Category<span class="buttonAction">&#10010</span></button>
             </div>
         </div>
     </div>

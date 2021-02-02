@@ -336,6 +336,11 @@ body {
     margin: 0px 10px 0px 10px;
 }
 
+.backText {
+    overflow: auto;
+    height: 80%;
+}
+
 .flashCardHead {
     background-color: rgb(6, 123, 194);
     grid-area: category;
