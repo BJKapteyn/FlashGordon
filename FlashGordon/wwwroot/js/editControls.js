@@ -54,13 +54,6 @@ function toggleAllCategories() {
     })
 }
 
-//find nodes via their innerText
-function queryInnerString(selector, innerTextRegEx) {
-    let elements = document.querySelectorAll(selector);
-    return Array.prototype.filter.call(elements, function (element) {
-        return RegExp(innerTextRegEx).test(element.innerText);
-    });
-}
 
 //constructor matching entity on back end
 function flashCard(front, back, category, id) {
@@ -69,6 +62,10 @@ function flashCard(front, back, category, id) {
     this.Category = category;
     this.Id = id;
     this.IsUsed = true;
+}
+
+function category(categoryName) {
+    this.Name = categoryName;
 }
 
 function addCategoryOptions(htmlSelectElement) {
@@ -489,7 +486,6 @@ function animateFlip() {
     }, 1000);
 }
 
-
 function categoryButton(_id, _name) {//hold button location and functionality
     this.id = _id;
     this.selected = false;
@@ -578,8 +574,10 @@ function shuffle(array) {
 
 function chooseCategories() {//creates list of flashcards to show based on selected categories
     let message = document.getElementById("message");
+
     gameUtilities.populateSelectedCategories();
     addFlashCardsToGame();
+
     if (gameUtilities.gameFlashCards.length) {
         let catButtons = document.getElementById("gameCategoriesContainer");
         let continueButton = document.getElementById("continueButton");
@@ -660,7 +658,8 @@ async function getCategories(storageArray) {
 }
 
 async function addCategoryToDB(categoryString) {
-    
+    let requestAddress = urlBuilder("/Home/AddCategory");
+
 }
 
 //#endregion
@@ -714,4 +713,13 @@ function urlBuilder(uriString) {
     let domain = domainArr[0] + "//" + domainArr[2];
     return (domain + uriString);
 }
+
+//find nodes via their innerText
+function queryInnerString(selector, innerTextRegEx) {
+    let elements = document.querySelectorAll(selector);
+    return Array.prototype.filter.call(elements, function (element) {
+        return RegExp(innerTextRegEx).test(element.innerText);
+    });
+}
+
 //#endregion
