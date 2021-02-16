@@ -56,7 +56,7 @@ function toggleAllCategories() {
 
 //find nodes via their innerText
 function queryInnerString(selector, innerTextRegEx) {
-    var elements = document.querySelectorAll(selector);
+    let elements = document.querySelectorAll(selector);
     return Array.prototype.filter.call(elements, function (element) {
         return RegExp(innerTextRegEx).test(element.innerText);
     });
@@ -471,11 +471,9 @@ let gameUtilities = {
             }
         }
     }
-
 }
 
 function updateViews() {
-    
     gameUtilities.flashCard = document.getElementById("gameCard");
     gameUtilities.flashCardView = document.getElementById("flashCardStandin");
     gameUtilities.bodyView = document.getElementById("gameBody");
@@ -483,12 +481,14 @@ function updateViews() {
     gameUtilities.fcContentView = document.getElementById("flashCardContent");
     gameUtilities.gameTitle = document.getElementById("gameTitle");
 }
+
 function animateFlip() {
     gameUtilities.flashCard.classList.add("flipper");
     setTimeout(function () {
         gameUtilities.flashCard.classList.remove("flipper");
     }, 1000);
 }
+
 
 function categoryButton(_id, _name) {//hold button location and functionality
     this.id = _id;
@@ -602,7 +602,6 @@ function chooseCategories() {//creates list of flashcards to show based on selec
     else {
         message.innerText = "No categories selected or no cards exist in the selected categories. If that's the case head on over to the edit cards page and make some ya turkey!"
     }
-    
 }   
 
 function addFlashCardsToGame() {
@@ -660,8 +659,12 @@ async function getCategories(storageArray) {
         })
 }
 
+async function addCategoryToDB(categoryString) {
+    
+}
+
 //#endregion
-//-----------------------------------------------------Animation Stuff------------------------------------------------------------------
+//-----------------------------------------------------Animation------------------------------------------------------------------
 //#region
 function fadeElement(element, forwardsOrReverse = false, animationName = "") {
     element.style.animationDuration = "1s";
